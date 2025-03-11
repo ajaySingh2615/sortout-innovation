@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
+    />
+    <title>Corporate Insurance Services</title>
+
+    <link
+      rel="stylesheet"
+      href="/pages/services/corporate_insurance_services/corporate_insurance_services.css"
+    />
+    <link rel="stylesheet" href="/CSS/floating-social-media.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container">
+        <!-- Logo -->
+        <a href="/index.php" class="navbar-logo">
+          <img
+            src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
+            alt="SortOut Innovation"
+          />
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="navbar-links">
+          <ul>
+            <li><a href="/index.php" class="nav-link">Home</a></li>
+            <li>
+              <a href="/pages/about-page/about.html" class="nav-link">About</a>
+            </li>
+            <li><a href="/pages/career.html" class="nav-link">Career</a></li>
+            <li>
+              <a href="/pages/talent.page/talent.html" class="nav-link"
+                >Find Talent</a
+              >
+            </li>
+            <li>
+              <a href="/pages/our-services-page/service.html" class="nav-link"
+                >Service</a
+              >
+            </li>
+            <li>
+              <a href="/pages/contact-page/contact-page.html" class="nav-link"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button class="navbar-toggle" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <script>
+      // Mobile Menu Toggle
+      const navbarToggle = document.querySelector(".navbar-toggle");
+      const navbarLinks = document.querySelector(".navbar-links");
+
+      navbarToggle.addEventListener("click", () => {
+        navbarLinks.classList.toggle("active");
+      });
+
+      // Sticky Navbar on Scroll
+      window.addEventListener("scroll", () => {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <!-- Semi-transparent overlay -->
+      <div class="hero-content">
+        <h1>
+          Protect Your Business with
+          <span class="highlight">Comprehensive Corporate Insurance</span>
+        </h1>
+        <p>
+          Customized insurance solutions to secure your business, employees, and
+          assets.
+        </p>
+        <a
+          href="https://wa.me/919818559036"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+          >Get a Free Consultation</a
+        >
+      </div>
+    </section>
+
+    <!-- About Our Insurance Services Section -->
+    <section class="about-insurance-section">
+      <div class="container">
+        <div class="about-insurance-content">
+          <!-- Left Side - Image -->
+          <div class="about-image">
+            <img
+              src="/images/services-imgs/corporate-insurance/about-image.webp"
+              alt="Corporate Insurance"
+            />
+            <p class="image-caption">
+              Tailored corporate insurance solutions for secure business growth.
+            </p>
+          </div>
+
+          <!-- Right Side - Text & Highlights -->
+          <div class="about-info">
+            <h2>About Our <span class="highlight">Insurance Services</span></h2>
+            <p>
+              We provide customized corporate insurance solutions that protect
+              businesses from financial risks, employee liabilities, and
+              operational disruptions.
+            </p>
+
+            <div class="about-highlights">
+              <div class="highlight-item">
+                <i class="fas fa-building"></i>
+                <p><strong>100+ Corporate Clients Served</strong></p>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-file-contract"></i>
+                <p><strong>Industry-Specific Insurance Plans</strong></p>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-bolt"></i>
+                <p><strong>Quick & Hassle-Free Claims Process</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Function to make highlight items appear on scroll
+      document.addEventListener("DOMContentLoaded", function () {
+        const highlightItems = document.querySelectorAll(".highlight-item");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          },
+          { threshold: 0.5 }
+        );
+
+        highlightItems.forEach((item) => observer.observe(item));
+      });
+    </script>
+
+    <!-- Our Corporate Insurance Plans Section -->
+    <section class="insurance-plans">
+      <div class="insurance-container">
+        <h2 class="insurance-title">
+          Our <span class="insurance-highlight">Corporate Insurance Plans</span>
+        </h2>
+        <p class="insurance-subtext">
+          Comprehensive coverage to safeguard your business, employees, and
+          assets.
+        </p>
+
+        <div class="insurance-grid">
+          <div class="insurance-item">
+            <i class="fas fa-building"></i>
+            <h3>Business Property Insurance</h3>
+            <p>Protects your offices, buildings, and valuable assets.</p>
+          </div>
+          <div class="insurance-item">
+            <i class="fas fa-user-md"></i>
+            <h3>Corporate Health Insurance</h3>
+            <p>Group mediclaim and wellness plans for employees.</p>
+          </div>
+          <div class="insurance-item">
+            <i class="fas fa-balance-scale"></i>
+            <h3>Liability Insurance</h3>
+            <p>Guards against legal claims and third-party liabilities.</p>
+          </div>
+          <div class="insurance-item">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Cybersecurity Insurance</h3>
+            <p>Protects your business from cyber threats and data breaches.</p>
+          </div>
+          <div class="insurance-item">
+            <i class="fas fa-car"></i>
+            <h3>Commercial Vehicle Insurance</h3>
+            <p>Covers company-owned fleets and business transport.</p>
+          </div>
+          <div class="insurance-item">
+            <i class="fas fa-briefcase"></i>
+            <h3>Business Protection Insurance</h3>
+            <p>Comprehensive risk coverage for businesses of all sizes.</p>
+          </div>
+          <div class="insurance-item">
+            <i class="fas fa-user-shield"></i>
+            <h3>Employee Life & Term Insurance</h3>
+            <p>Ensures financial security for employees and dependents.</p>
+          </div>
+          <div class="insurance-item">
+            <i class="fas fa-users-cog"></i>
+            <h3>Group Term Insurance</h3>
+            <p>Specialized life insurance for corporate teams.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="process-section">
+      <div class="process-container">
+        <h2 class="process-title">
+          How It <span class="process-highlight">Works</span>
+        </h2>
+        <p class="process-subtext">
+          A simple 4-step process to get the best corporate insurance.
+        </p>
+
+        <div class="process-steps">
+          <div class="process-step">
+            <i class="fas fa-comments"></i>
+            <h3>Consultation</h3>
+            <p>Discuss your business risks with our experts.</p>
+          </div>
+          <div class="process-step">
+            <i class="fas fa-cogs"></i>
+            <h3>Policy Customization</h3>
+            <p>Get tailored coverage plans for your business needs.</p>
+          </div>
+          <div class="process-step">
+            <i class="fas fa-file-signature"></i>
+            <h3>Sign & Activate</h3>
+            <p>Easy and quick policy setup without complications.</p>
+          </div>
+          <div class="process-step">
+            <i class="fas fa-headset"></i>
+            <h3>24/7 Support & Claims</h3>
+            <p>Fast and hassle-free claim assistance anytime.</p>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <a href="https://wa.me/919818559036" class="process-cta"
+          >Schedule a Free Consultation</a
+        >
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="trust-section">
+      <div class="trust-shape"></div>
+      <!-- Decorative Shape -->
+      <div class="trust-container">
+        <h2 class="trust-title">
+          Why Businesses <span class="trust-highlight">Trust Us</span> for Their
+          Insurance Needs
+        </h2>
+
+        <div class="trust-grid">
+          <div class="trust-item">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Custom Insurance Plans</h3>
+            <p>Coverage tailored to your business needs.</p>
+          </div>
+          <div class="trust-item">
+            <i class="fas fa-bolt"></i>
+            <h3>Fast Claims Processing</h3>
+            <p>Quick and hassle-free claim approvals.</p>
+          </div>
+          <div class="trust-item">
+            <i class="fas fa-user-tie"></i>
+            <h3>Expert Advisory Team</h3>
+            <p>Dedicated experts to guide your policy selection.</p>
+          </div>
+          <div class="trust-item">
+            <i class="fas fa-star"></i>
+            <h3>Rated 5 Stars</h3>
+            <p>Trusted by top enterprises across industries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Client Success Stories Section -->
+    <section class="testimonials-section">
+      <div class="testimonials-container">
+        <h2 class="testimonials-title">
+          What Our <span class="testimonials-highlight">Clients Say</span>
+        </h2>
+        <p class="testimonials-subtext">
+          Trusted by businesses worldwide for reliable corporate insurance
+          solutions.
+        </p>
+
+        <!-- Testimonials Slider -->
+        <div class="testimonials-slider">
+          <div class="testimonial">
+            <p class="testimonial-text">
+              "This insurance saved our company thousands during a crisis!"
+            </p>
+            <h4 class="testimonial-name">- Ankit Prasad, CEO, Josh Corp</h4>
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-text">
+              "Outstanding support and hassle-free claims process. Highly
+              recommend!"
+            </p>
+            <h4 class="testimonial-name">
+              - Pallavi Singh, Founder, Tech Solutions
+            </h4>
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-text">
+              "Our employees feel more secure with the comprehensive coverage. A
+              game changer!"
+            </p>
+            <h4 class="testimonial-name">
+              - Swati Nathani, HR Director, ABC Ltd.
+            </h4>
+          </div>
+        </div>
+
+        <!-- Client Logos -->
+        <h3 class="clients-title">Trusted by Industry Leaders</h3>
+        <div class="clients-logos">
+          <img
+            src="/images/company-images/improved-logos/chingari1.jpeg"
+            alt="Client Logo"
+          />
+          <img
+            src="/images/company-images/improved-logos/disco2.jpeg"
+            alt="Client Logo"
+          />
+          <img
+            src="/images/company-images/improved-logos/imo3.png"
+            alt="Client Logo"
+          />
+          <img
+            src="/images/company-images/improved-logos/me4.jpeg"
+            alt="Client Logo"
+          />
+          <img
+            src="/images/company-images/improved-logos/meesho14.png"
+            alt="Client Logo"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="faqs-section">
+      <div class="faqs-container">
+        <h2 class="faqs-title">
+          Frequently Asked <span class="faqs-highlight">Questions</span>
+        </h2>
+        <p class="faqs-subtext">
+          Find answers to common queries about our corporate insurance services.
+        </p>
+
+        <div class="faqs">
+          <div class="faq-item">
+            <button class="faq-question">
+              What’s the best insurance for my business?
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                It depends on your business type and risks. We offer tailored
+                plans for various industries.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              How does the claims process work?
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Our claims process is quick and hassle-free. Just submit your
+                claim online, and our team will assist you promptly.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Do you offer discounts for bulk policies?
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! We provide discounts for businesses purchasing multiple
+                policies. Contact us for custom pricing.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // 🎯 FAQ Toggle Functionality
+      document.querySelectorAll(".faq-question").forEach((button) => {
+        button.addEventListener("click", () => {
+          const faqItem = button.parentNode;
+
+          // Close any other open FAQ before opening new one
+          document.querySelectorAll(".faq-item").forEach((item) => {
+            if (item !== faqItem) {
+              item.classList.remove("active");
+            }
+          });
+
+          // Toggle active class to open/close the FAQ
+          faqItem.classList.toggle("active");
+        });
+      });
+    </script>
+
+    <!-- Contact & Get a Quote Section -->
+    <section class="contact-section">
+      <div class="contact-container">
+        <h2 class="contact-title">
+          Get in <span class="contact-highlight">Touch</span>
+        </h2>
+        <p class="contact-subtext">
+          Secure your business today with the right insurance plan!
+        </p>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <p>
+              Email:
+              <a
+                href="mailto:info@sortoutinnovation.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                >info@sortoutinnovation.com</a
+              >
+            </p>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <p>Phone: <a href="https://wa.me/919818559036">9818559036</a></p>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Location: Spaze i-Tech Park, Gurugram, India</p>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <a
+          href="tel:+919818559036"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-cta"
+          >Request a Quote</a
+        >
+      </div>
+    </section>
+
+    <footer class="footer-section">
+      <div class="container">
+        <div class="row">
+          <!-- Column 1: Company Info -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-logo">
+              <img
+                src="/images/sortoutInnovation-icon/Sortout innovation.jpg"
+                alt="SortOut Innovation"
+              />
+              <p class="text-center">
+                Empowering businesses with top-notch solutions in digital, IT,
+                and business services.
+              </p>
+            </div>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="/index.php">Home</a></li>
+              <li><a href="/pages/about-page/about.html">About Us</a></li>
+              <li>
+                <a href="/pages/contact-page/contact-page.html">Contact</a>
+              </li>
+              <li>
+                <a href="/pages/career.html">Careers</a>
+              </li>
+              <li>
+                <a href="/pages/our-services-page/service.html">Services</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Our Services -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Our Services</h4>
+            <ul class="footer-links">
+              <li>
+                <a href="/pages/services/socialMediaInfluencers.html"
+                  >Digital Marketing</a
+                >
+              </li>
+              <li><a href="/pages/services/itServices.html">IT Support</a></li>
+              <li><a href="/pages/services/caServices.html">CA Services</a></li>
+              <li><a href="/pages/services/hrServices.html">HR Services</a></li>
+              <li>
+                <a href="/pages/services/courierServices.html"
+                  >Courier Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/shipping.html"
+                  >Shipping & Fulfillment</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/stationeryServices.html"
+                  >Stationery Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/propertyServices.html"
+                  >Real Estate & Property</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/event-managementServices.html"
+                  >Event Management</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Design & Creative</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Web & App Development</a
+                >
+              </li>
+              <li><a href="/pages/talent.page/talent.html">Find Talent</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <h4>Contact Us</h4>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-phone"></i>
+                <a
+                  href="tel:+919818559036"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >+91 9818559036</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <a
+                  href="mailto:info@sortoutinnovation.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >info@sortoutinnovation.com</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-map-marker-alt"></i> Spaze i-Tech Park,
+                Gurugram, India
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 5: Social Media -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a
+                href="https://www.facebook.com/profile.php?id=61556452066209"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a
+                href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a
+                href="https://www.linkedin.com/company/sortout-innovation/"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a
+                href="https://www.instagram.com/sortoutinnovation"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyright & Legal Links -->
+        <div class="footer-bottom">
+          <p>&copy; 2025 SortOut Innovation. All Rights Reserved.</p>
+          <ul>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms & Conditions</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Social Media Bar -->
+    <div class="floating-social-bar">
+      <a
+        href="https://www.facebook.com/profile.php?id=61556452066209"
+        target="_blank"
+        class="social-icon facebook"
+      >
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a
+        href="https://www.instagram.com/sortoutinnovation"
+        target="_blank"
+        class="social-icon instagram"
+      >
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a
+        href="https://www.linkedin.com/company/sortout-innovation/"
+        target="_blank"
+        class="social-icon linkedin"
+      >
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a
+        href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"
+        target="_blank"
+        class="social-icon youtube"
+      >
+        <i class="fab fa-youtube"></i>
+      </a>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <div class="floating-whatsapp">
+      <div class="whatsapp-button">
+        <a
+          class="what-a"
+          href="https://wa.me/919818559036"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fab fa-whatsapp"></i>
+          <span class="whatsapp-text"> Contact Us</span></a
+        >
+      </div>
+    </div>
+  </body>
+</html>

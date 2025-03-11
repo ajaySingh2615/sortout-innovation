@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
+    />
+    <title>About Us - SortOut Innovation</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/pages/about-page/about.css" />
+    <link rel="stylesheet" href="/CSS/floating-social-media.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container">
+        <!-- Logo -->
+        <a href="/index.php" class="navbar-logo">
+          <img
+            src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
+            alt="SortOut Innovation"
+          />
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="navbar-links">
+          <ul>
+            <li><a href="/index.php" class="nav-link">Home</a></li>
+            <li>
+              <a href="/pages/about-page/about.html" class="nav-link">About</a>
+            </li>
+            <li><a href="/pages/career.html" class="nav-link">Career</a></li>
+            <li>
+              <a href="/pages/talent.page/talent.html" class="nav-link"
+                >Find Talent</a
+              >
+            </li>
+            <li>
+              <a href="/pages/our-services-page/service.html" class="nav-link"
+                >Service</a
+              >
+            </li>
+            <li>
+              <a href="/pages/contact-page/contact-page.html" class="nav-link"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button class="navbar-toggle" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <script>
+      // Mobile Menu Toggle
+      const navbarToggle = document.querySelector(".navbar-toggle");
+      const navbarLinks = document.querySelector(".navbar-links");
+
+      navbarToggle.addEventListener("click", () => {
+        navbarLinks.classList.toggle("active");
+      });
+
+      // Sticky Navbar on Scroll
+      window.addEventListener("scroll", () => {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Left Column: Text Content -->
+          <div class="col-lg-6 text-center text-lg-start">
+            <h1 class="hero-title">
+              Empowering Businesses with Smart Solutions
+            </h1>
+            <p class="hero-subtitle">
+              From digital marketing to IT support, we provide cutting-edge
+              solutions that help your business grow and thrive in a competitive
+              market.
+            </p>
+            <div class="mt-4">
+              <a
+                href="/pages/our-services-page/service.html"
+                class="btn btn-primary-custom"
+                >Explore Our Services</a
+              >
+              <a
+                href="https://wa.me/919818559036"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-custom"
+                >Get in Touch</a
+              >
+            </div>
+          </div>
+
+          <!-- Right Column: Hero Image -->
+          <div class="col-lg-6 text-center">
+            <img
+              src="/images/about-us-page/main-hero-image.png"
+              alt="Empowering Businesses"
+              class="hero-img img-fluid"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="our-story-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Left Image -->
+          <div class="col-lg-6 text-center">
+            <img
+              src="/images/about-us-page/about-us-main-img.png"
+              alt="Our Story"
+              class="story-image"
+            />
+          </div>
+
+          <!-- Right Content -->
+          <div class="col-lg-6 text-content">
+            <h2 class="story-heading">Our Journey to Innovation</h2>
+            <p class="story-subheading">
+              From a small startup to a trusted global partner.
+            </p>
+            <p class="story-description">
+              At SortOut Innovation, we started with a vision: to simplify
+              business operations by offering a **one-stop solution** for all
+              essential services.
+            </p>
+            <ul class="story-list">
+              <li>
+                <i class="fas fa-check-circle"></i> Cutting-edge digital
+                solutions
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i> Reliable IT infrastructure &
+                support
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i> End-to-end logistics and
+                fulfillment
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i> HR & recruitment solutions
+                that build great teams
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i> Creative branding & web
+                development
+              </li>
+            </ul>
+            <p class="story-footer">
+              Whether you're a startup, SME, or large enterprise, we tailor our
+              services to your unique business goals.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="philosophy-section">
+      <div class="container">
+        <div class="philosophy-content">
+          <h2 class="philosophy-heading">
+            <span>Creativity is not just an art,</span> it's our driving force.
+          </h2>
+          <p class="philosophy-text">
+            At <span class="brand-highlight">SortOut Innovation</span>, we break
+            the ordinary. **We don’t follow trends—we create them.** Our
+            approach is rooted in **bold ideas, fearless execution, and
+            groundbreaking solutions** that redefine industries.
+          </p>
+          <div class="philosophy-underline"></div>
+        </div>
+
+        <!-- <div class="abstract-design">
+          <span class="quote">“</span>
+          <p>**We see creativity not as a skill, but as a mindset.**</p>
+          <span class="quote">”</span>
+        </div> -->
+      </div>
+    </section>
+
+    <section class="creative-process">
+      <div class="container">
+        <h2 class="process-title">Our Creative Process</h2>
+        <p class="process-subtitle">
+          We don't just provide services; we craft experiences that drive
+          **growth and innovation**.
+        </p>
+
+        <div class="process-steps">
+          <!-- Step 1 -->
+          <div class="process-step">
+            <div class="step-icon"><i class="fas fa-search"></i></div>
+            <div class="step-content">
+              <h3>Step 1: Understanding Your Needs</h3>
+              <p>
+                We analyze your business challenges and goals to craft a
+                personalized solution.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="process-step">
+            <div class="step-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="step-content">
+              <h3>Step 2: Brainstorming & Ideation</h3>
+              <p>
+                Creative minds come together to generate innovative ideas
+                tailored to your needs.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="process-step">
+            <div class="step-icon"><i class="fas fa-cogs"></i></div>
+            <div class="step-content">
+              <h3>Step 3: Execution & Implementation</h3>
+              <p>
+                We execute the plan with precision, ensuring a **seamless
+                experience** from start to finish.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="process-step">
+            <div class="step-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="step-content">
+              <h3>Step 4: Optimization & Growth</h3>
+              <p>
+                Continuous **monitoring and refining** to ensure long-term
+                success and scalability.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mission-vision">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            Our <span class="highlight">Mission, Vision & Values</span>
+          </h2>
+          <p class="section-subtitle">
+            We don't just provide services—we create solutions that drive
+            businesses forward. Our core beliefs shape our work and commitment
+            to excellence.
+          </p>
+        </div>
+
+        <div class="mv-container">
+          <!-- 🚀 Mission Block -->
+          <div class="mv-block">
+            <div class="mv-icon"><i class="fas fa-rocket"></i></div>
+            <h3 class="mv-heading">Our Mission</h3>
+            <p class="mv-text">
+              To <strong>empower businesses</strong> with innovative, scalable,
+              and customized solutions that drive
+              <strong>growth and efficiency</strong>.
+            </p>
+            <ul class="mv-list">
+              <li>
+                <i class="fas fa-bolt icon"></i> Innovation-First Approach
+              </li>
+              <li>
+                <i class="fas fa-users icon"></i> Customer-Centric Solutions
+              </li>
+              <li>
+                <i class="fas fa-chart-line icon"></i> Scalable Growth
+                Strategies
+              </li>
+              <li>
+                <i class="fas fa-globe icon"></i> Global Standards, Local
+                Expertise
+              </li>
+            </ul>
+          </div>
+
+          <!-- 👁️ Vision Block -->
+          <div class="mv-block">
+            <div class="mv-icon"><i class="fas fa-eye"></i></div>
+            <h3 class="mv-heading">Our Vision</h3>
+            <p class="mv-text">
+              To become the
+              <span class="highlight"
+                >#1 all-in-one business solutions provider</span
+              >, helping brands thrive in a competitive digital era.
+            </p>
+            <ul class="mv-list">
+              <li>
+                <i class="fas fa-lightbulb icon"></i> Leading Digital
+                Transformation
+              </li>
+              <li>
+                <i class="fas fa-handshake icon"></i> Building Long-Term
+                Partnerships
+              </li>
+              <li>
+                <i class="fas fa-cogs icon"></i> Innovative Business Models
+              </li>
+              <li>
+                <i class="fas fa-seedling icon"></i> Sustainable & Ethical
+                Growth
+              </li>
+            </ul>
+          </div>
+
+          <!-- 💎 Core Values Block -->
+          <div class="mv-block">
+            <div class="mv-icon"><i class="fas fa-gem"></i></div>
+            <h3 class="mv-heading">Our Core Values</h3>
+            <p class="mv-text">
+              We believe in
+              <strong
+                >excellence, transparency, and a results-driven approach</strong
+              >
+              in everything we do.
+            </p>
+            <ul class="mv-list">
+              <li>
+                <i class="fas fa-trophy icon"></i> Excellence & Quality First
+              </li>
+              <li>
+                <i class="fas fa-shield-alt icon"></i> Integrity & Transparency
+              </li>
+              <li>
+                <i class="fas fa-users-cog icon"></i> Collaboration & Teamwork
+              </li>
+              <li>
+                <i class="fas fa-chart-pie icon"></i> Data-Driven Decisions
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="our-services">
+      <div class="container">
+        <!-- Section Heading -->
+        <div class="service-intro">
+          <h2 class="section-title">
+            Our <span class="highlight">Services</span>
+          </h2>
+          <p class="section-subtitle">
+            One company. Many solutions.
+            <strong>Infinite possibilities.</strong>
+            We offer a full range of services tailored to meet your business
+            needs.
+          </p>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="service-grid">
+          <div class="service-box red-bg">
+            <div class="service-icon"><i class="fas fa-bullhorn"></i></div>
+            <h3 class="service-title">Digital Marketing</h3>
+            <p class="service-text">Social media, SEO, paid ads & more.</p>
+          </div>
+
+          <div class="service-box white-bg">
+            <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+            <h3 class="service-title">IT Support & Web Solutions</h3>
+            <p class="service-text">
+              Web & app development, tech infrastructure.
+            </p>
+          </div>
+
+          <div class="service-box red-bg">
+            <div class="service-icon"><i class="fas fa-calculator"></i></div>
+            <h3 class="service-title">CA & Financial Services</h3>
+            <p class="service-text">Bookkeeping, tax compliance & advisory.</p>
+          </div>
+
+          <div class="service-box white-bg">
+            <div class="service-icon"><i class="fas fa-users"></i></div>
+            <h3 class="service-title">HR & Recruitment</h3>
+            <p class="service-text">Talent acquisition & payroll management.</p>
+          </div>
+
+          <div class="service-box red-bg">
+            <div class="service-icon"><i class="fas fa-shipping-fast"></i></div>
+            <h3 class="service-title">Courier & Shipping</h3>
+            <p class="service-text">
+              Fast, reliable, and global delivery solutions.
+            </p>
+          </div>
+
+          <div class="service-box white-bg">
+            <div class="service-icon"><i class="fas fa-building"></i></div>
+            <h3 class="service-title">Real Estate & Property</h3>
+            <p class="service-text">Rental & commercial space solutions.</p>
+          </div>
+
+          <div class="service-box red-bg">
+            <div class="service-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <h3 class="service-title">Event Management</h3>
+            <p class="service-text">Corporate events, branding & logistics.</p>
+          </div>
+
+          <div class="service-box white-bg">
+            <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+            <h3 class="service-title">Creative Design & Branding</h3>
+            <p class="service-text">Logos, packaging & marketing materials.</p>
+          </div>
+        </div>
+
+        <!-- Explore More Button -->
+        <div class="explore-more-container">
+          <a
+            href="/pages/our-services-page/service.html"
+            class="explore-more-btn"
+            >Explore More</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <section class="experience-section">
+      <div class="container">
+        <!-- Section Heading -->
+        <div class="experience-header">
+          <h2 class="section-title">
+            Every Project is <span>Completed with Experience</span>
+          </h2>
+          <p class="section-subtitle">
+            We take pride in delivering quality, innovation, and results.
+            <strong>Driven by data, powered by creativity.</strong>
+          </p>
+        </div>
+
+        <!-- Experience List -->
+        <ul class="experience-list">
+          <li>
+            <i class="fas fa-award"></i>
+            <span><strong>10+ Years</strong> of Industry Expertise</span>
+          </li>
+          <li>
+            <i class="fas fa-users"></i>
+            <span><strong>500+ Businesses</strong> Trust Our Services</span>
+          </li>
+          <li>
+            <i class="fas fa-user-tie"></i>
+            <span><strong>100+ Skilled</strong> Professionals in Our Team</span>
+          </li>
+          <li>
+            <i class="fas fa-chart-line"></i>
+            <span
+              ><strong>Data-Driven</strong> Innovation Meets Creativity</span
+            >
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="container">
+        <!-- Section Title -->
+        <div class="stats-header">
+          <h2 class="section-title">Our <span>Stats</span> Speak for Us</h2>
+          <p class="section-subtitle">
+            Numbers don’t lie.
+            <strong>Results-driven strategies, guaranteed success.</strong>
+          </p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-item">
+            <i class="fas fa-box"></i>
+            <h3>5,000+</h3>
+            <p>Orders Fulfilled (Logistics & Courier)</p>
+          </div>
+
+          <div class="stat-item">
+            <i class="fas fa-globe"></i>
+            <h3>200+</h3>
+            <p>Global Clients (Digital & IT Solutions)</p>
+          </div>
+
+          <div class="stat-item">
+            <i class="fas fa-chart-line"></i>
+            <h3>98%</h3>
+            <p>Client Satisfaction Rate</p>
+          </div>
+
+          <div class="stat-item">
+            <i class="fas fa-trophy"></i>
+            <h3>Awarded 2024</h3>
+            <p>Emerging Business Leader</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="founder-section">
+      <div class="container text-center">
+        <h2 class="founder-heading">A Message from Our Founder</h2>
+        <p class="founder-quote">
+          🚀 "At <b>SortOut Innovation</b>, we are more than just a service
+          provider—we are your growth partners. Our mission is to simplify
+          business operations by offering a complete ecosystem of solutions
+          under one roof. From digital transformation to logistics, we ensure
+          seamless execution, so you can focus on what truly matters—success.
+          <br /><br />
+          Innovation is our foundation, excellence is our commitment, and
+          results are our priority."
+        </p>
+        <h4 class="founder-name">— Savita Verma</h4>
+        <p class="founder-title">Founder & CEO, SortOut Innovation</p>
+      </div>
+    </section>
+
+    <section class="clients-section">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="clients-header">
+          <h2 class="section-title">Take a Look at <span>Our Clients</span></h2>
+          <p class="section-subtitle">
+            We are trusted by startups, SMEs, and global enterprises across
+            various industries.
+          </p>
+        </div>
+
+        <!-- Industry Grid -->
+        <div class="industries-grid">
+          <div class="industry-item">
+            <i class="fas fa-shopping-cart"></i>
+            <p>E-commerce & Retail</p>
+          </div>
+
+          <div class="industry-item">
+            <i class="fas fa-building"></i>
+            <p>Finance & Corporate</p>
+          </div>
+
+          <div class="industry-item">
+            <i class="fas fa-laptop-code"></i>
+            <p>Technology & IT Firms</p>
+          </div>
+
+          <div class="industry-item">
+            <i class="fas fa-briefcase-medical"></i>
+            <p>Healthcare & Pharmaceuticals</p>
+          </div>
+
+          <div class="industry-item">
+            <i class="fas fa-graduation-cap"></i>
+            <p>Education & Institutions</p>
+          </div>
+        </div>
+
+        <!-- Client Logos Carousel -->
+        <div class="clients-carousel">
+          <div class="logos-slide">
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Ambika_Arora.webp"
+              alt="Client 1"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Anchal_Thakur.webp"
+              alt="Client 2"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Jyoti_Soni.webp"
+              alt="Client 3"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Nancy_Khatri.webp"
+              alt="Client 4"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Priyanka_Taras.webp"
+              alt="Client 5"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Shereen_A_Bannsal.webp"
+              alt="Client 6"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Shivangi_Ghosh.webp"
+              alt="Client 7"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Annupriya_singh.webp"
+              alt="Client 8"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Madhu.webp"
+              alt="Client 9"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v2/Aishwarya_Sanglikar.webp"
+              alt="Client 10"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v2/Arnav_Mathur.webp"
+              alt="Client 11"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v2/Dia_Bajaj.webp"
+              alt="Client 12"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v2/Iris_Vatrana.webp"
+              alt="Client 13"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v2/Manav_Mongia.webp"
+              alt="Client 14"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v2/Manisha_sharma.webp"
+              alt="Client 15"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Jyoti_Soni.webp"
+              alt="Client 16"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Priyanka_Taras.webp"
+              alt="Client 17"
+            />
+            <img
+              src="/images/Artist-images/slot-1/refactor-v1/Shivangi_Ghosh.webp"
+              alt="Client 18"
+            />
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="clients-cta">
+          <p>🤝 Join our growing network of satisfied clients!</p>
+          <a
+            href="https://linktr.ee/sortoutmedia?utm_source=qr_code"
+            target="_blank"
+            class="btn-primary"
+            >Partner with Us</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <section id="cta-section" class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-heading">
+            Let’s Build Something <span>Great Together!</span>
+          </h2>
+          <p class="cta-text">
+            Your business needs a partner who understands growth, innovation,
+            and execution.
+          </p>
+
+          <!-- Contact Details -->
+          <div class="cta-contact">
+            <p>
+              <i class="fas fa-phone-alt"></i> Call Us:
+              <a
+                href="tel:+919818559036"
+                target="_blank"
+                rel="noopener noreferrer"
+                >+91 9818559036</a
+              >
+            </p>
+            <p>
+              <i class="fas fa-envelope"></i> Email:
+              <a href="mailto:hello@sortoutinnovation.com"
+                >hello@sortoutinnovation.com</a
+              >
+            </p>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="cta-buttons">
+            <a
+              href="tel:+919818559036"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+              >🔴 Get in Touch</a
+            >
+            <a
+              href="/pages/our-services-page/service.html"
+              class="btn btn-secondary"
+              >⚪ Explore Our Services</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-section">
+      <div class="container">
+        <div class="row">
+          <!-- Column 1: Company Info -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-logo">
+              <img
+                src="/images/sortoutInnovation-icon/Sortout innovation.jpg"
+                alt="SortOut Innovation"
+              />
+              <p class="text-center">
+                Empowering businesses with top-notch solutions in digital, IT,
+                and business services.
+              </p>
+            </div>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="/index.php">Home</a></li>
+              <li><a href="/pages/about-page/about.html">About Us</a></li>
+              <li>
+                <a href="/pages/contact-page/contact-page.html">Contact</a>
+              </li>
+              <li>
+                <a href="/pages/career.html">Careers</a>
+              </li>
+              <li>
+                <a href="/pages/our-services-page/service.html">Services</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Our Services -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Our Services</h4>
+            <ul class="footer-links">
+              <li>
+                <a href="/pages/services/socialMediaInfluencers.html"
+                  >Digital Marketing</a
+                >
+              </li>
+              <li><a href="/pages/services/itServices.html">IT Support</a></li>
+              <li><a href="/pages/services/caServices.html">CA Services</a></li>
+              <li><a href="/pages/services/hrServices.html">HR Services</a></li>
+              <li>
+                <a href="/pages/services/courierServices.html"
+                  >Courier Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/shipping.html"
+                  >Shipping & Fulfillment</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/stationeryServices.html"
+                  >Stationery Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/propertyServices.html"
+                  >Real Estate & Property</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/event-managementServices.html"
+                  >Event Management</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Design & Creative</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Web & App Development</a
+                >
+              </li>
+              <li><a href="/pages/talent.page/talent.html">Find Talent</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <h4>Contact Us</h4>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-phone"></i>
+                <a href="tel:+919818559036">+91 9818559036</a>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:info@sortoutinnovation.com"
+                  >info@sortoutinnovation.com</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-map-marker-alt"></i> Spaze i-Tech Park,
+                Gurugram, India
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 5: Social Media -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a href="https://www.facebook.com/profile.php?id=61556452066209"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a href="https://www.linkedin.com/company/sortout-innovation/"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="https://www.instagram.com/sortoutinnovation"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyright & Legal Links -->
+        <div class="footer-bottom">
+          <p>&copy; 2025 SortOut Innovation. All Rights Reserved.</p>
+          <ul>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms & Conditions</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Social Media Bar -->
+    <div class="floating-social-bar">
+      <a
+        href="https://www.facebook.com/profile.php?id=61556452066209"
+        target="_blank"
+        class="social-icon facebook"
+      >
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a
+        href="https://www.instagram.com/sortoutinnovation"
+        target="_blank"
+        class="social-icon instagram"
+      >
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a
+        href="https://www.linkedin.com/company/sortout-innovation/"
+        target="_blank"
+        class="social-icon linkedin"
+      >
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a
+        href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"
+        target="_blank"
+        class="social-icon youtube"
+      >
+        <i class="fab fa-youtube"></i>
+      </a>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <div class="floating-whatsapp">
+      <div class="whatsapp-button">
+        <a
+          href="https://wa.me/919818559036"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><i class="fab fa-whatsapp"></i>
+          <span class="whatsapp-text"> Contact Us</span></a
+        >
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

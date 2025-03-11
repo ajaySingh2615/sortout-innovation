@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
+    />
+    <title>Courier Services</title>
+
+    <link rel="stylesheet" href="/CSS/services/courierServices.css" />
+    <link rel="stylesheet" href="/CSS/floating-social-media.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container">
+        <!-- Logo -->
+        <a href="/index.php" class="navbar-logo">
+          <img
+            src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
+            alt="Logo"
+          />
+        </a>
+
+        <!-- Hamburger Menu for Mobile -->
+        <button class="navbar-toggle" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Navigation Links -->
+        <nav class="navbar-links">
+          <ul>
+            <li><a href="/index.php" class="nav-link">Home</a></li>
+            <li>
+              <a href="/pages/about-page/about.html" class="nav-link">About</a>
+            </li>
+            <li><a href="/pages/career.html" class="nav-link">Career</a></li>
+            <li>
+              <a href="/pages/talent.page/talent.html" class="nav-link"
+                >Find Talent</a
+              >
+            </li>
+            <li>
+              <a href="/pages/our-services-page/service.html" class="nav-link"
+                >Services</a
+              >
+            </li>
+            <li>
+              <a href="/pages/contact-page/contact-page.html" class="nav-link"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <script>
+      // Toggle Dropdown Menu for Mobile
+      const navbarToggle = document.querySelector(".navbar-toggle");
+      const navbarLinks = document.querySelector(".navbar-links");
+
+      navbarToggle.addEventListener("click", () => {
+        navbarLinks.classList.toggle("active");
+      });
+
+      // Add Background Color on Scroll
+      window.addEventListener("scroll", () => {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
+
+    <section class="hero-section">
+      <div class="container">
+        <marquee class="smm-marq" behavior="alternate">
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+          <span class="pdr-60">Courier Services</span>
+        </marquee>
+        <div class="row align-items-center">
+          <!-- Left Content -->
+          <div class="col-lg-6 col-md-12 text-center text-lg-start">
+            <div class="hero-content">
+              <h1 class="hero-heading">
+                Fast, Reliable, and Secure<br />
+                <span>Courier Services</span>
+              </h1>
+              <p class="hero-subheading">
+                Delivering packages with speed and precision – anywhere,
+                anytime.
+              </p>
+              <div class="hero-buttons mt-4">
+                <a href="#services" class="btn btn-primary btn-lg me-3"
+                  >Get started</a
+                >
+                <a
+                  href="https://wa.me/919818559036"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-outline-light btn-lg"
+                  >Book Now</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Content -->
+          <div class="col-lg-6 col-md-12 text-center">
+            <div class="hero-visual position-relative">
+              <img
+                src="/images/services-imgs/hero-section/courier-hero-logo.png"
+                alt="Courier Services"
+                class="hero-image img-fluid"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about-section py-5">
+      <div class="container">
+        <h2 class="about-heading text-center">
+          About <span>Our Courier Services</span>
+        </h2>
+        <p class="about-content text-center mt-4 mx-auto">
+          We specialize in delivering excellence with every package. Whether
+          you’re sending important documents or large parcels, our comprehensive
+          courier services are tailored to meet your needs. With real-time
+          tracking, secure handling, and guaranteed delivery times, you can
+          trust us to move your items with care and efficiency.
+        </p>
+        <div class="key-points mt-5">
+          <div class="key-point">
+            <div class="icon-wrapper">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h4>24/7 Customer Support</h4>
+            <p>Always available to assist you with any inquiries or issues.</p>
+          </div>
+          <div class="key-point">
+            <div class="icon-wrapper">
+              <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <h4>Service Coverage</h4>
+            <p>Across cities and countries, ensuring seamless deliveries.</p>
+          </div>
+          <div class="key-point">
+            <div class="icon-wrapper">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <h4>10+ Years of Expertise</h4>
+            <p>A legacy of delivering trust and efficiency to our clients.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="unique-services py-5" id="services">
+      <div class="container">
+        <h2 class="unique-services-title text-center mb-5">
+          Explore Our <span>Courier Services</span>
+        </h2>
+        <div class="row g-4 align-items-center">
+          <!-- Left Column for Textual Services -->
+          <div class="col-lg-6">
+            <ul class="service-list">
+              <li>
+                <div class="service-icon">
+                  <i class="fas fa-truck"></i>
+                </div>
+                <div class="service-text">
+                  <h4>Same-Day Delivery</h4>
+                  <p>
+                    Get your packages delivered within hours, perfect for urgent
+                    shipments.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="service-icon">
+                  <i class="fas fa-plane"></i>
+                </div>
+                <div class="service-text">
+                  <h4>International Shipping</h4>
+                  <p>
+                    Reliable and secure international delivery to over 200
+                    destinations worldwide.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="service-icon">
+                  <i class="fas fa-moon"></i>
+                </div>
+                <div class="service-text">
+                  <h4>Overnight Delivery</h4>
+                  <p>
+                    Fast and efficient overnight shipping for time-sensitive
+                    packages.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="service-icon">
+                  <i class="fas fa-box"></i>
+                </div>
+                <div class="service-text">
+                  <h4>E-Commerce Logistics</h4>
+                  <p>
+                    Customized solutions for e-commerce businesses, including
+                    order fulfillment and returns management.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right Column for Visual Services -->
+          <div class="col-lg-6">
+            <div class="service-grid">
+              <div class="grid-item">
+                <div class="service-icon">
+                  <i class="fas fa-boxes"></i>
+                </div>
+                <h4>Bulk Parcel Delivery</h4>
+                <p>
+                  Affordable and efficient bulk shipping for businesses of all
+                  sizes.
+                </p>
+              </div>
+              <div class="grid-item">
+                <div class="service-icon">
+                  <i class="fas fa-file-alt"></i>
+                </div>
+                <h4>Document Courier Services</h4>
+                <p>
+                  Safe and secure document delivery for legal, financial, and
+                  official papers.
+                </p>
+              </div>
+              <div class="grid-item">
+                <div class="service-icon">
+                  <i class="fas fa-fragile"></i>
+                </div>
+                <h4>Fragile Item Shipping</h4>
+                <p>
+                  Specialized care for fragile and high-value items to ensure
+                  safe delivery.
+                </p>
+              </div>
+              <div class="grid-item">
+                <div class="service-icon">
+                  <i class="fas fa-warehouse"></i>
+                </div>
+                <h4>Warehousing and Distribution</h4>
+                <p>
+                  Integrated storage and distribution services to streamline
+                  your supply chain.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-choose-bold py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Left Content -->
+          <div class="col-lg-6 mb-4 mb-lg-0 text-lg-start text-center">
+            <h2 class="why-title">
+              Why Choose <span>Our Courier Services?</span>
+            </h2>
+            <p class="why-subtitle">
+              Delivering More Than Just Packages – Delivering Peace of Mind.
+            </p>
+            <ul class="why-points">
+              <li>
+                <i class="fas fa-map-marker-alt"></i>
+                Advanced Tracking Technology
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                On-Time Delivery Guarantee
+              </li>
+              <li>
+                <i class="fas fa-tags"></i>
+                Competitive Pricing
+              </li>
+              <li>
+                <i class="fas fa-shield-alt"></i>
+                Secure and Safe Handling
+              </li>
+              <li>
+                <i class="fas fa-headset"></i>
+                24/7 Support
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right Visual -->
+          <div class="col-lg-6 text-center">
+            <div class="why-visual">
+              <img
+                src="/images/services-imgs/delivery/delivery-van.jpg"
+                alt="Delivery Illustration"
+                class="why-image"
+              />
+              <div class="circle-bg"></div>
+              <div class="circle-highlight"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials-advanced py-5">
+      <div class="container">
+        <h2 class="testimonials-title text-center">
+          What Our Clients <span>Say</span>
+        </h2>
+        <p class="testimonials-subtitle text-center">
+          Trusted by businesses worldwide for reliable courier solutions.
+        </p>
+
+        <div class="testimonials-wrapper">
+          <!-- Client 1 -->
+          <div class="testimonial-card">
+            <div class="testimonial-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "Fast, professional, and reliable! Their same-day delivery service
+              helped us meet a critical deadline."
+            </p>
+            <div class="client-info">
+              <h4 class="client-name">Priya Sharma</h4>
+              <span class="client-role">Business Owner</span>
+            </div>
+          </div>
+
+          <!-- Client 2 -->
+          <div class="testimonial-card featured">
+            <div class="testimonial-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "I’ve been using their international shipping for years. Packages
+              always arrive on time and in perfect condition."
+            </p>
+            <div class="client-info">
+              <h4 class="client-name">Ankit Verma</h4>
+              <span class="client-role">Frequent Shipper</span>
+            </div>
+          </div>
+
+          <!-- Client 3 -->
+          <div class="testimonial-card">
+            <div class="testimonial-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "Their e-commerce logistics service made order fulfillment a
+              breeze for my online store. Highly recommend!"
+            </p>
+            <div class="client-info">
+              <h4 class="client-name">Sneha Iyer</h4>
+              <span class="client-role">E-Commerce Entrepreneur</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5">
+      <div class="container">
+        <h2 class="faq-title text-center">
+          Frequently Asked <span>Questions</span>
+        </h2>
+        <p class="faq-subtitle text-center mb-5">
+          Get clear answers to your common courier queries.
+        </p>
+        <div class="faq-container">
+          <!-- FAQ Item 1 -->
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>What areas do you cover?</h4>
+              <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                We provide courier services across cities, states, and over 200
+                international destinations.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 2 -->
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>Can I track my package?</h4>
+              <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes, every shipment comes with real-time tracking to monitor
+                your package's journey.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 3 -->
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>Do you offer fragile item shipping?</h4>
+              <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Absolutely! We specialize in handling fragile and high-value
+                items with extra care.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>What are your delivery time options?</h4>
+              <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                We offer same-day, overnight, and standard delivery options
+                based on your needs.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 5 -->
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>Do you provide services for businesses?</h4>
+              <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes, we offer bulk shipping, warehousing, and customized
+                solutions for businesses.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section py-5">
+      <div class="container">
+        <div class="row text-center">
+          <!-- Heading -->
+          <div class="col-12">
+            <h2 class="cta-heading">
+              Ready to <span>Ship with Confidence?</span>
+            </h2>
+          </div>
+          <!-- Content -->
+          <div class="col-12 p-2">
+            <p class="cta-content">
+              Whether you’re sending a single package or managing a supply
+              chain, we’re here to make it easy. Get started with our reliable
+              courier services today.
+            </p>
+          </div>
+          <!-- Buttons -->
+          <div class="col-12 p-2">
+            <div class="cta-buttons">
+              <a href="#services" class="btn btn-primary"
+                >Explore Our Services</a
+              >
+              <a
+                href="tel:+919818559036"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-light"
+                >Contact Us</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contact" class="footer-section">
+      <div class="container">
+        <div class="row">
+          <!-- Column 1: Company Info -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-logo">
+              <img
+                src="/images/sortoutInnovation-icon/Sortout innovation.jpg"
+                alt="SortOut Innovation"
+              />
+              <p class="text-center">
+                Empowering businesses with top-notch solutions in digital, IT,
+                and business services.
+              </p>
+            </div>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="/index.php">Home</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li>
+                <a href="/pages/career.html">Careers</a>
+              </li>
+              <li>
+                <a href="/pages/our-services-page/service.html">Services</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Our Services -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Our Services</h4>
+            <ul class="footer-links">
+              <li>
+                <a href="/pages/services/socialMediaInfluencers.html"
+                  >Digital Marketing</a
+                >
+              </li>
+              <li><a href="/pages/services/itServices.html">IT Support</a></li>
+              <li><a href="/pages/services/caServices.html">CA Services</a></li>
+              <li><a href="/pages/services/hrServices.html">HR Services</a></li>
+              <li>
+                <a href="/pages/services/courierServices.html"
+                  >Courier Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/shipping.html"
+                  >Shipping & Fulfillment</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/stationeryServices.html"
+                  >Stationery Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/propertyServices.html"
+                  >Real Estate & Property</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/event-managementServices.html"
+                  >Event Management</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Design & Creative</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Web & App Development</a
+                >
+              </li>
+              <li><a href="/pages/talent.page/talent.html">Find Talent</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <h4>Contact Us</h4>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-phone"></i>
+                <a
+                  href="tel:+919818559036"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >+91 9818559036</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <a
+                  href="mailto:info@sortoutinnovation.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >info@sortoutinnovation.com</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-map-marker-alt"></i> Spaze i-Tech Park,
+                Gurugram, India
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 5: Social Media -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a
+                href="https://www.facebook.com/profile.php?id=61556452066209"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a
+                href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a
+                href="https://www.linkedin.com/company/sortout-innovation/"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a
+                href="https://www.instagram.com/sortoutinnovation"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyright & Legal Links -->
+        <div class="footer-bottom">
+          <p>&copy; 2025 SortOut Innovation. All Rights Reserved.</p>
+          <ul>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms & Conditions</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // JavaScript for accordion toggle
+      document.querySelectorAll(".single-acco h2").forEach((item) => {
+        item.addEventListener("click", () => {
+          item.parentNode.classList.toggle("active");
+        });
+      });
+    </script>
+
+    <script>
+      document.querySelectorAll(".faq-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          const isActive = item.classList.contains("active");
+          // Close all other active items
+          document
+            .querySelectorAll(".faq-item.active")
+            .forEach((activeItem) => {
+              activeItem.classList.remove("active");
+            });
+          // Toggle the clicked item
+          if (!isActive) {
+            item.classList.add("active");
+          }
+        });
+      });
+    </script>
+
+    <script>
+      document.querySelectorAll(".btn").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const targetId = e.target.getAttribute("href").substring(1);
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            e.preventDefault();
+            targetElement.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+
+    <!-- Floating Social Media Bar -->
+    <div class="floating-social-bar">
+      <a
+        href="https://www.facebook.com/profile.php?id=61556452066209"
+        target="_blank"
+        class="social-icon facebook"
+      >
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a
+        href="https://www.instagram.com/sortoutinnovation"
+        target="_blank"
+        class="social-icon instagram"
+      >
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a
+        href="https://www.linkedin.com/company/sortout-innovation/"
+        target="_blank"
+        class="social-icon linkedin"
+      >
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a
+        href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"
+        target="_blank"
+        class="social-icon youtube"
+      >
+        <i class="fab fa-youtube"></i>
+      </a>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <div class="floating-whatsapp">
+      <div class="whatsapp-button">
+        <a
+          class="what-a"
+          href="https://wa.me/919818559036"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><i class="fab fa-whatsapp"></i>
+          <span class="whatsapp-text"> Contact Us</span></a
+        >
+      </div>
+    </div>
+  </body>
+</html>
