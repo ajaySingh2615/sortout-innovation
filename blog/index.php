@@ -1,22 +1,193 @@
 <?php
 require '../includes/db_connect.php';
 
-// Set the number of blogs per page
-$blogsPerPage = 20;
-
-// Get the current page number from the URL, default is page 1
+// Set pagination parameters
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) $page = 1;
+$limit = 6; // Posts per page
+$offset = ($page - 1) * $limit;
 
-// Calculate the OFFSET for SQL
-$offset = ($page - 1) * $blogsPerPage;
+// Category filter
+$category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 
-// Fetch blog posts with LIMIT for pagination
-$result = $conn->query("SELECT id, title, content, image_url, created_at FROM blogs ORDER BY created_at DESC LIMIT $blogsPerPage OFFSET $offset");
+// Define category colors for styling
+$category_colors = [
+    'Digital Marketing' => [
+        'bg' => 'bg-primary bg-opacity-10',
+        'text' => 'text-primary',
+        'border' => 'border-primary'
+    ],
+    'Live Streaming Service' => [
+        'bg' => 'bg-danger bg-opacity-10',
+        'text' => 'text-danger',
+        'border' => 'border-danger'
+    ],
+    'Find Talent' => [
+        'bg' => 'bg-info bg-opacity-10',
+        'text' => 'text-info',
+        'border' => 'border-info'
+    ],
+    'Information Technology' => [
+        'bg' => 'bg-success bg-opacity-10',
+        'text' => 'text-success',
+        'border' => 'border-success'
+    ],
+    'Chartered Accountant' => [
+        'bg' => 'bg-warning bg-opacity-10',
+        'text' => 'text-warning',
+        'border' => 'border-warning'
+    ],
+    'Human Resources' => [
+        'bg' => 'bg-secondary bg-opacity-10',
+        'text' => 'text-secondary',
+        'border' => 'border-secondary'
+    ],
+    'Courier' => [
+        'bg' => 'bg-dark bg-opacity-10',
+        'text' => 'text-dark',
+        'border' => 'border-dark'
+    ],
+    'Shipping and Fulfillment' => [
+        'bg' => 'bg-primary bg-opacity-10',
+        'text' => 'text-primary',
+        'border' => 'border-primary'
+    ],
+    'Stationery' => [
+        'bg' => 'bg-danger bg-opacity-10',
+        'text' => 'text-danger',
+        'border' => 'border-danger'
+    ],
+    'Real Estate and Property' => [
+        'bg' => 'bg-info bg-opacity-10',
+        'text' => 'text-info',
+        'border' => 'border-info'
+    ],
+    'Event Management' => [
+        'bg' => 'bg-success bg-opacity-10',
+        'text' => 'text-success',
+        'border' => 'border-success'
+    ],
+    'Design and Creative' => [
+        'bg' => 'bg-warning bg-opacity-10',
+        'text' => 'text-warning',
+        'border' => 'border-warning'
+    ],
+    'Corporate Insurance' => [
+        'bg' => 'bg-secondary bg-opacity-10',
+        'text' => 'text-secondary',
+        'border' => 'border-secondary'
+    ],
+    'Business Strategy' => [
+        'bg' => 'bg-dark bg-opacity-10',
+        'text' => 'text-dark',
+        'border' => 'border-dark'
+    ],
+    'Innovation' => [
+        'bg' => 'bg-primary bg-opacity-10',
+        'text' => 'text-primary',
+        'border' => 'border-primary'
+    ],
+    'Industry News' => [
+        'bg' => 'bg-danger bg-opacity-10',
+        'text' => 'text-danger',
+        'border' => 'border-danger'
+    ],
+    'Marketing and Sales' => [
+        'bg' => 'bg-info bg-opacity-10',
+        'text' => 'text-info',
+        'border' => 'border-info'
+    ],
+    'Finance and Investment' => [
+        'bg' => 'bg-success bg-opacity-10',
+        'text' => 'text-success',
+        'border' => 'border-success'
+    ],
+    'Legal Services' => [
+        'bg' => 'bg-warning bg-opacity-10',
+        'text' => 'text-warning',
+        'border' => 'border-warning'
+    ],
+    'Healthcare Services' => [
+        'bg' => 'bg-secondary bg-opacity-10',
+        'text' => 'text-secondary',
+        'border' => 'border-secondary'
+    ],
+];
 
-// Get the total number of blogs
-$totalBlogs = $conn->query("SELECT COUNT(*) as count FROM blogs")->fetch_assoc()['count'];
-$totalPages = ceil($totalBlogs / $blogsPerPage);
+// Base query for blogs
+$baseQuery = "FROM blogs WHERE 1=1";
+
+// Add category filter if specified
+if ($category_filter) {
+    $baseQuery .= " AND JSON_CONTAINS(categories, ?)";
+}
+
+// Count total blogs for pagination
+$countStmt = $conn->prepare("SELECT COUNT(*) as total " . $baseQuery);
+if ($category_filter) {
+    $category_json = json_encode($category_filter);
+    $countStmt->bind_param("s", $category_json);
+}
+$countStmt->execute();
+$totalBlogs = $countStmt->get_result()->fetch_assoc()['total'];
+$totalPages = ceil($totalBlogs / $limit);
+
+// Fetch blogs with pagination
+$query = "SELECT id, title, seo_title, slug, content, meta_description, categories, image_url, image_alt, created_at " . 
+         $baseQuery . " ORDER BY created_at DESC LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($query);
+
+if ($category_filter) {
+    $category_json = json_encode($category_filter);
+    $stmt->bind_param("sii", $category_json, $limit, $offset);
+} else {
+    $stmt->bind_param("ii", $limit, $offset);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+$blogs = [];
+
+while ($row = $result->fetch_assoc()) {
+    // Decode categories from JSON
+    $row['categories_array'] = json_decode($row['categories'] ?? '[]', true);
+    
+    // Create excerpt
+    $row['excerpt'] = substr(strip_tags($row['content']), 0, 160) . '...';
+    
+    // Format date
+    $row['formatted_date'] = date('M d, Y', strtotime($row['created_at']));
+    
+    $blogs[] = $row;
+}
+
+// Fetch categories for filter dropdown
+$allCategories = [
+    'Digital Marketing',
+    'Live Streaming Service',
+    'Find Talent',
+    'Information Technology',
+    'Chartered Accountant',
+    'Human Resources',
+    'Courier',
+    'Shipping and Fulfillment',
+    'Stationery',
+    'Real Estate and Property',
+    'Event Management',
+    'Design and Creative',
+    'Corporate Insurance',
+    'Business Strategy',
+    'Innovation',
+    'Industry News',
+    'Marketing and Sales',
+    'Finance and Investment',
+    'Legal Services',
+    'Healthcare Services'
+];
+sort($allCategories);
+
+// Meta information for SEO
+$meta_title = "Blog | Latest Insights and News";
+$meta_description = "Explore our latest articles on business, technology, and industry insights. Stay informed with expert opinions and trends.";
 ?>
 
 <!DOCTYPE html>
@@ -24,256 +195,351 @@ $totalPages = ceil($totalBlogs / $blogsPerPage);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latest Blog Posts</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <link rel="stylesheet" href="../public/index.css">
-</head>
-<body class="bg-gray-50">
-
-<!-- ✅ Navbar -->
-<nav class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mobile-navbar md:flex md:items-center md:justify-between h-16"> <!-- ✅ FIXED -->
-
-            <!-- ✅ Logo (Left Side) -->
-            <a href="../index.php" class="logo flex items-center">
-                <img src="../public/logo.png" alt="Logo" class="h-10 w-auto">
-            </a>
-
-            <!-- ✅ Mobile Menu Button (Right Side) -->
-            <button id="menu-toggle" class="menu-toggle md:hidden text-gray-600 text-3xl focus:outline-none">
-                ☰
-            </button>
-
-            <!-- ✅ Desktop Menu (Hidden on Mobile) -->
-            <div class="hidden md:flex space-x-6">
-                <a href="../index.php" class="text-gray-700 hover:text-red-500 transition font-semibold">Home</a>
-                <a href="../pages/about-page/about.html" class="text-gray-700 hover:text-red-500 transition font-semibold">About</a>
-                <a href="#blog-section" class="text-gray-700 hover:text-red-500 transition font-semibold">Blogs</a>
-                <a href="../pages/our-services-page/service.html" class="text-gray-700 hover:text-red-500 transition font-semibold">Services</a>
-                <a href="../pages/contact-page/contact-page.html" class="text-gray-700 hover:text-red-500 transition font-semibold">Contact</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ✅ Mobile Menu (Dropdown) -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md w-full py-4 px-6">
-        <a href="../index.php" class="block py-2 text-gray-700 hover:text-red-500 transition font-semibold">Home</a>
-        <a href="../pages/about-page/about.html" class="block py-2 text-gray-700 hover:text-red-500 transition font-semibold">About</a>
-        <a href="#blog-section" class="block py-2 text-gray-700 hover:text-red-500 transition font-semibold">Blogs</a>
-        <a href="../pages/our-services-page/service.html" class="block py-2 text-gray-700 hover:text-red-500 transition font-semibold">Services</a>
-        <a href="../pages/contact-page/contact-page.html" class="block py-2 text-gray-700 hover:text-red-500 transition font-semibold">Contact</a>
-    </div>
-</nav>
-
-<!-- ✅ JavaScript for Mobile Menu -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    });
-</script>
-
-
-<!-- ✅ Hero Section - Alternative Modern Design -->
-<header class="relative w-full h-[550px] md:h-[700px] lg:h-[850px] flex items-center justify-center overflow-hidden px-4">
     
-    <!-- ✅ Background with Dual Gradient Overlay -->
-    <div class="absolute inset-0">
-        <img src="../images/blogging-page/blogging.webp" 
-             alt="Unlock Digital Success" 
-             class="w-full h-full object-cover brightness-75 transition-transform duration-500 ease-in-out md:hover:scale-110">
-        <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-red-900/70"></div>
-    </div>
+    <!-- SEO Meta Tags -->
+    <title><?= $meta_title ?></title>
+    <meta name="description" content="<?= $meta_description ?>">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ?>">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ?>">
+    <meta property="og:title" content="<?= $meta_title ?>">
+    <meta property="og:description" content="<?= $meta_description ?>">
+    <meta property="og:image" content="<?= "https://" . $_SERVER['HTTP_HOST'] ?>/public/blog-default-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<?= "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ?>">
+    <meta property="twitter:title" content="<?= $meta_title ?>">
+    <meta property="twitter:description" content="<?= $meta_description ?>">
+    <meta property="twitter:image" content="<?= "https://" . $_SERVER['HTTP_HOST'] ?>/public/blog-default-image.jpg">
 
-    <!-- ✅ Hero Content Wrapper -->
-    <div class="relative z-10 max-w-4xl w-full text-center px-6 py-12">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         
-        <!-- ✅ Stylish Text with Gradient & Focus Effect -->
-        <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 leading-tight tracking-wide animate-fade-in">
-            Unlock Your Digital Potential
-        </h1>
-
-        <!-- ✅ Subheading with Increased Readability -->
-        <p class="text-lg md:text-xl mt-4 text-gray-300 leading-relaxed animate-fade-up">
-            Transform your online presence with expert strategies, powerful insights, and cutting-edge trends in business, technology, and digital marketing.
-        </p>
-
-        <!-- ✅ Call to Action Buttons (New Style) -->
-        <div class="mt-6 flex flex-wrap justify-center gap-4">
-            <a href="#blog-section" 
-               class="px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-red-500 to-red-700 rounded-lg shadow-md transition-all duration-500 ease-in-out hover:from-red-600 hover:to-red-800 hover:shadow-lg hover:-translate-y-1">
-                Start Exploring →
+        .blog-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            border: none;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .blog-image {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        .blog-title {
+            font-weight: 700;
+            margin-top: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 50px;
+        }
+        
+        .blog-excerpt {
+            color: #6c757d;
+            margin-top: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 80px;
+        }
+        
+        .blog-meta {
+            margin-top: 15px;
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 30px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border-width: 1px;
+            border-style: solid;
+        }
+        
+        .pagination-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 600;
+            margin: 0 5px;
+        }
+        
+        .pagination-link.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        
+        .pagination-link:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            padding: 100px 0;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .filter-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.php">
+                <img src="../public/logo.png" alt="Logo" height="40">
             </a>
-            <a href="../pages/contact-page/contact-page.html" 
-               class="px-6 py-3 text-lg font-semibold text-gray-900 bg-white rounded-lg shadow-md transition-all duration-500 ease-in-out hover:bg-gray-200 hover:shadow-lg hover:-translate-y-1">
-                Get in Touch →
-            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../pages/about-us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../pages/contact-us.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold" href="index.php">Blog</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Spacing for fixed navbar -->
+    <div style="height: 70px;"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Our Blog</h1>
+            <p class="lead mb-4">Stay up to date with the latest insights, trends, and expert opinions</p>
+        </div>
+    </section>
+
+    <!-- Blog Filters -->
+    <div class="container">
+        <div class="filter-box">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5 class="mb-3 mb-md-0">Filter by Category:</h5>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <?php foreach ($allCategories as $cat): ?>
+                            <option value="<?= htmlspecialchars($cat) ?>" <?= $category_filter === $cat ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
-</header>
-
-<!-- ✅ Custom Animations -->
-<style>
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        animation: fadeIn 1.2s ease-out;
-    }
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(50px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-up {
-        animation: fadeUp 1.5s ease-out;
-    }
-</style>
-
-<!-- ✅ Blog Timeline Container -->
-<div class="flex justify-center py-12 px-4 md:px-8" id="blog-section">
-    <div class="w-full max-w-7xl">
-        <h2 class="text-center text-3xl md:text-4xl font-bold text-red-600 mb-12 uppercase tracking-wide font-playfair">
-            Latest Blog Posts
-        </h2>
-
-        <?php while ($row = $result->fetch_assoc()): ?>
-            <div class="flex flex-col md:flex-row items-center md:items-center mb-16 relative w-full">
-                
-                <!-- ✅ Left Section: Profile Image & Date -->
-                <div class="relative flex flex-col items-center justify-center text-center md:w-1/5">
-                    <div class="relative w-32 h-32 md:w-36 md:h-36 rounded-full border-[3px] border-gray-500 shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
-                        <img src="<?= $row['image_url']; ?>" alt="Blog Image" class="w-full h-full object-cover">
+    <!-- Blog Listing -->
+    <div class="container">
+        <div class="row">
+            <?php if (count($blogs) > 0): ?>
+                <?php foreach ($blogs as $blog): ?>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="blog-card card shadow-sm h-100">
+                            <?php if ($blog['image_url']): ?>
+                                <img src="<?= htmlspecialchars($blog['image_url']) ?>" 
+                                     alt="<?= htmlspecialchars($blog['image_alt'] ?: $blog['title']) ?>" 
+                                     class="blog-image">
+                            <?php else: ?>
+                                <div class="blog-image bg-light d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <div class="card-body d-flex flex-column">
+                                <!-- Categories -->
+                                <div class="mb-2">
+                                    <?php if (count($blog['categories_array']) > 0): ?>
+                                        <?php foreach ($blog['categories_array'] as $category): ?>
+                                            <?php 
+                                                $colors = $category_colors[$category] ?? [
+                                                    'bg' => 'bg-secondary bg-opacity-10',
+                                                    'text' => 'text-secondary',
+                                                    'border' => 'border-secondary'
+                                                ];
+                                            ?>
+                                            <span class="category-badge <?= $colors['bg'] ?> <?= $colors['text'] ?> <?= $colors['border'] ?>">
+                                                <?= htmlspecialchars($category) ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <span class="category-badge bg-secondary bg-opacity-10 text-secondary border-secondary">
+                                            Uncategorized
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <!-- Title -->
+                                <h5 class="blog-title">
+                                    <a href="post.php?slug=<?= urlencode($blog['slug']) ?>" class="text-decoration-none text-dark">
+                                        <?= htmlspecialchars($blog['title']) ?>
+                                    </a>
+                                </h5>
+                                
+                                <!-- Excerpt -->
+                                <p class="blog-excerpt"><?= $blog['excerpt'] ?></p>
+                                
+                                <!-- Meta -->
+                                <div class="blog-meta mt-auto">
+                                    <span><i class="far fa-calendar-alt me-1"></i> <?= $blog['formatted_date'] ?></span>
+                                </div>
+                                
+                                <!-- Read More -->
+                                <a href="post.php?slug=<?= urlencode($blog['slug']) ?>" class="btn btn-outline-primary mt-3">
+                                    Read More <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-3">
-                        <p class="text-gray-500 text-sm md:text-lg font-roboto tracking-wide"><?= date('d F', strtotime($row['created_at'])); ?></p>
-                        <p class="text-gray-800 font-bold text-2xl md:text-3xl font-playfair tracking-wide"><?= date('H:i', strtotime($row['created_at'])); ?></p>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        No blog posts found. Please check back later!
                     </div>
                 </div>
+            <?php endif; ?>
+        </div>
+        
+        <!-- Pagination -->
+        <?php if ($totalPages > 1): ?>
+            <div class="d-flex justify-content-center my-5">
+                <nav aria-label="Blog pagination">
+                    <ul class="pagination">
+                        <?php if ($page > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?= $page - 1 ?><?= $category_filter ? '&category=' . urlencode($category_filter) : '' ?>">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <li class="page-item <?= $i === $page ? 'active' : '' ?>">
+                                <a class="page-link" href="?page=<?= $i ?><?= $category_filter ? '&category=' . urlencode($category_filter) : '' ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                        
+                        <?php if ($page < $totalPages): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?= $page + 1 ?><?= $category_filter ? '&category=' . urlencode($category_filter) : '' ?>">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
+            </div>
+        <?php endif; ?>
+    </div>
 
-                <!-- ✅ Right Section: Speech Bubble Blog Content -->
-                <div class="relative bg-white p-6 md:p-10 border border-gray-300 shadow-lg rounded-[50px] mt-6 md:mt-0 md:ml-10 w-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 speech-bubble">
-                <h3 class="text-xl md:text-3xl font-bold text-gray-800 leading-tight hover:text-red-600 transition duration-200 font-playfair">
-    <a href="post.php?id=<?= $row['id']; ?>"><?= htmlspecialchars($row['title']); ?></a>
-</h3>
-<p class="text-gray-600 mt-3 md:mt-4 font-poppins text-base md:text-lg">
-    <?= substr(nl2br(preg_replace('/<a (.*?)>(.*?)<\/a>/i', '<a $1 class="text-red-600 font-semibold hover:text-red-800 transition" target="_blank">$2</a>', htmlspecialchars_decode($row['content']))), 0, 200) . '...'; ?>
-</p>
-
-<p class="text-sm md:text-md text-gray-500 mt-3 md:mt-4 font-roboto tracking-wide">
-    By Our Experts
-</p>
-
-
-                    <!-- Buttons (Share & Read More) -->
-                    <div class="flex flex-col md:flex-row md:items-center justify-end mt-4 md:mt-6 space-y-2 md:space-y-0 md:space-x-4">
-                        <a href="post.php?id=<?= $row['id']; ?>" class="px-5 md:px-6 py-2 md:py-3 border-2 border-red-400 text-red-500 font-semibold rounded-md hover:bg-red-700 hover:text-white transition shadow-md">
-                            READ MORE
-                        </a>
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">About Us</h5>
+                    <p class="text-muted">We provide valuable insights and information through our blog to help you make informed decisions.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="../index.php" class="text-decoration-none text-muted">Home</a></li>
+                        <li><a href="../pages/about-us.html" class="text-decoration-none text-muted">About</a></li>
+                        <li><a href="../pages/contact-us.html" class="text-decoration-none text-muted">Contact</a></li>
+                        <li><a href="index.php" class="text-decoration-none text-muted">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Connect with Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-muted fs-5"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted fs-5"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted fs-5"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-muted fs-5"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
-        <?php endwhile; ?>
-
-        <!-- ✅ Pagination -->
-<div class="bg-gray-900 text-white p-6 rounded-lg shadow-md text-center mt-10">
-    <p class="text-sm md:text-lg">
-        Showing <span class="font-bold"><?= ($offset + 1); ?></span> to 
-        <span class="font-bold"><?= min(($offset + $blogsPerPage), $totalBlogs); ?></span> of 
-        <span class="font-bold"><?= $totalBlogs; ?></span> Entries
-    </p>
-
-    <!-- ✅ Styled Pagination Buttons -->
-    <div class="flex justify-center mt-4 space-x-2">
-        <!-- Previous Button -->
-        <?php if ($page > 1): ?>
-            <a href="?page=<?= $page - 1; ?>" 
-               class="px-4 md:px-5 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition">
-                Previous
-            </a>
-        <?php else: ?>
-            <span class="px-4 md:px-5 py-2 bg-gray-800 text-gray-500 rounded-lg cursor-not-allowed">
-                Previous
-            </span>
-        <?php endif; ?>
-
-        <!-- Page Numbers -->
-        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <?php if ($i == $page): ?>
-                <span class="px-4 md:px-5 py-2 bg-gray-700 text-white font-bold rounded-lg shadow-md">
-                    <?= $i; ?>
-                </span>
-            <?php else: ?>
-                <a href="?page=<?= $i; ?>" 
-                   class="px-4 md:px-5 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition">
-                    <?= $i; ?>
-                </a>
-            <?php endif; ?>
-        <?php endfor; ?>
-
-        <!-- Next Button -->
-        <?php if ($page < $totalPages): ?>
-            <a href="?page=<?= $page + 1; ?>" 
-               class="px-4 md:px-5 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition">
-                Next
-            </a>
-        <?php else: ?>
-            <span class="px-4 md:px-5 py-2 bg-gray-800 text-gray-500 rounded-lg cursor-not-allowed">
-                Next
-            </span>
-        <?php endif; ?>
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<!-- ✅ Footer Section -->
-<footer class="bg-black text-white text-center py-6 mt-12">
-    <div class="container mx-auto px-4">
-        <!-- Footer Navigation Links -->
-        <ul class="flex flex-wrap justify-center space-x-4 md:space-x-6 text-sm md:text-base font-medium">
-            <li><a href="../index.php" class="hover:text-gray-400 transition">Home</a></li>
-            <li><a href="../pages/about-page/about.html" class="hover:text-gray-400 transition">About</a></li>
-            <li><a href="../pages/contact-page/contact-page.html" class="hover:text-gray-400 transition">Contact</a></li>
-            <li><a href="privacy.php" class="hover:text-gray-400 transition">Privacy Policy</a></li>
-        </ul>
-
-        <!-- Divider -->
-        <div class="w-full border-t border-gray-700 my-4"></div>
-
-        <!-- Social Media Icons -->
-        <div class="flex justify-center space-x-6">
-            <a href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr" target="_blank" class="text-gray-400 hover:text-white transition text-lg">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://www.linkedin.com/company/sortout-innovation/" target="_blank" class="text-gray-400 hover:text-white transition text-lg">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61556452066209" target="_blank" class="text-gray-400 hover:text-white transition text-lg">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.instagram.com/sortout_innovation" target="_blank" class="text-gray-400 hover:text-white transition text-lg">
-                <i class="fab fa-instagram"></i>
-            </a>
+            <hr class="my-4">
+            <div class="text-center text-muted">
+                <p class="mb-0">&copy; 2024 Blog. All rights reserved.</p>
+            </div>
         </div>
+    </footer>
 
-        <!-- Divider -->
-        <div class="w-full border-t border-gray-700 my-4"></div>
-
-        <!-- Copyright Text -->
-        <p class="text-sm md:text-base text-gray-500">&copy; 2025 Sortout Innovation | All Rights Reserved.</p>
-    </div>
-</footer>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Category filter handling
+        document.getElementById('categoryFilter').addEventListener('change', function() {
+            const category = this.value;
+            if (category) {
+                window.location.href = 'index.php?category=' + encodeURIComponent(category);
+            } else {
+                window.location.href = 'index.php';
+            }
+        });
+    </script>
 </body>
 </html>

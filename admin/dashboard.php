@@ -8,6 +8,31 @@ if ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'super_admin') {
     exit();
 }
 
+// Define categories
+$categories = [
+    'Digital Marketing',
+    'Live Streaming Service',
+    'Find Talent',
+    'Information Technology',
+    'Chartered Accountant',
+    'Human Resources',
+    'Courier',
+    'Shipping and Fulfillment',
+    'Stationery',
+    'Real Estate and Property',
+    'Event Management',
+    'Design and Creative',
+    'Corporate Insurance',
+    'Business Strategy',
+    'Innovation',
+    'Industry News',
+    'Marketing and Sales',
+    'Finance and Investment',
+    'Legal Services',
+    'Healthcare Services'
+];
+sort($categories);
+
 // ✅ Fetch Pending Admins (Only for Super Admin)
 $pendingAdmins = [];
 if ($_SESSION['role'] === 'super_admin') {
@@ -21,12 +46,28 @@ if ($_SESSION['role'] === 'super_admin') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-
-    <!-- ✅ Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <title>Blog Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .blog-table th, .blog-table td {
+            vertical-align: middle;
+        }
+        .category-badge {
+            display: inline-block;
+            background-color: #e9ecef;
+            color: #495057;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            margin: 0.1rem;
+            border-radius: 0.25rem;
+        }
+        .filters-container {
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
         /* ✅ Dashboard Styling */
         body {
             background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(230,230,230,1) 100%);
@@ -56,8 +97,20 @@ if ($_SESSION['role'] === 'super_admin') {
             background: #f8d7da;
         }
 
-         /* ✅ Buttons */
-         .btn-approve {
+        /* ✅ Category Tags */
+        .category-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 2px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            background: #e9ecef;
+            color: #495057;
+            border: 1px solid #ced4da;
+        }
+
+        /* ✅ Buttons */
+        .btn-approve {
             background: #28a745;
             color: white;
         }
@@ -73,6 +126,11 @@ if ($_SESSION['role'] === 'super_admin') {
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
         .filter-box input, .filter-box select {
             max-width: 250px;
@@ -181,33 +239,80 @@ if ($_SESSION['role'] === 'super_admin') {
     </div>
 <?php endif; ?>
 
-
 <!-- ✅ Dashboard Content -->
 <div class="container my-5">
-    <!-- <h2 class="text-center fw-bold text-danger mb-4">Admin Dashboard</h2> -->
-
-    <!-- ✅ Filter Section -->
-    <div class="filter-box mb-3">
-        <input type="text" id="search" class="form-control" placeholder="🔎 Search by Title...">
-        <select id="month" class="form-control">
-            <option value="">📅 Filter by Month</option>
-            <?php for ($m = 1; $m <= 12; $m++): ?>
-                <option value="<?= $m; ?>"><?= date("F", mktime(0, 0, 0, $m, 1)); ?></option>
-            <?php endfor; ?>
-        </select>
-        <button id="reset" class="btn btn-secondary">Reset</button>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Blog Management</h1>
+        <a href="add_blog.php" class="btn btn-success">
+            <i class="fas fa-plus"></i> Add New Blog
+        </a>
     </div>
 
-      <!-- ✅ New Button for Device Dashboard -->
-      <div class="text-center mb-4">
-        <a href="device_dashboard.php" class="btn btn-custom btn-manage-devices">📌 Manage Devices</a>
+    <!-- Filters -->
+    <div class="filters-container">
+        <div class="row">
+            <div class="col-md-5 mb-3">
+                <label for="searchInput" class="form-label">Search Blogs</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by title, content...">
+                    <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-5 mb-3">
+                <label for="categoryFilter" class="form-label">Filter by Category</label>
+                <select class="form-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <?php foreach($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label class="form-label">&nbsp;</label>
+                <button class="btn btn-outline-secondary form-control" id="resetFilters">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- ✅ Blog Table -->
-    <div id="table-data">
-        <!-- Data will be loaded dynamically here -->
+    <!-- Blog Table -->
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover blog-table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>SEO Title</th>
+                            <th>Categories</th>
+                            <th>SEO Score</th>
+                            <th>Created At</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blogTableBody">
+                        <!-- Data will be loaded here via AJAX -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="pagination-info">
+            <!-- Pagination info will be populated by JavaScript -->
+        </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+                <!-- Pagination will be populated by JavaScript -->
+            </ul>
+        </nav>
+    </div>
 </div>
 
 <!-- ✅ Footer -->
@@ -218,99 +323,237 @@ if ($_SESSION['role'] === 'super_admin') {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        function loadData(page = 1, search = '', month = '') {
+    // Global variables
+    let currentPage = 1;
+    let totalPages = 1;
+    const limit = 10;
+    
+    // Load blogs on page load
+    $(document).ready(function() {
+        loadBlogs(currentPage, limit);
+        
+        // Set up search functionality
+        $('#searchInput').on('keyup', function(e) {
+            if(e.key === 'Enter') {
+                loadBlogs(1, limit);
+            }
+        });
+        
+        // Search button click
+        $('#searchButton').on('click', function() {
+            loadBlogs(1, limit);
+        });
+        
+        // Set up category filter
+        $('#categoryFilter').on('change', function() {
+            loadBlogs(1, limit);
+        });
+        
+        // Reset filters
+        $('#resetFilters').on('click', function() {
+            $('#searchInput').val('');
+            $('#categoryFilter').val('');
+            loadBlogs(1, limit);
+        });
+    });
+    
+    // Function to load blogs
+    function loadBlogs(page, limit) {
+        currentPage = page;
+        const search = $('#searchInput').val();
+        const category = $('#categoryFilter').val();
+        
+        // Show loading indicator
+        $('#blogTableBody').html('<tr><td colspan="7" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
+        
+        // Fetch blogs data
+        $.ajax({
+            url: 'fetch_blogs.php',
+            type: 'GET',
+            data: { 
+                page: page, 
+                limit: limit,
+                search: search,
+                category: category
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Update table with blog data
+                let html = '';
+                
+                if (data.blogs && data.blogs.length > 0) {
+                    data.blogs.forEach(blog => {
+                        const categories = blog.categories.map(cat => 
+                            `<span class="category-badge">${cat}</span>`
+                        ).join('');
+
+                        // Calculate SEO score
+                        let seoScore = 100;
+                        
+                        // Check title length (20-70 chars)
+                        if (!blog.seo_title || blog.seo_title.length < 20 || blog.seo_title.length > 70) {
+                            seoScore -= 20;
+                        }
+                        
+                        // Check meta description (120-160 chars)
+                        if (!blog.meta_description || blog.meta_description.length < 120 || blog.meta_description.length > 160) {
+                            seoScore -= 20;
+                        }
+                        
+                        // Check focus keyword presence
+                        if (!blog.focus_keyword) {
+                            seoScore -= 20;
+                        }
+                        
+                        // Check slug
+                        if (!blog.slug) {
+                            seoScore -= 20;
+                        }
+                        
+                        // Determine score class
+                        let scoreClass = seoScore >= 80 ? 'text-success' : (seoScore >= 50 ? 'text-warning' : 'text-danger');
+
+                        html += `
+                            <tr>
+                                <td>${blog.id}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        ${blog.image_url ? `<img src="${blog.image_url}" class="me-2" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">` : ''}
+                                        <div>
+                                            <div class="fw-bold">${blog.title}</div>
+                                            <div class="small text-muted">${blog.excerpt || ''}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${blog.seo_title || '<span class="text-muted">Same as title</span>'}</td>
+                                <td>${categories}</td>
+                                <td><span class="${scoreClass}">${seoScore}%</span></td>
+                                <td>${blog.formatted_date}</td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a href="edit_blog.php?id=${blog.id}" class="btn btn-sm btn-primary me-2" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteBlog(${blog.id})" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    html = '<tr><td colspan="7" class="text-center">No blogs found</td></tr>';
+                }
+                
+                $('#blogTableBody').html(html);
+                
+                // Update pagination
+                updatePagination(data.pagination);
+                
+                // Update pagination info
+                if (data.pagination) {
+                    const start = (data.pagination.current_page - 1) * data.pagination.limit + 1;
+                    const end = Math.min(data.pagination.current_page * data.pagination.limit, data.pagination.total_rows);
+                    $('.pagination-info').html(`Showing ${start} to ${end} of ${data.pagination.total_rows} entries`);
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#blogTableBody').html('<tr><td colspan="7" class="text-center text-danger">Error loading blogs</td></tr>');
+            }
+        });
+    }
+    
+    // Function to update pagination
+    function updatePagination(pagination) {
+        if (!pagination) {
+            console.error('Pagination data is missing');
+            return;
+        }
+        
+        console.log('Pagination data:', pagination); // Debug log
+        
+        const totalPages = parseInt(pagination.total_pages) || 1;
+        const currentPage = parseInt(pagination.current_page) || 1;
+        
+        let paginationHtml = '';
+        
+        // Previous button
+        paginationHtml += `
+            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="javascript:void(0)" onclick="${currentPage > 1 ? 'loadBlogs(' + (currentPage - 1) + ', ' + limit + ')' : ''}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        `;
+        
+        // Page numbers
+        const maxPages = 5; // Maximum number of page links to show
+        let startPage = Math.max(1, currentPage - Math.floor(maxPages / 2));
+        let endPage = Math.min(totalPages, startPage + maxPages - 1);
+        
+        if (endPage - startPage + 1 < maxPages) {
+            startPage = Math.max(1, endPage - maxPages + 1);
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            paginationHtml += `
+                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="javascript:void(0)" onclick="loadBlogs(${i}, ${limit})">${i}</a>
+                </li>
+            `;
+        }
+        
+        // Next button
+        paginationHtml += `
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="javascript:void(0)" onclick="${currentPage < totalPages ? 'loadBlogs(' + (currentPage + 1) + ', ' + limit + ')' : ''}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        `;
+        
+        $('#pagination').html(paginationHtml);
+    }
+    
+    // Function to delete blog
+    function deleteBlog(blogId) {
+        if (confirm('Are you sure you want to delete this blog post?')) {
             $.ajax({
-                url: "fetch_blogs.php",
-                type: "GET",
-                data: { page: page, search: search, month: month },
-                success: function (response) {
-                    $("#table-data").html(response);
+                url: 'delete_blog.php',
+                type: 'POST',
+                data: { id: blogId },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        alert('Blog post deleted successfully!');
+                        loadBlogs(currentPage, limit);
+                    } else {
+                        alert('Failed to delete blog post: ' + (response.error || 'Unknown error'));
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Delete request failed:', status, error);
+                    let errorMessage = 'An error occurred while deleting the blog post.';
+                    
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response && response.error) {
+                            errorMessage += ' ' + response.error;
+                        }
+                    } catch (e) {
+                        // If response is not valid JSON, use the status text
+                        if (xhr.statusText) {
+                            errorMessage += ' ' + xhr.statusText;
+                        }
+                    }
+                    
+                    alert(errorMessage);
                 }
             });
         }
-
-        // ✅ Load Initial Data
-        loadData();
-
-        // ✅ Search Event
-        $("#search").on("keyup", function () {
-            loadData(1, $(this).val(), $("#month").val());
-        });
-
-        // ✅ Month Filter
-        $("#month").on("change", function () {
-            loadData(1, $("#search").val(), $(this).val());
-        });
-
-        // ✅ Reset Filters
-        $("#reset").on("click", function () {
-            $("#search").val('');
-            $("#month").val('');
-            loadData(1, '', '');
-        });
-
-        // ✅ Pagination Click Event
-        $(document).on("click", ".pagination-link", function (e) {
-            e.preventDefault();
-            let page = $(this).data("page");
-            loadData(page, $("#search").val(), $("#month").val());
-        });
-
-        // ✅ Handle Delete Confirmation Modal (Attach Dynamically)
-        let deleteId = null;
-
-        $(document).on("click", ".delete-btn", function () {
-            deleteId = $(this).data("id"); // Store the ID
-            $("#deleteModal").modal("show"); // Show the modal
-        });
-
-        // ✅ Confirm Delete Button Click (Fix: Event Delegation)
-        $(document).on("click", "#confirmDelete", function () {
-            if (deleteId) {
-                $.ajax({
-                    url: "delete_blog.php",
-                    type: "POST",
-                    data: { id: deleteId },
-                    success: function (response) {
-                        $("#deleteModal").modal("hide"); // Hide modal after delete
-                        loadData(); // Refresh Table
-                    }
-                });
-            }
-        });
-
-        // ✅ Super Admin: Approve Admin
-        $(document).on("click", ".approve-btn", function () {
-            let adminId = $(this).data("id");
-            $.ajax({
-                url: "approve_admin.php",
-                type: "POST",
-                data: { id: adminId },
-                success: function () {
-                    loadData(); // Refresh table
-                    alert("✅ Admin approved successfully.");
-                }
-            });
-        });
-
-        // ✅ Super Admin: Reject Admin
-        $(document).on("click", ".reject-btn", function () {
-            let adminId = $(this).data("id");
-            $.ajax({
-                url: "reject_admin.php",
-                type: "POST",
-                data: { id: adminId },
-                success: function () {
-                    loadData(); // Refresh table
-                    alert("❌ Admin request rejected.");
-                }
-            });
-        });
-
-    });
+    }
 </script>
-
 
 </body>
 </html>

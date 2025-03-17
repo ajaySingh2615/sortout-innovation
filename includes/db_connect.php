@@ -1,8 +1,9 @@
 <?php
-$servername = "localhost";  // Change this for Hostinger
-$username = "root";  // Change this for Hostinger
-$password = "";  // Change this for Hostinger
-$dbname = "myblog_database";  // Use your actual database name
+// Database connection parameters
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "myblog_database";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -11,4 +12,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// Set character set to UTF-8
+$conn->set_charset("utf8mb4");
 ?>
