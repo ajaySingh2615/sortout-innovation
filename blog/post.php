@@ -1,29 +1,37 @@
 <?php
 require_once '../includes/db_connect.php';
 
-// Get blog ID from URL
+// Get blog ID or slug from URL
 $blog_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$blog_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
-// If no valid ID provided, redirect to blog index
-if ($blog_id <= 0) {
+// If we have a slug, prioritize that for fetching the blog post
+if (!empty($blog_slug)) {
+    // Prepare the SQL statement to fetch by slug
+    $stmt = $conn->prepare("SELECT * FROM blogs WHERE slug = ?");
+    $stmt->bind_param("s", $blog_slug);
+} else if ($blog_id > 0) {
+    // Use ID as fallback
+    $stmt = $conn->prepare("SELECT * FROM blogs WHERE id = ?");
+    $stmt->bind_param("i", $blog_id);
+} else {
+    // Neither ID nor slug provided
     header("Location: index.php");
     exit;
 }
 
-// Fetch the blog post
-$query = "SELECT * FROM blogs WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $blog_id);
+// Execute the statement
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    // Blog post not found, redirect to index
+    // Blog post not found
     header("Location: index.php");
     exit;
 }
 
 $blog = $result->fetch_assoc();
+$blog_id = $blog['id']; // Ensure we have the ID for related queries
 
 // Parse categories
 $categories = [];
@@ -45,7 +53,7 @@ $formatted_date = $date->format('F d, Y');
 $related_posts = [];
 if (!empty($categories)) {
     $category = $categories[0];
-    $related_query = "SELECT id, title, image_url, created_at FROM blogs 
+    $related_query = "SELECT id, title, slug, image_url, created_at FROM blogs 
                     WHERE id != ? AND categories LIKE ? 
                     ORDER BY created_at DESC LIMIT 3";
     $stmt = $conn->prepare($related_query);
@@ -71,7 +79,7 @@ $prev_post = null;
 $next_post = null;
 
 // Get previous post
-$prev_query = "SELECT id, title FROM blogs WHERE id < ? ORDER BY id DESC LIMIT 1";
+$prev_query = "SELECT id, title, slug FROM blogs WHERE id < ? ORDER BY id DESC LIMIT 1";
 $stmt = $conn->prepare($prev_query);
 $stmt->bind_param("i", $blog_id);
 $stmt->execute();
@@ -81,7 +89,7 @@ if ($prev_result->num_rows > 0) {
 }
 
 // Get next post
-$next_query = "SELECT id, title FROM blogs WHERE id > ? ORDER BY id ASC LIMIT 1";
+$next_query = "SELECT id, title, slug FROM blogs WHERE id > ? ORDER BY id ASC LIMIT 1";
 $stmt = $conn->prepare($next_query);
 $stmt->bind_param("i", $blog_id);
 $stmt->execute();
@@ -1070,7 +1078,7 @@ if ($needs_toc) {
             <div class="post-navigation">
                 <?php if($prev_post): ?>
                 <div class="nav-previous">
-                    <a href="post.php?id=<?php echo $prev_post['id']; ?>" class="nav-link">
+                    <a href="post.php?slug=<?php echo urlencode($prev_post['slug']); ?>" class="nav-link">
                         <span class="nav-label"><i class="fas fa-arrow-left mr-1"></i> Previous Post</span>
                         <div class="nav-title"><?php echo htmlspecialchars($prev_post['title']); ?></div>
                     </a>
@@ -1081,7 +1089,7 @@ if ($needs_toc) {
                 
                 <?php if($next_post): ?>
                 <div class="nav-next">
-                    <a href="post.php?id=<?php echo $next_post['id']; ?>" class="nav-link">
+                    <a href="post.php?slug=<?php echo urlencode($next_post['slug']); ?>" class="nav-link">
                         <span class="nav-label">Next Post <i class="fas fa-arrow-right ml-1"></i></span>
                         <div class="nav-title"><?php echo htmlspecialchars($next_post['title']); ?></div>
                     </a>
@@ -1112,7 +1120,7 @@ if ($needs_toc) {
                         $related_formatted_date = $related_date->format('M d, Y');
                     ?>
                     <div class="col-md-4 mb-4">
-                        <a href="post.php?id=<?php echo $related['id']; ?>" class="related-post-card">
+                        <a href="post.php?slug=<?php echo urlencode($related['slug']); ?>" class="related-post-card">
                             <div class="related-post-img">
                                 <?php if(!empty($related['image_url'])): ?>
                                     <img src="<?php echo htmlspecialchars($related['image_url']); ?>" alt="<?php echo htmlspecialchars($related['title']); ?>">

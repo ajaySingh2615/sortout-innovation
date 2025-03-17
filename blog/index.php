@@ -888,7 +888,7 @@ sort($allCategories);
                             
                             <p class="blog-excerpt"><?php echo htmlspecialchars($excerpt); ?></p>
                             
-                            <a href="post.php?id=<?php echo $blog['id']; ?>" class="read-more">
+                            <a href="post.php?slug=<?php echo urlencode($blog['slug']); ?>" class="read-more">
                                 Read More <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
