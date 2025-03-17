@@ -237,7 +237,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -284,7 +284,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         }
         
         .blog-content h3 {
-            font-weight: 600;
+        font-weight: 600;
             margin-top: 2rem;
             margin-bottom: 1rem;
         }
@@ -293,9 +293,9 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             max-width: 100%;
             height: auto;
             border-radius: 8px;
-            margin: 1.5rem 0;
-        }
-        
+        margin: 1.5rem 0;
+    }
+
         .featured-image {
             border-radius: 8px;
             width: 100%;
@@ -360,7 +360,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         /* Table of Contents */
         .toc {
             background-color: #f8f9fa;
-            border-radius: 8px;
+        border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -373,7 +373,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         }
         
         .toc ul {
-            padding-left: 1.5rem;
+        padding-left: 1.5rem;
         }
         
         .toc li {
@@ -389,7 +389,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         .share-button {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
+        justify-content: center;
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -428,7 +428,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+        </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -443,10 +443,10 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                     <li class="nav-item">
                         <a class="nav-link active fw-bold" href="index.php">Blog</a>
                     </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+        </ul>
+    </div>
+    </div>
+</nav>
 
     <!-- Blog Header -->
     <header class="blog-header">
@@ -458,7 +458,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                 <div class="mb-4">
                     <?php if (count($blog['categories_array']) > 0): ?>
                         <?php foreach ($blog['categories_array'] as $category): ?>
-                            <?php 
+<?php
                                 $colors = $category_colors[$category] ?? [
                                     'bg' => 'bg-secondary bg-opacity-10',
                                     'text' => 'text-white',
@@ -478,15 +478,15 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                             Uncategorized
                         </span>
                     <?php endif; ?>
-                </div>
-                
+    </div>
+
                 <!-- Meta info -->
                 <div class="d-flex justify-content-center text-white-50">
                     <span class="me-3"><i class="far fa-calendar-alt me-1"></i> <?= $blog['formatted_date'] ?></span>
                     <span><i class="far fa-clock me-1"></i> <?= $reading_time ?> min read</span>
-                </div>
-            </div>
         </div>
+    </div>
+</div>
     </header>
 
     <!-- Main Content -->
@@ -514,7 +514,7 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Blog Content -->
                 <div class="blog-content">
                     <?= $blog['content'] ?>
@@ -540,9 +540,9 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                            target="_blank" class="share-button share-pinterest">
                             <i class="fab fa-pinterest-p"></i>
                         </a>
-                    </div>
-                </div>
-                
+    </div>
+</div>
+
                 <!-- Tags -->
                 <?php if (count($blog['categories_array']) > 0): ?>
                     <div class="mt-5">
@@ -600,8 +600,8 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                                 
                                 <a href="post.php?slug=<?= urlencode($related['slug']) ?>" class="btn btn-outline-primary btn-sm mt-3">
                                     Read Article
-                                </a>
-                            </div>
+            </a>
+        </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -640,8 +640,8 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             <div class="text-center text-muted">
                 <p class="mb-0">&copy; 2024 Blog. All rights reserved.</p>
             </div>
-        </div>
-    </footer>
+    </div>
+</footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -98,7 +98,7 @@ function count_words($string) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Blog Post | Admin Panel</title>
     <meta name="robots" content="noindex,nofollow">
-    
+
     <!-- ✅ Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
@@ -332,7 +332,7 @@ body::before {
                 <h2 class="text-center fw-bold mb-3">Add a New Blog Post</h2>
                 <p class="text-center text-muted mb-4">Create SEO-optimized content to reach your target audience.</p>
 
-                <form method="POST" enctype="multipart/form-data" class="row g-3" id="blogForm">
+            <form method="POST" enctype="multipart/form-data" class="row g-3" id="blogForm">
                     <!-- Display Title -->
                     <div class="col-12">
                         <label class="form-label fw-semibold">Display Title:</label>
@@ -372,17 +372,17 @@ body::before {
                     </div>
 
                     <!-- Focus Keyword -->
-                    <div class="col-12">
+                <div class="col-12">
                         <label class="form-label fw-semibold">Focus Keyword:</label>
                         <input type="text" name="focus_keyword" id="focusKeyword" class="form-control">
                         <div class="seo-tip">
                             <i class="fas fa-info-circle"></i> The main keyword you want this post to rank for.
                         </div>
-                    </div>
+                </div>
 
                     <!-- Content -->
-                    <div class="col-12">
-                        <label class="form-label fw-semibold">Content:</label>
+                <div class="col-12">
+    <label class="form-label fw-semibold">Content:</label>
                         <textarea name="content" id="content" class="form-control" rows="10" required></textarea>
                         <div id="contentAnalysis" class="mt-3"></div>
                     </div>
@@ -408,10 +408,10 @@ body::before {
                                 </div>
                             </div>
                         </div>
-                    </div>
+</div>
 
                     <!-- Featured Image -->
-                    <div class="col-12">
+                <div class="col-12">
                         <label class="form-label fw-semibold">Featured Image:</label>
                         <input type="file" name="image" id="imageUpload" class="form-control" accept="image/*">
                         <input type="text" name="image_alt" id="imageAlt" class="form-control mt-2" placeholder="Image Alt Text">
@@ -420,15 +420,15 @@ body::before {
                         </div>
                         <img id="imagePreview" class="img-fluid mt-3" style="display:none;">
                         <button type="button" class="btn btn-danger mt-2" id="removeImage" style="display:none;">Remove Image</button>
-                    </div>
+                </div>
 
-                    <div class="col-12">
+                <div class="col-12">
                         <button type="submit" id="submitBtn" class="btn btn-primary w-100 py-3">
                             <span class="spinner-border spinner-border-sm me-2" id="submitSpinner" role="status" aria-hidden="true"></span>
                             🚀 Publish Blog Post
-                        </button>
-                    </div>
-                </form>
+                    </button>
+                </div>
+            </form>
             </div>
         </div>
 
@@ -440,28 +440,28 @@ body::before {
                 <div id="seoChecklist"></div>
             </div>
         </div>
+        </div>
     </div>
-</div>
 
-<!-- ✅ Success Modal -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">✅ Blog Published Successfully!</h5>
-            </div>
-            <div class="modal-body">
-                <p>Your blog has been successfully added.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="submitAnother">➕ Submit Another Blog</button>
-                <a href="dashboard.php" class="btn btn-success">🏠 Go to Dashboard</a>
+    <!-- ✅ Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">✅ Blog Published Successfully!</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Your blog has been successfully added.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="submitAnother">➕ Submit Another Blog</button>
+                    <a href="dashboard.php" class="btn btn-success">🏠 Go to Dashboard</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ✅ Modern Black Footer -->
+    <!-- ✅ Modern Black Footer -->
 <footer class="text-white text-center py-5" style="background: #111; box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);">
     <div class="container">
         <div class="row">
@@ -703,7 +703,7 @@ body::before {
         console.log("Submission success status:", <?= $submissionSuccess ? 'true' : 'false' ?>);
         
         // Show success modal if submission was successful
-        <?php if ($submissionSuccess): ?>
+            <?php if ($submissionSuccess): ?>
         // Use plain JavaScript to show the modal when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             var successModal = new bootstrap.Modal(document.getElementById('successModal'));

@@ -109,8 +109,8 @@ if ($_SESSION['role'] === 'super_admin') {
             border: 1px solid #ced4da;
         }
 
-        /* ✅ Buttons */
-        .btn-approve {
+         /* ✅ Buttons */
+         .btn-approve {
             background: #28a745;
             color: white;
         }
@@ -301,7 +301,7 @@ if ($_SESSION['role'] === 'super_admin') {
             </div>
         </div>
     </div>
-
+    
     <!-- Pagination -->
     <div class="d-flex justify-content-between align-items-center mt-4">
         <div class="pagination-info">
@@ -367,7 +367,7 @@ if ($_SESSION['role'] === 'super_admin') {
         $('#blogTableBody').html('<tr><td colspan="7" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
         
         // Fetch blogs data
-        $.ajax({
+                $.ajax({
             url: 'fetch_blogs.php',
             type: 'GET',
             data: { 
