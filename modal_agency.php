@@ -926,17 +926,48 @@ body.modal-open {
                     <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                     <select id="category" name="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                         <option value="">Select Category</option>
-                    <option value="Live Streaming Host">Live Streaming Host</option>
-                    <option value="YouTubers">YouTubers</option>
-                    <option value="Social Media Influencers">Social Media Influencers</option>
-                        <option value="Hollywood Artist">Hollywood Artist</option>
-                    <option value="Mobile/PC Gamers">Mobile/PC Gamers</option>
-                    <option value="Short Video Creators">Short Video Creators</option>
-                    <option value="Podcast Hosts">Podcast Hosts</option>
-                    <option value="Lifestyle Bloggers/Vloggers">Lifestyle Bloggers/Vloggers</option>
-                    <option value="Fitness Influencers">Fitness Influencers</option>
-                </select>
-            </div>
+                        <option value="Dating App Host">Dating App Host</option>
+                        <option value="Video Live Streamers">Video Live Streamers</option>
+                        <option value="Voice Live Streamers">Voice Live Streamers</option>
+                        <option value="Singer">Singer</option>
+                        <option value="Dancer">Dancer</option>
+                        <option value="Actor / Actress">Actor / Actress</option>
+                        <option value="Model">Model</option>
+                        <option value="Artist / Painter">Artist / Painter</option>
+                        <option value="Social Media Influencer">Social Media Influencer</option>
+                        <option value="Content Creator">Content Creator</option>
+                        <option value="Vlogger">Vlogger</option>
+                        <option value="Gamer / Streamer">Gamer / Streamer</option>
+                        <option value="YouTuber">YouTuber</option>
+                        <option value="Anchor / Emcee / Host">Anchor / Emcee / Host</option>
+                        <option value="DJ / Music Producer">DJ / Music Producer</option>
+                        <option value="Photographer / Videographer">Photographer / Videographer</option>
+                        <option value="Makeup Artist / Hair Stylist">Makeup Artist / Hair Stylist</option>
+                        <option value="Fashion Designer / Stylist">Fashion Designer / Stylist</option>
+                        <option value="Fitness Trainer / Yoga Instructor">Fitness Trainer / Yoga Instructor</option>
+                        <option value="Motivational Speaker / Life Coach">Motivational Speaker / Life Coach</option>
+                        <option value="Chef / Culinary Artist">Chef / Culinary Artist</option>
+                        <option value="Child Artist">Child Artist</option>
+                        <option value="Pet Performer / Pet Model">Pet Performer / Pet Model</option>
+                        <option value="Instrumental Musician">Instrumental Musician</option>
+                        <option value="Director / Scriptwriter / Editor">Director / Scriptwriter / Editor</option>
+                        <option value="Voice Over Artist">Voice Over Artist</option>
+                        <option value="Magician / Illusionist">Magician / Illusionist</option>
+                        <option value="Stand-up Comedian">Stand-up Comedian</option>
+                        <option value="Mimicry Artist">Mimicry Artist</option>
+                        <option value="Poet / Storyteller">Poet / Storyteller</option>
+                        <option value="Language Trainer / Public Speaking Coach">Language Trainer / Public Speaking Coach</option>
+                        <option value="Craft Expert / DIY Creator">Craft Expert / DIY Creator</option>
+                        <option value="Travel Blogger / Explorer">Travel Blogger / Explorer</option>
+                        <option value="Astrologer / Tarot Reader">Astrologer / Tarot Reader</option>
+                        <option value="Educator / Subject Matter Expert">Educator / Subject Matter Expert</option>
+                        <option value="Tech Reviewer / Gadget Expert">Tech Reviewer / Gadget Expert</option>
+                        <option value="Unboxing / Product Reviewer">Unboxing / Product Reviewer</option>
+                        <option value="Business Coach / Startup Mentor">Business Coach / Startup Mentor</option>
+                        <option value="Health & Wellness Coach">Health & Wellness Coach</option>
+                        <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
+                    </select>
+                </div>
 
                 <div class="form-group">
                     <label for="followers" class="block text-sm font-medium text-gray-700">Number of Followers</label>
@@ -1815,16 +1846,47 @@ document.addEventListener('DOMContentLoaded', function() {
                     <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                     <select id="filterCategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
                         <option value="">All Categories</option>
-        <option value="Live Streaming Host">Live Streaming Host</option>
-        <option value="YouTubers">YouTubers</option>
-        <option value="Social Media Influencers">Social Media Influencers</option>
-                        <option value="Hollywood Artist">Hollywood Artist</option>
-        <option value="Mobile/PC Gamers">Mobile/PC Gamers</option>
-        <option value="Short Video Creators">Short Video Creators</option>
-        <option value="Podcast Hosts">Podcast Hosts</option>
-        <option value="Lifestyle Bloggers/Vloggers">Lifestyle Bloggers/Vloggers</option>
-        <option value="Fitness Influencers">Fitness Influencers</option>
-    </select>
+                        <option value="Dating App Host">Dating App Host</option>
+                        <option value="Video Live Streamers">Video Live Streamers</option>
+                        <option value="Voice Live Streamers">Voice Live Streamers</option>
+                        <option value="Singer">Singer</option>
+                        <option value="Dancer">Dancer</option>
+                        <option value="Actor / Actress">Actor / Actress</option>
+                        <option value="Model">Model</option>
+                        <option value="Artist / Painter">Artist / Painter</option>
+                        <option value="Social Media Influencer">Social Media Influencer</option>
+                        <option value="Content Creator">Content Creator</option>
+                        <option value="Vlogger">Vlogger</option>
+                        <option value="Gamer / Streamer">Gamer / Streamer</option>
+                        <option value="YouTuber">YouTuber</option>
+                        <option value="Anchor / Emcee / Host">Anchor / Emcee / Host</option>
+                        <option value="DJ / Music Producer">DJ / Music Producer</option>
+                        <option value="Photographer / Videographer">Photographer / Videographer</option>
+                        <option value="Makeup Artist / Hair Stylist">Makeup Artist / Hair Stylist</option>
+                        <option value="Fashion Designer / Stylist">Fashion Designer / Stylist</option>
+                        <option value="Fitness Trainer / Yoga Instructor">Fitness Trainer / Yoga Instructor</option>
+                        <option value="Motivational Speaker / Life Coach">Motivational Speaker / Life Coach</option>
+                        <option value="Chef / Culinary Artist">Chef / Culinary Artist</option>
+                        <option value="Child Artist">Child Artist</option>
+                        <option value="Pet Performer / Pet Model">Pet Performer / Pet Model</option>
+                        <option value="Instrumental Musician">Instrumental Musician</option>
+                        <option value="Director / Scriptwriter / Editor">Director / Scriptwriter / Editor</option>
+                        <option value="Voice Over Artist">Voice Over Artist</option>
+                        <option value="Magician / Illusionist">Magician / Illusionist</option>
+                        <option value="Stand-up Comedian">Stand-up Comedian</option>
+                        <option value="Mimicry Artist">Mimicry Artist</option>
+                        <option value="Poet / Storyteller">Poet / Storyteller</option>
+                        <option value="Language Trainer / Public Speaking Coach">Language Trainer / Public Speaking Coach</option>
+                        <option value="Craft Expert / DIY Creator">Craft Expert / DIY Creator</option>
+                        <option value="Travel Blogger / Explorer">Travel Blogger / Explorer</option>
+                        <option value="Astrologer / Tarot Reader">Astrologer / Tarot Reader</option>
+                        <option value="Educator / Subject Matter Expert">Educator / Subject Matter Expert</option>
+                        <option value="Tech Reviewer / Gadget Expert">Tech Reviewer / Gadget Expert</option>
+                        <option value="Unboxing / Product Reviewer">Unboxing / Product Reviewer</option>
+                        <option value="Business Coach / Startup Mentor">Business Coach / Startup Mentor</option>
+                        <option value="Health & Wellness Coach">Health & Wellness Coach</option>
+                        <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
+                    </select>
                 </div>
 
                 <div class="filter-group">

@@ -1,171 +1,128 @@
 <?php
-require '../includes/db_connect.php';
+require_once '../includes/db_connect.php';
 
-// Check if slug parameter exists
-if (!isset($_GET['slug'])) {
+// Get blog ID from URL
+$blog_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// If no valid ID provided, redirect to blog index
+if ($blog_id <= 0) {
     header("Location: index.php");
-    exit();
+    exit;
 }
 
-$slug = $_GET['slug'];
-
-// Fetch blog post by slug
-$stmt = $conn->prepare("SELECT id, title, seo_title, content, meta_description, focus_keyword, slug, categories, image_url, image_alt, created_at, created_by FROM blogs WHERE slug = ?");
-$stmt->bind_param("s", $slug);
+// Fetch the blog post
+$query = "SELECT * FROM blogs WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $blog_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// If blog post not found, redirect to blog index
 if ($result->num_rows === 0) {
+    // Blog post not found, redirect to index
     header("Location: index.php");
-    exit();
+    exit;
 }
 
 $blog = $result->fetch_assoc();
 
-// Decode categories
-$blog['categories_array'] = json_decode($blog['categories'] ?? '[]', true);
+// Parse categories
+$categories = [];
+if (!empty($blog['categories'])) {
+    if (strpos($blog['categories'], '[') === 0) {
+        // JSON format
+        $categories = json_decode($blog['categories'], true) ?: [];
+    } else {
+        // Comma-separated format
+        $categories = explode(',', $blog['categories']);
+    }
+}
 
 // Format date
-$blog['formatted_date'] = date('F d, Y', strtotime($blog['created_at']));
+$date = new DateTime($blog['created_at']);
+$formatted_date = $date->format('F d, Y');
 
-// Calculate reading time (average reading speed: 200 words per minute)
-$word_count = str_word_count(strip_tags($blog['content']));
-$reading_time = ceil($word_count / 200);
-
-// Define category colors for styling
-$category_colors = [
-    'Digital Marketing' => [
-        'bg' => 'bg-primary bg-opacity-10',
-        'text' => 'text-primary',
-        'border' => 'border-primary'
-    ],
-    'Live Streaming Service' => [
-        'bg' => 'bg-danger bg-opacity-10',
-        'text' => 'text-danger',
-        'border' => 'border-danger'
-    ],
-    'Find Talent' => [
-        'bg' => 'bg-info bg-opacity-10',
-        'text' => 'text-info',
-        'border' => 'border-info'
-    ],
-    'Information Technology' => [
-        'bg' => 'bg-success bg-opacity-10',
-        'text' => 'text-success',
-        'border' => 'border-success'
-    ],
-    'Chartered Accountant' => [
-        'bg' => 'bg-warning bg-opacity-10',
-        'text' => 'text-warning',
-        'border' => 'border-warning'
-    ],
-    'Human Resources' => [
-        'bg' => 'bg-secondary bg-opacity-10',
-        'text' => 'text-secondary',
-        'border' => 'border-secondary'
-    ],
-    'Courier' => [
-        'bg' => 'bg-dark bg-opacity-10',
-        'text' => 'text-dark',
-        'border' => 'border-dark'
-    ],
-    'Shipping and Fulfillment' => [
-        'bg' => 'bg-primary bg-opacity-10',
-        'text' => 'text-primary',
-        'border' => 'border-primary'
-    ],
-    'Stationery' => [
-        'bg' => 'bg-danger bg-opacity-10',
-        'text' => 'text-danger',
-        'border' => 'border-danger'
-    ],
-    'Real Estate and Property' => [
-        'bg' => 'bg-info bg-opacity-10',
-        'text' => 'text-info',
-        'border' => 'border-info'
-    ],
-    'Event Management' => [
-        'bg' => 'bg-success bg-opacity-10',
-        'text' => 'text-success',
-        'border' => 'border-success'
-    ],
-    'Design and Creative' => [
-        'bg' => 'bg-warning bg-opacity-10',
-        'text' => 'text-warning',
-        'border' => 'border-warning'
-    ],
-    'Corporate Insurance' => [
-        'bg' => 'bg-secondary bg-opacity-10',
-        'text' => 'text-secondary',
-        'border' => 'border-secondary'
-    ],
-    'Business Strategy' => [
-        'bg' => 'bg-dark bg-opacity-10',
-        'text' => 'text-dark',
-        'border' => 'border-dark'
-    ],
-    'Innovation' => [
-        'bg' => 'bg-primary bg-opacity-10',
-        'text' => 'text-primary',
-        'border' => 'border-primary'
-    ],
-    'Industry News' => [
-        'bg' => 'bg-danger bg-opacity-10',
-        'text' => 'text-danger',
-        'border' => 'border-danger'
-    ],
-    'Marketing and Sales' => [
-        'bg' => 'bg-info bg-opacity-10',
-        'text' => 'text-info',
-        'border' => 'border-info'
-    ],
-    'Finance and Investment' => [
-        'bg' => 'bg-success bg-opacity-10',
-        'text' => 'text-success',
-        'border' => 'border-success'
-    ],
-    'Legal Services' => [
-        'bg' => 'bg-warning bg-opacity-10',
-        'text' => 'text-warning',
-        'border' => 'border-warning'
-    ],
-    'Healthcare Services' => [
-        'bg' => 'bg-secondary bg-opacity-10',
-        'text' => 'text-secondary',
-        'border' => 'border-secondary'
-    ],
-];
-
-// Fetch related blog posts (same category, excluding current post)
+// Get related posts (same category)
 $related_posts = [];
-if (!empty($blog['categories_array'])) {
-    $category = $blog['categories_array'][0]; // Use first category
-    $related_query = "SELECT id, title, slug, image_url, image_alt, created_at FROM blogs 
-                      WHERE JSON_CONTAINS(categories, ?) AND id != ? 
-                      ORDER BY created_at DESC LIMIT 3";
-    $related_stmt = $conn->prepare($related_query);
-    $category_json = json_encode($category);
-    $related_stmt->bind_param("si", $category_json, $blog['id']);
-    $related_stmt->execute();
-    $related_result = $related_stmt->get_result();
+if (!empty($categories)) {
+    $category = $categories[0];
+    $related_query = "SELECT id, title, image_url, created_at FROM blogs 
+                    WHERE id != ? AND categories LIKE ? 
+                    ORDER BY created_at DESC LIMIT 3";
+    $stmt = $conn->prepare($related_query);
+    $category_param = "%$category%";
+    $stmt->bind_param("is", $blog_id, $category_param);
+    $stmt->execute();
+    $related_result = $stmt->get_result();
     
     while ($related = $related_result->fetch_assoc()) {
-        $related['formatted_date'] = date('M d, Y', strtotime($related['created_at']));
         $related_posts[] = $related;
     }
 }
 
-// Truncate content for meta description if blog meta description is empty
-if (empty($blog['meta_description'])) {
-    $blog['meta_description'] = substr(strip_tags($blog['content']), 0, 160) . '...';
+// After getting blog data, add reading time calculation
+$word_count = str_word_count(strip_tags($blog['content']));
+$reading_time = ceil($word_count / 200); // Average reading speed: 200 words per minute
+
+// Check if we need table of contents (for longer articles)
+$needs_toc = ($word_count > 1000) ? true : false;
+
+// Get previous and next posts
+$prev_post = null;
+$next_post = null;
+
+// Get previous post
+$prev_query = "SELECT id, title FROM blogs WHERE id < ? ORDER BY id DESC LIMIT 1";
+$stmt = $conn->prepare($prev_query);
+$stmt->bind_param("i", $blog_id);
+$stmt->execute();
+$prev_result = $stmt->get_result();
+if ($prev_result->num_rows > 0) {
+    $prev_post = $prev_result->fetch_assoc();
 }
 
-// Use SEO title or default to regular title
-$page_title = !empty($blog['seo_title']) ? $blog['seo_title'] : $blog['title'];
+// Get next post
+$next_query = "SELECT id, title FROM blogs WHERE id > ? ORDER BY id ASC LIMIT 1";
+$stmt = $conn->prepare($next_query);
+$stmt->bind_param("i", $blog_id);
+$stmt->execute();
+$next_result = $stmt->get_result();
+if ($next_result->num_rows > 0) {
+    $next_post = $next_result->fetch_assoc();
+}
 
-// Get current URL for canonical and Open Graph tags
-$current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+// Get author info if available
+$author = "Admin"; // Default
+$author_image = "../public/images/default-avatar.png"; // Default
+
+if (!empty($blog['created_by'])) {
+    // If you have an authors table, you can fetch author details here
+    // This is a placeholder for the enhanced version
+    $author = $blog['created_by'];
+}
+
+// Extract headings for table of contents if needed
+$headings = [];
+if ($needs_toc) {
+    preg_match_all('/<h([2-3])[^>]*>(.*?)<\/h\1>/i', $blog['content'], $matches, PREG_SET_ORDER);
+    foreach ($matches as $match) {
+        $level = $match[1];
+        $text = strip_tags($match[2]);
+        $id = 'heading-' . count($headings);
+        
+        // Replace the heading in content with one that has an ID
+        $blog['content'] = str_replace(
+            $match[0],
+            "<h{$level} id=\"{$id}\">{$match[2]}</h{$level}>",
+            $blog['content']
+        );
+        
+        $headings[] = [
+            'level' => $level,
+            'text' => $text,
+            'id' => $id
+        ];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -173,477 +130,1199 @@ $current_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><?php echo htmlspecialchars($blog['title']); ?> - Sortout Innovation</title>
     
-    <!-- SEO Meta Tags -->
-    <title><?= htmlspecialchars($page_title) ?></title>
-    <meta name="description" content="<?= htmlspecialchars($blog['meta_description']) ?>">
-    <meta name="keywords" content="<?= htmlspecialchars($blog['focus_keyword']) ?>">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="<?= $current_url ?>">
+    <!-- Meta Description -->
+    <?php if(!empty($blog['meta_description'])): ?>
+    <meta name="description" content="<?php echo htmlspecialchars($blog['meta_description']); ?>">
+    <?php else: ?>
+    <meta name="description" content="<?php echo htmlspecialchars(substr(strip_tags($blog['content']), 0, 160)); ?>...">
+    <?php endif; ?>
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="<?= $current_url ?>">
-    <meta property="og:title" content="<?= htmlspecialchars($page_title) ?>">
-    <meta property="og:description" content="<?= htmlspecialchars($blog['meta_description']) ?>">
-    <?php if ($blog['image_url']): ?>
-        <meta property="og:image" content="<?= htmlspecialchars($blog['image_url']) ?>">
+    <meta property="og:url" content="<?php echo htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>">
+    <meta property="og:title" content="<?php echo htmlspecialchars($blog['title']); ?>">
+    <?php if(!empty($blog['meta_description'])): ?>
+    <meta property="og:description" content="<?php echo htmlspecialchars($blog['meta_description']); ?>">
+    <?php else: ?>
+    <meta property="og:description" content="<?php echo htmlspecialchars(substr(strip_tags($blog['content']), 0, 160)); ?>...">
     <?php endif; ?>
-    <meta property="article:published_time" content="<?= date('c', strtotime($blog['created_at'])) ?>">
-    <?php foreach ($blog['categories_array'] as $category): ?>
-        <meta property="article:tag" content="<?= htmlspecialchars($category) ?>">
-    <?php endforeach; ?>
+    <?php if(!empty($blog['image_url'])): ?>
+    <meta property="og:image" content="<?php echo htmlspecialchars($blog['image_url']); ?>">
+    <?php endif; ?>
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="<?= $current_url ?>">
-    <meta property="twitter:title" content="<?= htmlspecialchars($page_title) ?>">
-    <meta property="twitter:description" content="<?= htmlspecialchars($blog['meta_description']) ?>">
-    <?php if ($blog['image_url']): ?>
-        <meta property="twitter:image" content="<?= htmlspecialchars($blog['image_url']) ?>">
+    <meta property="twitter:url" content="<?php echo htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>">
+    <meta property="twitter:title" content="<?php echo htmlspecialchars($blog['title']); ?>">
+    <?php if(!empty($blog['meta_description'])): ?>
+    <meta property="twitter:description" content="<?php echo htmlspecialchars($blog['meta_description']); ?>">
+    <?php else: ?>
+    <meta property="twitter:description" content="<?php echo htmlspecialchars(substr(strip_tags($blog['content']), 0, 160)); ?>...">
+    <?php endif; ?>
+    <?php if(!empty($blog['image_url'])): ?>
+    <meta property="twitter:image" content="<?php echo htmlspecialchars($blog['image_url']); ?>">
     <?php endif; ?>
     
-    <!-- Schema.org / JSON-LD -->
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?php echo htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>">
+    
+    <!-- Schema.org markup for Google -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "headline": "<?= htmlspecialchars($page_title) ?>",
-        "description": "<?= htmlspecialchars($blog['meta_description']) ?>",
-        "image": "<?= htmlspecialchars($blog['image_url'] ?? '') ?>",
-        "datePublished": "<?= date('c', strtotime($blog['created_at'])) ?>",
-        "url": "<?= $current_url ?>",
+        "headline": "<?php echo htmlspecialchars($blog['title']); ?>",
+        "image": "<?php echo !empty($blog['image_url']) ? htmlspecialchars($blog['image_url']) : ''; ?>",
+        "datePublished": "<?php echo date('c', strtotime($blog['created_at'])); ?>",
+        "dateModified": "<?php echo date('c', strtotime($blog['created_at'])); ?>",
         "author": {
             "@type": "Person",
-            "name": "Admin"
+            "name": "<?php echo htmlspecialchars($author); ?>"
         },
         "publisher": {
             "@type": "Organization",
-            "name": "Your Organization",
+            "name": "SortOut Innovation",
             "logo": {
                 "@type": "ImageObject",
-                "url": "<?= "https://" . $_SERVER['HTTP_HOST'] ?>/public/logo.png"
+                "url": "<?php echo htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . '/images/sortoutInnovation-icon/Sortout innovation.jpg'); ?>"
             }
         },
+        "description": "<?php echo !empty($blog['meta_description']) ? htmlspecialchars($blog['meta_description']) : htmlspecialchars(substr(strip_tags($blog['content']), 0, 160)) . '...'; ?>",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "<?= $current_url ?>"
-        },
-        "keywords": "<?= htmlspecialchars($blog['focus_keyword']) ?>"
+            "@id": "<?php echo htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>"
+        }
+        <?php if(!empty($categories)): ?>,
+        "keywords": "<?php echo htmlspecialchars(implode(', ', $categories)); ?>"
+        <?php endif; ?>
     }
     </script>
-
+    
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
+        /* Reset and basic styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #d90429;
+            --secondary-color: #ef233c;
+            --dark-color: #2b2d42;
+            --light-color: #f8f9fa;
+            --text-color: #333333;
+            --gray-color: #6c757d;
+        }
+        
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff;
+            color: var(--text-color);
+            line-height: 1.6;
         }
         
-        .blog-header {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            padding: 100px 0 50px;
-            color: white;
-            margin-bottom: 50px;
-            position: relative;
-        }
-        
-        .blog-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 70px;
-            background: linear-gradient(to bottom right, transparent 49%, #f8f9fa 50%);
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .navbar-logo img {
+            height: 40px;
+        }
+
+        .navbar-links ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-links li {
+            margin-left: 25px;
+        }
+
+        .navbar-links .nav-link {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-links .nav-link:hover,
+        .navbar-links .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 991px) {
+            .navbar-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                overflow-y: auto;
+                z-index: 999;
+            }
+
+            .navbar-links.active {
+                left: 0;
+            }
+
+            .navbar-links ul {
+                flex-direction: column;
+                width: 100%;
+                /* padding: 20px; */
+            }
+
+            .navbar-links li {
+                margin: 0;
+                margin-bottom: 15px;
+                width: 100%;
+            }
+
+            .navbar-links .nav-link {
+                display: block;
+                padding: 10px 0;
+                font-size: 16px;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
         }
         
-        .blog-container {
-            max-width: 800px;
-            margin: 0 auto;
+        /* Blog Post Styles */
+        .post-header {
+            margin-top: 90px;
+            padding: 60px 0;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
         }
         
-        .blog-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #343a40;
-        }
-        
-        .blog-content p {
-            margin-bottom: 1.5rem;
-        }
-        
-        .blog-content h2 {
+        .post-title {
+            font-size: 2.8rem;
             font-weight: 700;
-            margin-top: 2.5rem;
-            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+            line-height: 1.3;
         }
         
-        .blog-content h3 {
-        font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
+        .post-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
         
-        .blog-content img {
+        .post-date {
+            display: flex;
+            align-items: center;
+            color: var(--gray-color);
+            margin-right: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .post-date i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+        
+        .post-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .post-category {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+        
+        .post-category:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        /* Post Image Styles - Direct image styling without container */
+        .post-content img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
-        margin: 1.5rem 0;
-    }
-
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        /* Featured Image - Instagram style */
         .featured-image {
+            display: block;
+            width: 320px; /* Fixed width */
+            height: 320px; /* Fixed height */
+            object-fit: cover;
+            margin: 0 auto 40px;
             border-radius: 8px;
-            width: 100%;
-            height: auto;
-            max-height: 500px;
-            object-fit: cover;
-            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-width: 100%; /* Prevent overflow on smaller screens */
         }
         
-        .blog-meta {
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #dee2e6;
+        /* Remove old post-image styles */
+        .post-image {
+            display: none;
         }
         
-        .category-badge {
-            display: inline-block;
-            padding: 0.35em 0.65em;
-            font-size: 0.85em;
+        .post-content {
+            padding: 60px 0;
+        }
+        
+        .post-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+        }
+        
+        .post-content h2 {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        
+        .post-content h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
             font-weight: 600;
-            line-height: 1;
+            color: var(--dark-color);
+        }
+        
+        .post-content ul, 
+        .post-content ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .post-content li {
+            margin-bottom: 10px;
+        }
+        
+        .post-content blockquote {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        
+        /* Related Posts Section */
+        .related-posts {
+            padding: 60px 0;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .related-posts h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--dark-color);
             text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: 30px;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            border-width: 1px;
-            border-style: solid;
         }
         
-        .related-card {
-            transition: transform 0.3s, box-shadow 0.3s;
+        .related-post-card {
+            display: block;
+            text-decoration: none;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 100%;
-            border: none;
         }
         
-        .related-card:hover {
+        .related-post-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
         
-        .related-image {
-            height: 180px;
+        .related-post-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .related-post-img img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            transition: transform 0.5s ease;
         }
         
-        .related-title {
+        .related-post-card:hover .related-post-img img {
+            transform: scale(1.05);
+        }
+        
+        .related-post-content {
+            padding: 20px;
+        }
+        
+        .related-post-title {
+            font-size: 1.1rem;
             font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            line-height: 1.4;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
-            height: 50px;
         }
         
-        /* Table of Contents */
-        .toc {
-            background-color: #f8f9fa;
-        border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .related-post-date {
+            font-size: 0.8rem;
+            color: var(--gray-color);
         }
         
-        .toc-title {
-            font-weight: 700;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #dee2e6;
-            padding-bottom: 0.5rem;
+        /* Share Buttons */
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
         }
         
-        .toc ul {
-        padding-left: 1.5rem;
-        }
-        
-        .toc li {
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Share buttons */
-        .share-container {
-            margin: 3rem 0;
-            text-align: center;
+        .share-title {
+            font-weight: 600;
+            margin-right: 15px;
+            color: var(--dark-color);
         }
         
         .share-button {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-        justify-content: center;
+            justify-content: center;
             width: 40px;
             height: 40px;
+            background-color: #f5f5f5;
+            color: var(--gray-color);
             border-radius: 50%;
-            color: white;
-            margin: 0 5px;
-            transition: transform 0.3s;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
         
         .share-button:hover {
-            transform: translateY(-3px);
+            color: white;
         }
         
-        .share-facebook {
+        .share-facebook:hover {
             background-color: #3b5998;
         }
         
-        .share-twitter {
+        .share-twitter:hover {
             background-color: #1da1f2;
         }
         
-        .share-linkedin {
+        .share-linkedin:hover {
             background-color: #0077b5;
         }
         
-        .share-pinterest {
+        .share-pinterest:hover {
             background-color: #bd081c;
+        }
+        
+        .back-to-blogs {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .back-to-blogs i {
+            margin-right: 8px;
+        }
+        
+        .back-to-blogs:hover {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+        }
+        
+        /* Footer Section */
+        .footer-section {
+            background-color: #000;
+            padding: 60px 0 20px;
+            color: #f8f9fa;
+        }
+        
+        .footer-section h4 {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+        
+        .footer-logo {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 15px;
+            background-color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .footer-logo p {
+            color: #d1d1d1;
+        }
+        
+        /* Footer Links */
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        a{
+            text-decoration: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links li a {
+            color: #d1d1d1;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+        
+        .footer-links li a:hover {
+            color: #fff;
+        }
+        
+        .footer-links li i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        /* Social Icons */
+        .social-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 50%;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Footer Bottom */
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-bottom p {
+            margin: 0;
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+        
+        .footer-bottom ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .footer-bottom ul li {
+            margin-left: 20px;
+        }
+        
+        .footer-bottom ul li a {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-bottom ul li a:hover {
+            color: #fff;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .post-title {
+                font-size: 2.2rem;
+            }
+            
+            .related-post-img {
+                height: 180px;
+            }
+            
+            .post-content p {
+                font-size: 1rem;
+            }
+            
+            .footer-section .col-md-6 {
+                margin-bottom: 40px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-bottom ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            .footer-bottom ul li {
+                margin: 0 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .post-header {
+                padding: 40px 0;
+            }
+            
+            .post-title {
+                font-size: 1.8rem;
+            }
+            
+            .post-content {
+                padding: 40px 0;
+            }
+            
+            .share-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .featured-image {
+                width: 280px; /* Smaller on mobile */
+                height: 280px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Table of Contents */
+        .table-of-contents {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .toc-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .toc-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .toc-list {
+            padding-left: 20px;
+            list-style: none;
+        }
+        
+        .toc-list li {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .toc-list a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: inline-block;
+        }
+        
+        .toc-list a:hover {
+            color: var(--primary-color);
+        }
+        
+        .toc-h3 {
+            padding-left: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Author Info - removed as requested */
+        .author-info,
+        .author-avatar,
+        .author-details {
+            display: none;
+        }
+        
+        /* Reading Time */
+        .reading-time {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-left: 20px;
+        }
+        
+        .reading-time i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+        
+        /* Post Navigation */
+        .post-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        .nav-previous,
+        .nav-next {
+            flex: 0 0 48%;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-link {
+            display: block;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: #e9ecef;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-label {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .nav-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 1rem;
+            transition: color 0.3s;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .nav-link:hover .nav-title {
+            color: var(--primary-color);
+        }
+        
+        /* Copy Link Button */
+        .share-copy {
+            background-color: #f5f5f5;
+        }
+        
+        .share-copy:hover {
+            background-color: #4CAF50;
         }
     </style>
 </head>
 <body>
-    <!-- Header/Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <!-- Navbar -->
+    <header class="navbar">
         <div class="container">
-            <a class="navbar-brand" href="../index.php">
-                <img src="../public/logo.png" alt="Logo" height="40">
+            <!-- Logo -->
+            <a href="/" class="navbar-logo">
+                <img src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" alt="SortOut Innovation" />
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-        </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/about-us.html">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/contact-us.html">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active fw-bold" href="index.php">Blog</a>
-                    </li>
-        </ul>
-    </div>
-    </div>
-</nav>
 
-    <!-- Blog Header -->
-    <header class="blog-header">
-        <div class="container text-center">
-            <div class="blog-container">
-                <h1 class="display-4 fw-bold mb-4"><?= htmlspecialchars($blog['title']) ?></h1>
-                
-                <!-- Categories -->
-                <div class="mb-4">
-                    <?php if (count($blog['categories_array']) > 0): ?>
-                        <?php foreach ($blog['categories_array'] as $category): ?>
-<?php
-                                $colors = $category_colors[$category] ?? [
-                                    'bg' => 'bg-secondary bg-opacity-10',
-                                    'text' => 'text-white',
-                                    'border' => 'border-white'
-                                ];
-                                // Force white text for header categories
-                                $colors['text'] = 'text-white';
-                                $colors['bg'] = 'bg-white bg-opacity-10';
-                                $colors['border'] = 'border-white';
-                            ?>
-                            <span class="category-badge <?= $colors['bg'] ?> <?= $colors['text'] ?> <?= $colors['border'] ?>">
-                                <?= htmlspecialchars($category) ?>
-                            </span>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <span class="category-badge bg-white bg-opacity-10 text-white border-white">
-                            Uncategorized
-                        </span>
-                    <?php endif; ?>
-    </div>
+            <!-- Navigation Links -->
+            <nav class="navbar-links">
+                <ul>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
+                    <li><a href="/pages/career.html" class="nav-link">Jobs</a></li>
+                    <li><a href="/modal_agency.php" class="nav-link">Find Talent</a></li>
+                    <li><a href="/pages/our-services-page/service.html" class="nav-link">Service</a></li>
+                    <li><a href="/pages/contact-page/contact-page.html" class="nav-link">Contact</a></li>
+                    <li><a href="/blog/index.php" class="nav-link active">Blog</a></li>
+                </ul>
+            </nav>
 
-                <!-- Meta info -->
-                <div class="d-flex justify-content-center text-white-50">
-                    <span class="me-3"><i class="far fa-calendar-alt me-1"></i> <?= $blog['formatted_date'] ?></span>
-                    <span><i class="far fa-clock me-1"></i> <?= $reading_time ?> min read</span>
+            <!-- Mobile Menu Button -->
+            <button class="navbar-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-    </div>
-</div>
     </header>
 
-    <!-- Main Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <!-- Featured Image -->
-                <?php if ($blog['image_url']): ?>
-                    <img src="<?= htmlspecialchars($blog['image_url']) ?>" 
-                         alt="<?= htmlspecialchars($blog['image_alt'] ?: $blog['title']) ?>" 
-                         class="featured-image shadow">
-                <?php endif; ?>
-                
-                <!-- Blog Meta -->
-                <div class="blog-meta">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div>
-                            <span><i class="far fa-calendar-alt me-1"></i> <?= $blog['formatted_date'] ?></span>
-                            <span class="ms-3"><i class="far fa-clock me-1"></i> <?= $reading_time ?> min read</span>
-                        </div>
-                        <div class="mt-2 mt-md-0">
-                            <a href="index.php" class="btn btn-sm btn-outline-secondary">
-                                <i class="fas fa-arrow-left me-1"></i> Back to Blog
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Content -->
-                <div class="blog-content">
-                    <?= $blog['content'] ?>
-                </div>
-                
-                <!-- Share Buttons -->
-                <div class="share-container">
-                    <h5 class="mb-3">Share this article</h5>
-                    <div>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($current_url) ?>" 
-                           target="_blank" class="share-button share-facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://twitter.com/intent/tweet?url=<?= urlencode($current_url) ?>&text=<?= urlencode($blog['title']) ?>" 
-                           target="_blank" class="share-button share-twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= urlencode($current_url) ?>&title=<?= urlencode($blog['title']) ?>" 
-                           target="_blank" class="share-button share-linkedin">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://pinterest.com/pin/create/button/?url=<?= urlencode($current_url) ?>&media=<?= urlencode($blog['image_url']) ?>&description=<?= urlencode($blog['title']) ?>" 
-                           target="_blank" class="share-button share-pinterest">
-                            <i class="fab fa-pinterest-p"></i>
-                        </a>
-    </div>
-</div>
-
-                <!-- Tags -->
-                <?php if (count($blog['categories_array']) > 0): ?>
-                    <div class="mt-5">
-                        <h5 class="mb-3">Tags</h5>
-                        <?php foreach ($blog['categories_array'] as $category): ?>
-                            <?php 
-                                $colors = $category_colors[$category] ?? [
-                                    'bg' => 'bg-secondary bg-opacity-10',
-                                    'text' => 'text-secondary',
-                                    'border' => 'border-secondary'
-                                ];
-                            ?>
-                            <a href="index.php?category=<?= urlencode($category) ?>" class="text-decoration-none">
-                                <span class="category-badge <?= $colors['bg'] ?> <?= $colors['text'] ?> <?= $colors['border'] ?>">
-                                    <?= htmlspecialchars($category) ?>
-                                </span>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-        
-        <!-- Related Posts -->
-        <?php if (count($related_posts) > 0): ?>
-            <div class="row mt-5">
-                <div class="col-lg-8 mx-auto">
-                    <h3 class="mb-4">Related Articles</h3>
-                </div>
-            </div>
-            <div class="row">
-                <?php foreach ($related_posts as $related): ?>
-                    <div class="col-md-4 mb-4">
-                        <div class="related-card card shadow-sm h-100">
-                            <?php if ($related['image_url']): ?>
-                                <img src="<?= htmlspecialchars($related['image_url']) ?>" 
-                                     alt="<?= htmlspecialchars($related['image_alt'] ?: $related['title']) ?>" 
-                                     class="related-image">
-                            <?php else: ?>
-                                <div class="related-image bg-light d-flex align-items-center justify-content-center">
-                                    <i class="fas fa-image fa-3x text-muted"></i>
-                                </div>
-                            <?php endif; ?>
-                            
-                            <div class="card-body">
-                                <h5 class="related-title">
-                                    <a href="post.php?slug=<?= urlencode($related['slug']) ?>" class="text-decoration-none text-dark">
-                                        <?= htmlspecialchars($related['title']) ?>
-                                    </a>
-                                </h5>
-                                
-                                <div class="mt-2 text-muted">
-                                    <small><i class="far fa-calendar-alt me-1"></i> <?= $related['formatted_date'] ?></small>
-                                </div>
-                                
-                                <a href="post.php?slug=<?= urlencode($related['slug']) ?>" class="btn btn-outline-primary btn-sm mt-3">
-                                    Read Article
+    <!-- Post Header -->
+    <section class="post-header">
+        <div class="container">
+            <a href="index.php" class="back-to-blogs">
+                <i class="fas fa-arrow-left"></i> Back to Blogs
             </a>
+            
+            <h1 class="post-title"><?php echo htmlspecialchars($blog['title']); ?></h1>
+            
+            <div class="post-meta">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i> <?php echo $formatted_date; ?>
+                </div>
+                
+                <div class="reading-time">
+                    <i class="far fa-clock"></i> <?php echo $reading_time; ?> min read
+                </div>
+                
+                <?php if(!empty($categories)): ?>
+                <div class="post-categories">
+                    <?php foreach($categories as $category): ?>
+                        <a href="index.php?category=<?php echo urlencode($category); ?>" class="post-category">
+                            <?php echo htmlspecialchars($category); ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+            </div>
         </div>
-                        </div>
+    </section>
+
+    <!-- Post Content -->
+    <article class="post-content">
+        <div class="container">
+            <?php if(!empty($blog['image_url'])): ?>
+            <img src="<?php echo htmlspecialchars($blog['image_url']); ?>" alt="<?php echo htmlspecialchars($blog['title']); ?>" class="featured-image">
+            <?php endif; ?>
+            
+            <?php if($needs_toc && count($headings) > 0): ?>
+            <div class="table-of-contents">
+                <h3 class="toc-title"><i class="fas fa-list"></i> Table of Contents</h3>
+                <ul class="toc-list">
+                    <?php foreach($headings as $heading): ?>
+                        <li class="<?php echo $heading['level'] == 3 ? 'toc-h3' : ''; ?>">
+                            <a href="#<?php echo $heading['id']; ?>"><?php echo $heading['text']; ?></a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+            
+            <div class="post-body">
+                <?php echo $blog['content']; ?>
+            </div>
+            
+            <!-- Share Buttons -->
+            <div class="share-buttons">
+                <span class="share-title">Share:</span>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" target="_blank" class="share-button share-facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&text=<?php echo urlencode($blog['title']); ?>" target="_blank" class="share-button share-twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&title=<?php echo urlencode($blog['title']); ?>" target="_blank" class="share-button share-linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://pinterest.com/pin/create/button/?url=<?php echo urlencode('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&media=<?php echo urlencode($blog['image_url']); ?>&description=<?php echo urlencode($blog['title']); ?>" target="_blank" class="share-button share-pinterest">
+                    <i class="fab fa-pinterest-p"></i>
+                </a>
+                <button class="share-button share-copy" id="copyLinkBtn" data-url="<?php echo htmlspecialchars('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>">
+                    <i class="fas fa-link"></i>
+                </button>
+            </div>
+            
+            <!-- Post Navigation -->
+            <?php if($prev_post || $next_post): ?>
+            <div class="post-navigation">
+                <?php if($prev_post): ?>
+                <div class="nav-previous">
+                    <a href="post.php?id=<?php echo $prev_post['id']; ?>" class="nav-link">
+                        <span class="nav-label"><i class="fas fa-arrow-left mr-1"></i> Previous Post</span>
+                        <div class="nav-title"><?php echo htmlspecialchars($prev_post['title']); ?></div>
+                    </a>
+                </div>
+                <?php else: ?>
+                <div class="nav-previous"></div>
+                <?php endif; ?>
+                
+                <?php if($next_post): ?>
+                <div class="nav-next">
+                    <a href="post.php?id=<?php echo $next_post['id']; ?>" class="nav-link">
+                        <span class="nav-label">Next Post <i class="fas fa-arrow-right ml-1"></i></span>
+                        <div class="nav-title"><?php echo htmlspecialchars($next_post['title']); ?></div>
+                    </a>
+                </div>
+                <?php else: ?>
+                <div class="nav-next"></div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+        </div>
+    </article>
+    
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Related Posts -->
+    <?php if(!empty($related_posts)): ?>
+    <section class="related-posts">
+        <div class="container">
+            <h2>You Might Also Like</h2>
+            
+            <div class="row">
+                <?php foreach($related_posts as $related): ?>
+                    <?php 
+                        $related_date = new DateTime($related['created_at']);
+                        $related_formatted_date = $related_date->format('M d, Y');
+                    ?>
+                    <div class="col-md-4 mb-4">
+                        <a href="post.php?id=<?php echo $related['id']; ?>" class="related-post-card">
+                            <div class="related-post-img">
+                                <?php if(!empty($related['image_url'])): ?>
+                                    <img src="<?php echo htmlspecialchars($related['image_url']); ?>" alt="<?php echo htmlspecialchars($related['title']); ?>">
+                                <?php else: ?>
+                                    <img src="../public/images/blog-placeholder.jpg" alt="<?php echo htmlspecialchars($related['title']); ?>">
+                                <?php endif; ?>
+                            </div>
+                            <div class="related-post-content">
+                                <h3 class="related-post-title"><?php echo htmlspecialchars($related['title']); ?></h3>
+                                <div class="related-post-date">
+                                    <i class="far fa-calendar-alt"></i> <?php echo $related_formatted_date; ?>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 <?php endforeach; ?>
             </div>
-        <?php endif; ?>
-    </div>
+        </div>
+    </section>
+    <?php endif; ?>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-5 mt-5">
+    <footer class="footer-section">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="mb-3">About Us</h5>
-                    <p class="text-muted">We provide valuable insights and information through our blog to help you make informed decisions.</p>
+                <!-- Column 1: Company Info -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-logo">
+                        <img src="/images/sortoutInnovation-icon/Sortout innovation.jpg" alt="SortOut Innovation" />
+                        <p class="text-center">
+                            Empowering businesses with top-notch solutions in digital, IT, and business services.
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="../index.php" class="text-decoration-none text-muted">Home</a></li>
-                        <li><a href="../pages/about-us.html" class="text-decoration-none text-muted">About</a></li>
-                        <li><a href="../pages/contact-us.html" class="text-decoration-none text-muted">Contact</a></li>
-                        <li><a href="index.php" class="text-decoration-none text-muted">Blog</a></li>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/about-page/about.html">About Us</a></li>
+                        <li><a href="/pages/contact-page/contact-page.html">Contact</a></li>
+                        <li><a href="/pages/career.html">Careers</a></li>
+                        <li><a href="/pages/our-services-page/service.html">Services</a></li>
+                        <li><a href="/blog/index.php">Blogs</a></li>
+                        <li><a href="/auth/register.php">Register</a></li>
+                        <li><a href="/modal_agency.php">talent</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="mb-3">Connect with Us</h5>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-muted fs-5"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-muted fs-5"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-muted fs-5"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="text-muted fs-5"><i class="fab fa-instagram"></i></a>
+
+                <!-- Column 3: Our Services -->
+                <div class="col-lg-2 col-md-6">
+                    <h4>Our Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="/pages/services/socialMediaInfluencers.html">Digital Marketing</a></li>
+                        <li><a href="/pages/services/itServices.html">IT Support</a></li>
+                        <li><a href="/pages/services/caServices.html">CA Services</a></li>
+                        <li><a href="/pages/services/hrServices.html">HR Services</a></li>
+                        <li><a href="/pages/services/courierServices.html">Courier Services</a></li>
+                        <li><a href="/pages/services/shipping.html">Shipping & Fulfillment</a></li>
+                        <li><a href="/pages/services/stationeryServices.html">Stationery Services</a></li>
+                        <li><a href="/pages/services/propertyServices.html">Real Estate & Property</a></li>
+                        <li><a href="/pages/services/event-managementServices.html">Event Management</a></li>
+                        <li><a href="/pages/services/designAndCreative.html">Design & Creative</a></li>
+                        <li><a href="/pages/services/designAndCreative.html">Web & App Development</a></li>
+                        <li><a href="/pages/talent.page/talent.html">Find Talent</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact Info -->
+                <div class="col-lg-3 col-md-6">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+919818559036">+91 9818559036</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@sortoutinnovation.com">info@sortoutinnovation.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> Spaze i-Tech Park, Gurugram, India
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 5: Social Media -->
+                <div class="col-lg-2 col-md-6">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/profile.php?id=61556452066209"><i class="fab fa-facebook"></i></a>
+                        <a href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.linkedin.com/company/sortout-innovation/"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/sortoutinnovation"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
-            <hr class="my-4">
-            <div class="text-center text-muted">
-                <p class="mb-0">&copy; 2024 Blog. All rights reserved.</p>
+
+            <!-- Copyright & Legal Links -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 SortOut Innovation. All Rights Reserved.</p>
+                <ul>
+                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                </ul>
             </div>
-    </div>
-</footer>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Navbar Script -->
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbarToggle = document.querySelector(".navbar-toggle");
+            const navbarLinks = document.querySelector(".navbar-links");
+
+            navbarToggle.addEventListener("click", () => {
+                navbarLinks.classList.toggle("active");
+            });
+
+            // Sticky Navbar on Scroll
+            window.addEventListener("scroll", () => {
+                const navbar = document.querySelector(".navbar");
+                if (window.scrollY > 50) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            });
+            
+            // Back to Top Button
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Copy Link Button
+            const copyLinkBtn = document.getElementById('copyLinkBtn');
+            
+            if (copyLinkBtn) {
+                copyLinkBtn.addEventListener('click', () => {
+                    const url = copyLinkBtn.getAttribute('data-url');
+                    
+                    // Create a temporary input element
+                    const tempInput = document.createElement('input');
+                    tempInput.value = url;
+                    document.body.appendChild(tempInput);
+                    
+                    // Select and copy the URL
+                    tempInput.select();
+                    document.execCommand('copy');
+                    
+                    // Remove the temporary input
+                    document.body.removeChild(tempInput);
+                    
+                    // Provide visual feedback
+                    const originalIcon = copyLinkBtn.innerHTML;
+                    copyLinkBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    copyLinkBtn.style.backgroundColor = '#4CAF50';
+                    copyLinkBtn.style.color = 'white';
+                    
+                    // Restore original icon after 2 seconds
+                    setTimeout(() => {
+                        copyLinkBtn.innerHTML = originalIcon;
+                        copyLinkBtn.style.backgroundColor = '';
+                        copyLinkBtn.style.color = '';
+                    }, 2000);
+                });
+            }
+            
+            // Smooth scroll for table of contents links
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        // Offset for fixed header
+                        const offset = 100;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
