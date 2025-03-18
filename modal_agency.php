@@ -475,8 +475,8 @@ body.modal-open {
     max-width: 80%;
     max-height: 60px;
     object-fit: contain;
-    filter: grayscale(100%);
-    opacity: 0.7;
+    filter: grayscale(0%);
+    opacity: 1;
     transition: all 0.3s ease;
   }
   
@@ -1591,54 +1591,54 @@ document.addEventListener('DOMContentLoaded', function() {
                     <!-- First set of logos -->
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/chingari1.jpeg" alt="Chingari" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/nykaa.png" alt="Chingari" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/disco2.jpeg" alt="Disco" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/paytm.png" alt="Disco" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/josh13.jpeg" alt="Josh" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/phone-pay.png" alt="Josh" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/me4.jpeg" alt="ME" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/Reliance-Retail.png" alt="ME" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/meesho14.png" alt="Meesho" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/sbi-bank.png" alt="Meesho" class="client-logo">
                         </div>
     </div>
 
                     <!-- Duplicate set for seamless scrolling -->
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/chingari1.jpeg" alt="Chingari" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/amazon.png" alt="Chingari" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/disco2.jpeg" alt="Disco" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/capmine.png" alt="Disco" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/josh13.jpeg" alt="Josh" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/congnizant.png" alt="Josh" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/me4.jpeg" alt="ME" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/hcl.png" alt="ME" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/meesho14.png" alt="Meesho" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/ibm.png" alt="Meesho" class="client-logo">
                         </div>
                     </div>
                 </div>
@@ -1650,54 +1650,54 @@ document.addEventListener('DOMContentLoaded', function() {
                     <!-- First set of logos -->
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/meesho14.png" alt="Meesho" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/infoses.png" alt="Meesho" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/me4.jpeg" alt="ME" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/tata.png" alt="ME" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/josh13.jpeg" alt="Josh" class="client-logo">
+                            <img src="/images/company-images/improved-logos/it-images/techMahindra.png" alt="Josh" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/disco2.jpeg" alt="Disco" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/axis-bank.png" alt="Disco" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/chingari1.jpeg" alt="Chingari" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/bajaj.png" alt="Chingari" class="client-logo">
                         </div>
     </div>
 
                     <!-- Duplicate set for seamless scrolling -->
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/meesho14.png" alt="Meesho" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/big-basket.png" alt="Meesho" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/me4.jpeg" alt="ME" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/flipkart.png" alt="ME" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/josh13.jpeg" alt="Josh" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/google-pay.png" alt="Josh" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/disco2.jpeg" alt="Disco" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/hdfc.png" alt="Disco" class="client-logo">
                         </div>
                     </div>
                     <div class="logo-scroll-item">
                         <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/chingari1.jpeg" alt="Chingari" class="client-logo">
+                            <img src="/images/company-images/improved-logos/banking-logo/ICICI.png" alt="Chingari" class="client-logo">
                         </div>
                     </div>
         </div>
@@ -1705,112 +1705,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
         
         <!-- Call to Action -->
-        <div class="text-center mt-12">
+        <!-- <div class="text-center mt-12">
             <a href="#" class="inline-block px-8 py-3 bg-white text-gray-800 border border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 font-poppins font-semibold shadow-sm">
                 View All Partners <i class="fas fa-arrow-right ml-2"></i>
             </a>
-        </div>
+        </div> -->
     </div>
 </section>
 
-<!-- ✅ Categories Showcase Section -->
-<section class="categories-section">
-    <div class="relative z-10 text-center max-w-6xl mx-auto px-6">
-        <h2 class="categories-title text-4xl md:text-5xl">Explore Our Categories</h2>
-        <p class="categories-subtitle text-base md:text-lg">Discover our diverse range of talent categories and find the perfect match for your next project</p>
-        
-        <!-- ✅ Categories Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <!-- Live Streaming Host -->
-            <div class="category-card" style="--category-color-from: #ff4757; --category-color-to: #ff6b81;">
-                <div class="category-card-content">
-                    <i class="fas fa-video category-icon"></i>
-                    <h3 class="category-name">Live Streaming Host</h3>
-                    <p class="category-count">24 Talents Available</p>
-                </div>
-            </div>
-            
-            <!-- YouTubers -->
-            <div class="category-card" style="--category-color-from: #2e86de; --category-color-to: #54a0ff;">
-                <div class="category-card-content">
-                    <i class="fab fa-youtube category-icon"></i>
-                    <h3 class="category-name">YouTubers</h3>
-                    <p class="category-count">36 Talents Available</p>
-                </div>
-            </div>
-            
-            <!-- Social Media Influencers -->
-            <div class="category-card" style="--category-color-from: #ffa502; --category-color-to: #ffcc00;">
-                <div class="category-card-content">
-                    <i class="fas fa-hashtag category-icon"></i>
-                    <h3 class="category-name">Social Media Influencers</h3>
-                    <p class="category-count">42 Talents Available</p>
-        </div>
-            </div>
-            
-            <!-- Hollywood Artist -->
-            <div class="category-card" style="--category-color-from: #20bf6b; --category-color-to: #26de81;">
-                <div class="category-card-content">
-                    <i class="fas fa-film category-icon"></i>
-                    <h3 class="category-name">Hollywood Artist</h3>
-                    <p class="category-count">18 Talents Available</p>
-    </div>
-</div>
 
-            <!-- Mobile/PC Gamers -->
-            <div class="category-card" style="--category-color-from: #8e44ad; --category-color-to: #9b59b6;">
-                <div class="category-card-content">
-                    <i class="fas fa-gamepad category-icon"></i>
-                    <h3 class="category-name">Mobile/PC Gamers</h3>
-                    <p class="category-count">29 Talents Available</p>
-                </div>
-            </div>
-            
-            <!-- Short Video Creators -->
-            <div class="category-card" style="--category-color-from: #f39c12; --category-color-to: #f1c40f;">
-                <div class="category-card-content">
-                    <i class="fas fa-video category-icon"></i>
-                    <h3 class="category-name">Short Video Creators</h3>
-                    <p class="category-count">31 Talents Available</p>
-                </div>
-            </div>
-            
-            <!-- Podcast Hosts -->
-            <div class="category-card" style="--category-color-from: #e84393; --category-color-to: #fd79a8;">
-                <div class="category-card-content">
-                    <i class="fas fa-microphone category-icon"></i>
-                    <h3 class="category-name">Podcast Hosts</h3>
-                    <p class="category-count">15 Talents Available</p>
-                </div>
-            </div>
-            
-            <!-- Lifestyle Bloggers/Vloggers -->
-            <div class="category-card" style="--category-color-from: #6c5ce7; --category-color-to: #a29bfe;">
-                <div class="category-card-content">
-                    <i class="fas fa-blog category-icon"></i>
-                    <h3 class="category-name">Lifestyle Bloggers</h3>
-                    <p class="category-count">27 Talents Available</p>
-                </div>
-            </div>
-            
-            <!-- Fitness Influencers -->
-            <div class="category-card" style="--category-color-from: #00b894; --category-color-to: #55efc4;">
-                <div class="category-card-content">
-                    <i class="fas fa-dumbbell category-icon"></i>
-                    <h3 class="category-name">Fitness Influencers</h3>
-                    <p class="category-count">22 Talents Available</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- View All Categories Button -->
-        <div class="mt-12">
-            <a href="#" class="inline-block px-8 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full hover:from-red-600 hover:to-pink-600 transition-all duration-300 font-poppins font-semibold shadow-md">
-                View All Categories <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
-    </div>
-</section>
 
 <!-- ✅ Clients Section -->
 <section class="py-16 bg-gradient-to-b from-gray-50 to-white">
@@ -2122,6 +2025,94 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </section>
 
+<!-- ✅ Categories Showcase Section -->
+<!-- <section class="categories-section">
+    <div class="relative z-10 text-center max-w-6xl mx-auto px-6">
+        <h2 class="categories-title text-4xl md:text-5xl">Explore Our Categories</h2>
+        <p class="categories-subtitle text-base md:text-lg">Discover our diverse range of talent categories and find the perfect match for your next project</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div class="category-card" style="--category-color-from: #ff4757; --category-color-to: #ff6b81;">
+                <div class="category-card-content">
+                    <i class="fas fa-video category-icon"></i>
+                    <h3 class="category-name">Live Streaming Host</h3>
+                    <p class="category-count">24 Talents Available</p>
+                </div>
+            </div>
+            
+            <div class="category-card" style="--category-color-from: #2e86de; --category-color-to: #54a0ff;">
+                <div class="category-card-content">
+                    <i class="fab fa-youtube category-icon"></i>
+                    <h3 class="category-name">YouTubers</h3>
+                    <p class="category-count">36 Talents Available</p>
+                </div>
+            </div>
+            
+            <div class="category-card" style="--category-color-from: #ffa502; --category-color-to: #ffcc00;">
+                <div class="category-card-content">
+                    <i class="fas fa-hashtag category-icon"></i>
+                    <h3 class="category-name">Social Media Influencers</h3>
+                    <p class="category-count">42 Talents Available</p>
+        </div>
+            </div>
+            
+            <div class="category-card" style="--category-color-from: #20bf6b; --category-color-to: #26de81;">
+                <div class="category-card-content">
+                    <i class="fas fa-film category-icon"></i>
+                    <h3 class="category-name">Hollywood Artist</h3>
+                    <p class="category-count">18 Talents Available</p>
+    </div>
+</div>
+
+            <div class="category-card" style="--category-color-from: #8e44ad; --category-color-to: #9b59b6;">
+                <div class="category-card-content">
+                    <i class="fas fa-gamepad category-icon"></i>
+                    <h3 class="category-name">Mobile/PC Gamers</h3>
+                    <p class="category-count">29 Talents Available</p>
+                </div>
+            </div>
+            
+            <div class="category-card" style="--category-color-from: #f39c12; --category-color-to: #f1c40f;">
+                <div class="category-card-content">
+                    <i class="fas fa-video category-icon"></i>
+                    <h3 class="category-name">Short Video Creators</h3>
+                    <p class="category-count">31 Talents Available</p>
+                </div>
+            </div>
+            
+            <div class="category-card" style="--category-color-from: #e84393; --category-color-to: #fd79a8;">
+                <div class="category-card-content">
+                    <i class="fas fa-microphone category-icon"></i>
+                    <h3 class="category-name">Podcast Hosts</h3>
+                    <p class="category-count">15 Talents Available</p>
+                </div>
+            </div>
+            
+            <div class="category-card" style="--category-color-from: #6c5ce7; --category-color-to: #a29bfe;">
+                <div class="category-card-content">
+                    <i class="fas fa-blog category-icon"></i>
+                    <h3 class="category-name">Lifestyle Bloggers</h3>
+                    <p class="category-count">27 Talents Available</p>
+                </div>
+            </div>
+            
+            <div class="category-card" style="--category-color-from: #00b894; --category-color-to: #55efc4;">
+                <div class="category-card-content">
+                    <i class="fas fa-dumbbell category-icon"></i>
+                    <h3 class="category-name">Fitness Influencers</h3>
+                    <p class="category-count">22 Talents Available</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-12">
+            <a href="#" class="inline-block px-8 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full hover:from-red-600 hover:to-pink-600 transition-all duration-300 font-poppins font-semibold shadow-md">
+                View All Categories <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section> -->
+
 <!-- ✅ Fully Responsive About Section -->
 <div class="relative w-full h-auto lg:h-[80vh] flex flex-col lg:flex-row items-center bg-cover bg-center" 
     style="background-image: url('/images/section-background-1.jpg');">
@@ -2131,7 +2122,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- ✅ Content Section (Now Centered on Mobile, Left on Large Screens) -->
     <div class="relative z-10 w-full lg:w-1/2 ml-auto px-6 lg:px-16 py-12 text-white text-center lg:text-left">
-        <h2 class="text-4xl lg:text-5xl font-bold font-[Montserrat]">About Agency</h2>
+        <h2 class="text-4xl lg:text-5xl font-bold font-[Montserrat]">About Us</h2>
         <p class="text-red-400 text-xl lg:text-2xl italic font-[Dancing Script] mt-2">Something You Need to Know</p>
 
         <p class="mt-4 text-md lg:text-lg font-light leading-relaxed font-[Poppins]">
