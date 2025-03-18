@@ -13,7 +13,7 @@ if (!empty($blog_slug)) {
 } else if ($blog_id > 0) {
     // Use ID as fallback
     $stmt = $conn->prepare("SELECT * FROM blogs WHERE id = ?");
-    $stmt->bind_param("i", $blog_id);
+$stmt->bind_param("i", $blog_id);
 } else {
     // Neither ID nor slug provided
     header("Location: index.php");
@@ -217,7 +217,7 @@ if ($needs_toc) {
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
         /* Reset and basic styling */
         * {
@@ -398,7 +398,7 @@ if ($needs_toc) {
             background-color: var(--primary-color);
             color: white;
             font-size: 0.75rem;
-            font-weight: 600;
+        font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             padding: 5px 10px;
@@ -412,23 +412,64 @@ if ($needs_toc) {
         }
         
         /* Post Image Styles - Direct image styling without container */
-        .post-content img {
+        .post-content img:not(.featured-image):not(.author-avatar) {
             max-width: 100%;
             height: auto;
-            margin: 20px 0;
-            border-radius: 5px;
+            display: block;
+            margin: 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Responsive image sizes for inline content images */
+        @media (min-width: 768px) {
+            .post-content img:not(.featured-image):not(.author-avatar) {
+                max-width: 85%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .post-content img:not(.featured-image):not(.author-avatar) {
+                max-width: 75%;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .post-content img:not(.featured-image):not(.author-avatar) {
+                max-width: 70%;
+            }
         }
         
         /* Featured Image - Instagram style */
         .featured-image {
             display: block;
-            width: 320px; /* Fixed width */
-            height: 320px; /* Fixed height */
+            width: 100%;
+            max-width: 500px; /* Default size */
+            height: auto;
+            aspect-ratio: 1/1; /* Square aspect ratio */
             object-fit: cover;
-            margin: 0 auto 40px;
+            margin: 0 auto 40px; /* Center the image */
             border-radius: 8px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            max-width: 100%; /* Prevent overflow on smaller screens */
+        }
+        
+        /* Responsive image sizes for different screens */
+        @media (min-width: 768px) {
+            .featured-image {
+                max-width: 600px; /* Larger on tablets */
+            }
+        }
+
+        @media (min-width: 992px) {
+            .featured-image {
+                max-width: 700px; /* Even larger on laptops */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .featured-image {
+                max-width: 800px; /* Largest on desktops */
+            }
         }
         
         /* Remove old post-image styles */
@@ -476,7 +517,7 @@ if ($needs_toc) {
             border-left: 4px solid var(--primary-color);
             padding: 20px;
             margin: 20px 0;
-            font-style: italic;
+        font-style: italic;
         }
         
         /* Related Posts Section */
@@ -498,7 +539,7 @@ if ($needs_toc) {
             display: block;
             text-decoration: none;
             background-color: white;
-            border-radius: 8px;
+        border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -549,8 +590,8 @@ if ($needs_toc) {
         
         /* Share Buttons */
         .share-buttons {
-            display: flex;
-            gap: 10px;
+        display: flex;
+        gap: 10px;
             margin-top: 40px;
             padding-top: 30px;
             border-top: 1px solid #eee;
@@ -763,7 +804,7 @@ if ($needs_toc) {
             }
             
             .footer-bottom {
-                flex-direction: column;
+            flex-direction: column;
                 text-align: center;
             }
             
@@ -966,8 +1007,8 @@ if ($needs_toc) {
         
         .share-copy:hover {
             background-color: #4CAF50;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <!-- Navbar -->
@@ -1045,7 +1086,7 @@ if ($needs_toc) {
                             <a href="#<?php echo $heading['id']; ?>"><?php echo $heading['text']; ?></a>
                         </li>
                     <?php endforeach; ?>
-                </ul>
+        </ul>
             </div>
             <?php endif; ?>
             
@@ -1063,8 +1104,8 @@ if ($needs_toc) {
                     <i class="fab fa-twitter"></i>
                 </a>
                 <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&title=<?php echo urlencode($blog['title']); ?>" target="_blank" class="share-button share-linkedin">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
+                <i class="fab fa-linkedin-in"></i>
+            </a>
                 <a href="https://pinterest.com/pin/create/button/?url=<?php echo urlencode('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&media=<?php echo urlencode($blog['image_url']); ?>&description=<?php echo urlencode($blog['title']); ?>" target="_blank" class="share-button share-pinterest">
                     <i class="fab fa-pinterest-p"></i>
                 </a>
@@ -1081,8 +1122,8 @@ if ($needs_toc) {
                     <a href="post.php?slug=<?php echo urlencode($prev_post['slug']); ?>" class="nav-link">
                         <span class="nav-label"><i class="fas fa-arrow-left mr-1"></i> Previous Post</span>
                         <div class="nav-title"><?php echo htmlspecialchars($prev_post['title']); ?></div>
-                    </a>
-                </div>
+            </a>
+        </div>
                 <?php else: ?>
                 <div class="nav-previous"></div>
                 <?php endif; ?>
@@ -1127,7 +1168,7 @@ if ($needs_toc) {
                                 <?php else: ?>
                                     <img src="../public/images/blog-placeholder.jpg" alt="<?php echo htmlspecialchars($related['title']); ?>">
                                 <?php endif; ?>
-                            </div>
+    </div>
                             <div class="related-post-content">
                                 <h3 class="related-post-title"><?php echo htmlspecialchars($related['title']); ?></h3>
                                 <div class="related-post-date">
@@ -1235,7 +1276,7 @@ if ($needs_toc) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Navbar Script -->
-    <script>
+<script>
         // Mobile Menu Toggle
         document.addEventListener('DOMContentLoaded', function() {
             const navbarToggle = document.querySelector(".navbar-toggle");

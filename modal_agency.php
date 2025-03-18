@@ -784,7 +784,7 @@ body.modal-open {
             <div class="form-group">
                 <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
                 <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-            </div>
+                </div>
 
             <!-- Age -->
             <div class="form-group">
@@ -796,7 +796,7 @@ body.modal-open {
             <div class="form-group">
                 <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
                 <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-</div>
+                </div>
 
             <!-- Gender -->
             <div class="form-group">
@@ -807,7 +807,7 @@ body.modal-open {
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                 </select>
-            </div>
+                </div>
 
             <!-- City -->
             <div class="form-group">
@@ -967,7 +967,7 @@ body.modal-open {
                         <option value="Health & Wellness Coach">Health & Wellness Coach</option>
                         <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
                     </select>
-                </div>
+</div>
 
                 <div class="form-group">
                     <label for="followers" class="block text-sm font-medium text-gray-700">Number of Followers</label>
@@ -1044,13 +1044,13 @@ body.modal-open {
                         <option value="Telecaller">Telecaller</option>
                         <option value="Office Administrator">Office Administrator</option>
                         <option value="Executive Assistant">Executive Assistant</option>
-                    </select>
-                </div>
+                </select>
+            </div>
 
                 <div class="form-group">
                     <label for="experience" class="block text-sm font-medium text-gray-700">Years of Experience</label>
                     <input type="number" id="experience" name="experience" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
+            </div>
 
                 <!-- Resume Upload Field -->
                 <div class="form-group">
@@ -1886,7 +1886,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <option value="Business Coach / Startup Mentor">Business Coach / Startup Mentor</option>
                         <option value="Health & Wellness Coach">Health & Wellness Coach</option>
                         <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
-                    </select>
+    </select>
                 </div>
 
                 <div class="filter-group">

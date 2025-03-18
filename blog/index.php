@@ -85,6 +85,10 @@ sort($allCategories);
             padding: 0;
             box-sizing: border-box;
         }
+
+        a{
+            text-decoration: none;
+        }
         
         :root {
             --primary-color: #d90429;
@@ -420,19 +424,28 @@ sort($allCategories);
         .blog-list {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
-            gap: 40px;
+            gap: 30px;
             margin-bottom: 60px;
+        }
+        
+        @media (min-width: 576px) {
+            .blog-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
         }
         
         @media (min-width: 768px) {
             .blog-list {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
             }
         }
         
         @media (min-width: 992px) {
             .blog-list {
                 grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
             }
         }
         
@@ -441,19 +454,23 @@ sort($allCategories);
             display: flex;
             flex-direction: column;
             background-color: #fff;
-            transition: transform 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 100%;
         }
         
         .blog-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
         
         .blog-img-container {
             width: 100%;
             position: relative;
             overflow: hidden;
-            aspect-ratio: 16/9;
+            aspect-ratio: 1/1;
             background-color: #f5f5f5;
         }
         
@@ -464,44 +481,76 @@ sort($allCategories);
             transition: transform 0.5s ease;
         }
         
+        /* Add responsive adjustments for different screen sizes */
+        @media (max-width: 767px) {
+            .blog-img-container {
+                aspect-ratio: 1/1; /* Keep square on mobile */
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .blog-img-container {
+                aspect-ratio: 1/1; /* Keep square on tablets */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .blog-img-container {
+                aspect-ratio: 1/1; /* Keep square on desktop */
+            }
+        }
+        
         .blog-card:hover .blog-img {
             transform: scale(1.05);
         }
         
         .blog-category {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background-color: var(--primary-color);
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 5px 10px;
-            border-radius: 3px;
+            letter-spacing: 0.5px;
+            padding: 6px 12px;
+            border-radius: 20px;
             z-index: 2;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .blog-content {
-            padding: 20px 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            background-color: #fff;
         }
         
         .blog-date {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--gray-color);
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .blog-date i {
+            margin-right: 5px;
         }
         
         .blog-title {
             font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-weight: 700;
+            margin-bottom: 12px;
             line-height: 1.4;
             color: var(--dark-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         
         .blog-excerpt {
@@ -509,6 +558,11 @@ sort($allCategories);
             color: var(--gray-color);
             margin-bottom: 15px;
             line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
         }
         
         .read-more {
@@ -883,7 +937,7 @@ sort($allCategories);
                             <div class="blog-date">
                                 <i class="far fa-calendar-alt me-2"></i> <?php echo $formatted_date; ?>
                             </div>
-                            
+
                             <h3 class="blog-title"><?php echo htmlspecialchars($blog['title']); ?></h3>
                             
                             <p class="blog-excerpt"><?php echo htmlspecialchars($excerpt); ?></p>
