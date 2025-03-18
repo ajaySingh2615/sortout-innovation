@@ -709,6 +709,8 @@ body.modal-open {
                 <div class="hidden md:flex space-x-6">
                     <a href="index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Home</a>
                     <a href="/pages/about-page/about.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">About</a>
+                    <a href="/pages/career.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Jobs</a>
+                    <a href="/modal_agency.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
                     <a href="/pages/our-services-page/service.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Services</a>
                     <a href="/pages/contact-page/contact-page.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Contact</a>
                     <a href="/blog/index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Blog</a>
@@ -738,9 +740,11 @@ body.modal-open {
         <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200">
             <div class="px-4 py-3 space-y-3">
                 <a href="index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Home</a>
-                <a href="#" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">About</a>
-                <a href="#" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
-                <a href="#" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
+                <a href="/pages/about-page/about.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">About</a>
+                <a href="/pages/career.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Jobs</a>
+                <a href="/modal_agency.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
+                <a href="/pages/our-services-page/service.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
+                <a href="/pages/contact-page/contact-page.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
                 <!-- Create Profile Button for Small Mobile -->
                 <button id="mobileCreateProfileBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 w-full sm:hidden mt-2 font-semibold tracking-wide">
                     Create Profile
