@@ -422,7 +422,7 @@ if ($needs_toc) {
         }
         
         /* Responsive image sizes for inline content images */
-        @media (min-width: 768px) {
+    @media (min-width: 768px) {
             .post-content img:not(.featured-image):not(.author-avatar) {
                 max-width: 85%;
             }
@@ -498,7 +498,7 @@ if ($needs_toc) {
         .post-content h3 {
             margin-top: 30px;
             margin-bottom: 15px;
-            font-weight: 600;
+        font-weight: 600;
             color: var(--dark-color);
         }
         

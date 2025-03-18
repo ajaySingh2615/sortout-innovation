@@ -162,8 +162,8 @@ try {
             throw new Exception("Invalid client ID");
         }
         
-        $query = "SELECT * FROM clients WHERE id = ?";
-        $stmt = mysqli_prepare($conn, $query);
+    $query = "SELECT * FROM clients WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $query);
         if (!$stmt) {
             throw new Exception("Failed to prepare statement");
         }
@@ -173,10 +173,10 @@ try {
             throw new Exception("Failed to execute query");
         }
         
-        $result = mysqli_stmt_get_result($stmt);
-        $client = mysqli_fetch_assoc($result);
-        
-        if (!$client) {
+    $result = mysqli_stmt_get_result($stmt);
+    $client = mysqli_fetch_assoc($result);
+
+    if (!$client) {
             throw new Exception("Client not found");
         }
         

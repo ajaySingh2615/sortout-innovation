@@ -860,7 +860,7 @@ sort($allCategories);
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
-                </div>
+    </div>
                 <div class="col-md-4">
                     <form action="index.php" method="GET" id="categoryForm">
                         <select name="category" class="filter-dropdown" onchange="this.form.submit()">
@@ -872,8 +872,8 @@ sort($allCategories);
                             <?php endforeach; ?>
                         </select>
                     </form>
-                </div>
-            </div>
+    </div>
+    </div>
         </div>
     </div>
 
@@ -931,12 +931,12 @@ sort($allCategories);
                             <?php else: ?>
                                 <img src="../public/images/blog-placeholder.jpg" alt="<?php echo htmlspecialchars($blog['title']); ?>" class="blog-img">
                             <?php endif; ?>
-                        </div>
+                    </div>
                         
                         <div class="blog-content">
                             <div class="blog-date">
                                 <i class="far fa-calendar-alt me-2"></i> <?php echo $formatted_date; ?>
-                            </div>
+                </div>
 
                             <h3 class="blog-title"><?php echo htmlspecialchars($blog['title']); ?></h3>
                             
@@ -944,9 +944,9 @@ sort($allCategories);
                             
                             <a href="post.php?slug=<?php echo urlencode($blog['slug']); ?>" class="read-more">
                                 Read More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
+                        </a>
                     </div>
+                </div>
                 <?php endforeach; ?>
             </div>
             
@@ -1033,7 +1033,7 @@ sort($allCategories);
                         <li><a href="/pages/services/designAndCreative.html">Web & App Development</a></li>
                         <li><a href="/pages/talent.page/talent.html">Find Talent</a></li>
                     </ul>
-                </div>
+</div>
 
                 <!-- Column 4: Contact Info -->
                 <div class="col-lg-3 col-md-6">
@@ -1062,8 +1062,8 @@ sort($allCategories);
                         <a href="https://www.linkedin.com/company/sortout-innovation/"><i class="fab fa-linkedin"></i></a>
                         <a href="https://www.instagram.com/sortoutinnovation"><i class="fab fa-instagram"></i></a>
                     </div>
-                </div>
-            </div>
+    </div>
+</div>
 
             <!-- Copyright & Legal Links -->
             <div class="footer-bottom">
@@ -1071,10 +1071,10 @@ sort($allCategories);
                 <ul>
                     <li><a href="/privacy-policy">Privacy Policy</a></li>
                     <li><a href="/terms">Terms & Conditions</a></li>
-                </ul>
+        </ul>
             </div>
-        </div>
-    </footer>
+    </div>
+</footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

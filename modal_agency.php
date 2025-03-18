@@ -1703,7 +1703,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </div>
-        
+
         <!-- Call to Action -->
         <!-- <div class="text-center mt-12">
             <a href="#" class="inline-block px-8 py-3 bg-white text-gray-800 border border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 font-poppins font-semibold shadow-sm">
@@ -1737,9 +1737,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button id="employeeFilterBtn" class="toggle-button px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 flex items-center gap-2">
                         <i class="fas fa-briefcase"></i>Employees
                     </button>
-                </div>
-            </div>
         </div>
+    </div>
+</div>
 
         <!-- Filters Container -->
         <div class="filters-container bg-white rounded-2xl shadow-lg p-6 mb-8">
@@ -1801,7 +1801,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <option value="50K-100K">50K - 100K</option>
                         <option value="100K-500K">100K - 500K</option>
                         <option value="500K+">500K+</option>
-                    </select>
+    </select>
                 </div>
 
                 <div class="filter-group">
@@ -2046,8 +2046,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3 class="category-name">YouTubers</h3>
                     <p class="category-count">36 Talents Available</p>
                 </div>
-            </div>
-            
+</div>
+
             <div class="category-card" style="--category-color-from: #ffa502; --category-color-to: #ffcc00;">
                 <div class="category-card-content">
                     <i class="fas fa-hashtag category-icon"></i>
@@ -2126,12 +2126,12 @@ document.addEventListener('DOMContentLoaded', function() {
         <p class="text-red-400 text-xl lg:text-2xl italic font-[Dancing Script] mt-2">Something You Need to Know</p>
 
         <p class="mt-4 text-md lg:text-lg font-light leading-relaxed font-[Poppins]">
-            We are a leading talent agency helping **models, influencers, and artists** showcase their potential and collaborate with top brands.  
-            With a vast network in the **entertainment & fashion industry**, we bring talent closer to their dreams.
+            We are a leading talent agency helping models, influencers, and artists showcase their potential and collaborate with top brands.  
+            With a vast network in the entertainment & fashion industry, we bring talent closer to their dreams.
         </p>
 
         <p class="mt-4 text-md lg:text-lg font-light font-[Poppins]">
-            Our agency believes in **creativity, excellence, and building long-lasting relationships** with artists. Whether you're a rising star or an experienced professional, we provide the right platform to grow and shine.
+            Our agency believes in creativity, excellence, and building long-lasting relationships with artists. Whether you're a rising star or an experienced professional, we provide the right platform to grow and shine.
         </p>
 
         <!-- ✅ About Us Button -->
@@ -2145,7 +2145,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="relative bg-gradient-to-r from-red-600 to-pink-500 text-white py-20 px-8 text-center">
     <h2 class="text-5xl font-extrabold tracking-wide leading-tight font-montserrat animate-fade-in">
         🚀 Show Your Talent?  
-        <br> Call Us Now to Know How! 🎭
+        <br> Call Us Now to Know How!
     </h2>
     
     <p class="mt-4 text-lg font-light max-w-3xl mx-auto font-poppins animate-slide-up">
