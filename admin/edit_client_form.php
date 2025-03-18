@@ -140,7 +140,72 @@ if (!$client_id) {
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Role</label>
-                            <input type="text" id="role" name="role" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                            <select id="role" name="role" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                                <option value="">Select Role</option>
+                                <option value="General Manager (GM)">General Manager (GM)</option>
+                                <option value="Business Development Manager (BDM)">Business Development Manager (BDM)</option>
+                                <option value="Project Manager">Project Manager</option>
+                                <option value="Human Resources Manager (HR Manager)">Human Resources Manager (HR Manager)</option>
+                                <option value="Talent Acquisition Manager">Talent Acquisition Manager</option>
+                                <option value="Recruitment Specialist">Recruitment Specialist</option>
+                                <option value="Sales Manager">Sales Manager</option>
+                                <option value="Marketing Manager">Marketing Manager</option>
+                                <option value="Digital Marketing Manager">Digital Marketing Manager</option>
+                                <option value="Social Media Manager">Social Media Manager</option>
+                                <option value="Brand Manager">Brand Manager</option>
+                                <option value="Public Relations Manager">Public Relations Manager</option>
+                                <option value="Content Marketing Manager">Content Marketing Manager</option>
+                                <option value="Financial Analyst">Financial Analyst</option>
+                                <option value="Investment Banker">Investment Banker</option>
+                                <option value="Chartered Accountant (CA)">Chartered Accountant (CA)</option>
+                                <option value="Risk Manager">Risk Manager</option>
+                                <option value="Wealth Manager">Wealth Manager</option>
+                                <option value="Software Engineer">Software Engineer</option>
+                                <option value="Data Scientist">Data Scientist</option>
+                                <option value="Cloud Architect">Cloud Architect</option>
+                                <option value="Cyber Security Analyst">Cyber Security Analyst</option>
+                                <option value="AI & Machine Learning Engineer">AI & Machine Learning Engineer</option>
+                                <option value="IT Manager">IT Manager</option>
+                                <option value="Web Developer">Web Developer</option>
+                                <option value="UI/UX Designer">UI/UX Designer</option>
+                                <option value="Product Manager">Product Manager</option>
+                                <option value="Operations Manager">Operations Manager</option>
+                                <option value="Supply Chain Manager">Supply Chain Manager</option>
+                                <option value="Logistics Manager">Logistics Manager</option>
+                                <option value="Quality Assurance Manager">Quality Assurance Manager</option>
+                                <option value="Compliance Manager">Compliance Manager</option>
+                                <option value="Legal Advisor">Legal Advisor</option>
+                                <option value="Corporate Lawyer">Corporate Lawyer</option>
+                                <option value="Judge/Magistrate">Judge/Magistrate</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Pharmacist">Pharmacist</option>
+                                <option value="Physiotherapist">Physiotherapist</option>
+                                <option value="Dietitian/Nutritionist">Dietitian/Nutritionist</option>
+                                <option value="Psychologist">Psychologist</option>
+                                <option value="Civil Engineer">Civil Engineer</option>
+                                <option value="Mechanical Engineer">Mechanical Engineer</option>
+                                <option value="Electrical Engineer">Electrical Engineer</option>
+                                <option value="Robotics Engineer">Robotics Engineer</option>
+                                <option value="Aerospace Engineer">Aerospace Engineer</option>
+                                <option value="Professor/Lecturer">Professor/Lecturer</option>
+                                <option value="School Principal">School Principal</option>
+                                <option value="Corporate Trainer">Corporate Trainer</option>
+                                <option value="Educational Consultant">Educational Consultant</option>
+                                <option value="Film Director">Film Director</option>
+                                <option value="Actor/Actress">Actor/Actress</option>
+                                <option value="Content Creator">Content Creator</option>
+                                <option value="Journalist">Journalist</option>
+                                <option value="Video Editor">Video Editor</option>
+                                <option value="Photographer">Photographer</option>
+                                <option value="Event Planner">Event Planner</option>
+                                <option value="Interior Designer">Interior Designer</option>
+                                <option value="Fashion Designer">Fashion Designer</option>
+                                <option value="Graphic Designer">Graphic Designer</option>
+                                <option value="Customer Support Executive">Customer Support Executive</option>
+                                <option value="Telecaller">Telecaller</option>
+                                <option value="Office Administrator">Office Administrator</option>
+                                <option value="Executive Assistant">Executive Assistant</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="experience">Experience</label>

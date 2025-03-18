@@ -3,26 +3,35 @@ require_once '../includes/db_connect.php';
 require_once '../includes/config.php'; // Include Cloudinary configuration
 use Cloudinary\Api\Upload\UploadApi;
 
+// Ensure headers are set before any output
 header('Content-Type: application/json');
 
-// Enable error reporting for debugging
+// Enable error reporting for debugging but don't display errors in production
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0); // Changed to 0 to prevent PHP errors in JSON output
 
 // Function to sanitize input
 function sanitize($conn, $input) {
     return mysqli_real_escape_string($conn, trim($input));
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
+// Wrap everything in a try-catch block
+try {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
         
         // First, get the current client data to check their professional type
         $checkQuery = "SELECT * FROM clients WHERE id = ?";
         $stmt = mysqli_prepare($conn, $checkQuery);
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement");
+        }
+        
         mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Failed to execute query");
+        }
+        
         $result = mysqli_stmt_get_result($stmt);
         $clientData = mysqli_fetch_assoc($result);
         
@@ -49,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
                 $image_url = $result['secure_url'];
             } catch (Exception $e) {
-                throw new Exception("Error uploading image to Cloudinary: " . $e->getMessage());
+                // Log error but continue with existing image
+                error_log("Image upload error: " . $e->getMessage());
             }
         }
 
@@ -144,46 +154,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Error updating client: " . mysqli_error($conn));
         }
 
-    } catch (Exception $e) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => $e->getMessage()
-        ]);
-    }
-} elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-    try {
-        $id = intval($_GET['id']);
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        // Handle GET request - this is for fetching client data
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
         
-        // Get client data
+        if (!$id) {
+            throw new Exception("Invalid client ID");
+        }
+        
         $query = "SELECT * FROM clients WHERE id = ?";
         $stmt = mysqli_prepare($conn, $query);
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement");
+        }
+        
         mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Failed to execute query");
+        }
+        
         $result = mysqli_stmt_get_result($stmt);
         $client = mysqli_fetch_assoc($result);
         
-        if ($client) {
-            echo json_encode([
-                'status' => 'success',
-                'client' => $client
-            ]);
-        } else {
+        if (!$client) {
             throw new Exception("Client not found");
         }
         
-    } catch (Exception $e) {
+        echo json_encode([
+            'status' => 'success',
+            'client' => $client
+        ]);
+    } else {
         echo json_encode([
             'status' => 'error',
-            'message' => $e->getMessage()
+            'message' => 'Invalid request method'
         ]);
     }
-} else {
+} catch (Exception $e) {
+    // Log the error to a file instead of displaying it
+    error_log("Error in edit_client.php: " . $e->getMessage());
+    
+    // Return a clean JSON error response
     echo json_encode([
         'status' => 'error',
-        'message' => 'Invalid request method'
+        'message' => 'Error loading client data. Please try again.'
     ]);
+} finally {
+    if (isset($conn) && $conn) {
+        $conn->close();
+    }
 }
-
-// Close database connection
-mysqli_close($conn);
 ?>

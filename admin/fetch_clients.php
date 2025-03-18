@@ -1,20 +1,23 @@
 <?php
+// Comment out or remove display_errors for production
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0); // Change to 0 to prevent displaying errors in output
 require '../includes/db_connect.php';  // Database connection
 
+// Set headers before any output
 header('Content-Type: application/json'); // Ensure JSON output
 
-// Debug: Check if database connection is successful
-if ($conn->connect_error) {
-    echo json_encode([
-        "error" => true,
-        "message" => "Database connection failed: " . $conn->connect_error
-    ]);
-    exit;
-}
-
+// Wrap everything in a try-catch to handle any errors
 try {
+    // Debug: Check if database connection is successful
+    if ($conn->connect_error) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Database connection failed"
+        ]);
+        exit;
+    }
+
     // Get parameters
     $status = isset($_GET['status']) ? $_GET['status'] : 'approved';
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -52,12 +55,12 @@ try {
     // Prepare and execute query
     $stmt = $conn->prepare($query);
     if (!$stmt) {
-        throw new Exception("Prepare failed: " . $conn->error);
+        throw new Exception("Prepare failed");
     }
 
     $stmt->bind_param($types, ...$params);
     if (!$stmt->execute()) {
-        throw new Exception("Execute failed: " . $stmt->error);
+        throw new Exception("Query execution failed");
     }
 
     $result = $stmt->get_result();
@@ -76,6 +79,9 @@ try {
 
     // Get total count
     $totalResult = $conn->query("SELECT FOUND_ROWS() as total");
+    if (!$totalResult) {
+        throw new Exception("Count query failed");
+    }
     $totalRow = $totalResult->fetch_assoc();
     $total = $totalRow['total'];
 
@@ -88,12 +94,17 @@ try {
     ]);
 
 } catch (Exception $e) {
-    http_response_code(500);
+    // Log the error to a file instead of displaying it
+    error_log("Error in fetch_clients.php: " . $e->getMessage());
+    
+    // Return a clean JSON error response
     echo json_encode([
         'status' => 'error',
-        'message' => $e->getMessage()
+        'message' => 'Error loading clients. Please try again.'
     ]);
 } finally {
-    $conn->close();
+    if (isset($conn) && $conn) {
+        $conn->close();
+    }
 }
 ?>
