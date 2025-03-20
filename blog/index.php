@@ -1073,7 +1073,7 @@ sort($allCategories);
                     <li><a href="/privacy-policy">Privacy Policy</a></li>
                     <li><a href="/terms">Terms & Conditions</a></li>
         </ul>
-            </div>
+        </div>
     </div>
 </footer>
 

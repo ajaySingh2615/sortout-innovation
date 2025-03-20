@@ -26,7 +26,7 @@ unset($_SESSION['message']); // Clear the session message after displaying
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" />
     <title>Models Agency</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
@@ -319,7 +319,7 @@ body.modal-open {
   
   .categories-title {
     font-family: 'Playfair Display', serif;
-    font-weight: 700;
+        font-weight: 700;
         color: white;
     margin-bottom: 1rem;
     position: relative;
@@ -402,7 +402,7 @@ body.modal-open {
   
   .category-name {
     font-family: 'Poppins', sans-serif;
-    font-weight: 600;
+        font-weight: 600;
     font-size: 1.25rem;
     color: white;
     margin: 0;
@@ -426,7 +426,7 @@ body.modal-open {
   .trusted-clients-title {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
-    color: #333;
+        color: #333;
     margin-bottom: 1rem;
     position: relative;
     display: inline-block;
@@ -453,9 +453,9 @@ body.modal-open {
   }
   
   .client-logo-container {
-    display: flex;
+        display: flex;
     align-items: center;
-    justify-content: center;
+        justify-content: center;
     padding: 1.5rem;
     border-radius: 12px;
     background-color: white;
@@ -607,7 +607,7 @@ body.modal-open {
     }
     
     .client-overlay {
-      padding: 16px;
+        padding: 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -630,7 +630,7 @@ body.modal-open {
     .pull-refresh-hint {
       text-align: center;
       color: #888;
-      padding: 12px;
+            padding: 12px;
       font-size: 14px;
       display: none;
     }
@@ -639,7 +639,119 @@ body.modal-open {
       display: block;
     }
   }
-</style>
+
+  /* Add custom positioning for banner images */
+  .banner-image {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-position: center;
+  }
+  
+  /* Mobile-specific styling to show the center-left part of the image */
+  @media (max-width: 768px) {
+      .banner-image {
+          object-position: 25% center; /* This positions the image 25% from the left */
+      }
+  }
+  
+  /* Extra-small devices */
+  @media (max-width: 480px) {
+      .banner-image {
+          object-position: 30% center; /* This positions the image 30% from the left */
+      }
+  }
+
+  /* Banner container with correct aspect ratio */
+  .banner-container {
+    position: relative;
+    width: 100%;
+    /* Maintain the exact 3750:1250 aspect ratio */
+    padding-top: 33.33%; /* (1250/3750 * 100%) */
+    height: 0;
+    overflow: hidden;
+  }
+
+  /* Banner images */
+  .banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Adjust banner position on smaller screens */
+  @media (max-width: 768px) {
+    .banner-image {
+        object-position: 25% center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .banner-image {
+        object-position: 30% center;
+    }
+  }
+
+  /* Additional mobile fixes */
+  @media (max-width: 480px) {
+    /* Improve tap targets for navigation arrows */
+    .banner-container button {
+        -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+    
+    /* Ensure arrows are above content and have adequate tap area */
+    #prevBtn, #nextBtn {
+        z-index: 30;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    /* Fix indicators size and appearance */
+    .banner-container .indicator,
+    button.indicator,
+    .indicator {
+        width: 6px !important;
+        height: 6px !important;
+        min-width: 6px !important;
+        min-height: 6px !important;
+        max-width: 6px !important;
+        max-height: 6px !important;
+        border-radius: 50% !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 4px !important;
+    }
+    
+    .banner-container .indicator.active,
+    button.indicator.active,
+    .indicator.active {
+        transform: scale(1.1) !important;
+        background-color: white !important;
+        width: 6px !important;
+        height: 6px !important;
+    }
+}
+
+/* Additional arrow fixes for mobile */
+.nav-arrow {
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 480px) {
+    .nav-arrow {
+        background-color: rgba(0,0,0,0.7) !important;
+        width: 36px !important;
+        height: 36px !important;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+}
+
+  </style>
 
 
 </head>
@@ -755,6 +867,178 @@ body.modal-open {
 
     <!-- Add space to prevent content from being hidden under the fixed navbar -->
     <div class="h-16"></div>
+
+    <!-- Hero Banner Section -->
+    <div class="relative w-full overflow-hidden banner-container" id="heroBanner">
+        <!-- Banner Slides -->
+        <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-100" id="slide1">
+            <img src="/images/agency-banner/first-banner.jpg" alt="Agency Banner 1" class="banner-image">
+        </div>
+        <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-0" id="slide2">
+            <img src="/images/agency-banner/second-banner.jpg" alt="Agency Banner 2" class="banner-image">
+        </div>
+        <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-0" id="slide3">
+            <img src="/images/agency-banner/third-banner.jpg" alt="Agency Banner 3" class="banner-image">
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button class="absolute z-30 flex items-center justify-center w-10 h-10 text-white transform -translate-y-1/2 rounded-full md:w-12 md:h-12 bg-black/60 left-2 md:left-4 top-1/2 hover:bg-black/70 focus:outline-none nav-arrow" id="prevBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button class="absolute z-30 flex items-center justify-center w-10 h-10 text-white transform -translate-y-1/2 rounded-full md:w-12 md:h-12 bg-black/60 right-2 md:right-4 top-1/2 hover:bg-black/70 focus:outline-none nav-arrow" id="nextBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+        
+        <!-- Indicators -->
+        <div class="absolute bottom-4 left-0 right-0 z-10 flex justify-center space-x-2 md:space-x-2 space-x-1">
+            <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator active" data-slide="0"></button>
+            <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="1"></button>
+            <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="2"></button>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const slides = [
+        document.getElementById('slide1'),
+        document.getElementById('slide2'),
+        document.getElementById('slide3')
+    ];
+    const indicators = document.querySelectorAll('.indicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentSlide = 0;
+    let interval;
+    
+    // Show slide
+    function showSlide(index) {
+        // Hide all slides
+        slides.forEach(slide => {
+            slide.classList.remove('opacity-100');
+            slide.classList.add('opacity-0');
+        });
+        
+        // Update indicators
+        indicators.forEach(indicator => {
+            indicator.classList.remove('active', 'bg-white');
+            indicator.classList.add('bg-white/50');
+        });
+        
+        // Show selected slide
+        slides[index].classList.remove('opacity-0');
+        slides[index].classList.add('opacity-100');
+        
+        // Update indicator
+        indicators[index].classList.add('active', 'bg-white');
+        indicators[index].classList.remove('bg-white/50');
+        
+        currentSlide = index;
+    }
+    
+    // Start slideshow
+    function startSlideshow() {
+        interval = setInterval(() => {
+            let next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }, 5000);
+    }
+    
+    // Stop slideshow
+    function stopSlideshow() {
+        clearInterval(interval);
+    }
+    
+    // Next slide
+    function nextSlide() {
+        let next = (currentSlide + 1) % slides.length;
+        showSlide(next);
+        
+        // Reset timer
+        stopSlideshow();
+        startSlideshow();
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        let prev = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(prev);
+        
+        // Reset timer
+        stopSlideshow();
+        startSlideshow();
+    }
+    
+    // Set up event listeners
+    prevBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        prevSlide();
+    }, { passive: false });
+
+    nextBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        nextSlide();
+    }, { passive: false });
+
+    // Also add touch events specifically for arrow buttons
+    prevBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        prevSlide();
+    }, { passive: false });
+
+    nextBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        nextSlide();
+    }, { passive: false });
+    
+    // Indicator click
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            showSlide(index);
+            stopSlideshow();
+            startSlideshow();
+        });
+    });
+    
+    // Touch support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    const heroBanner = document.getElementById('heroBanner');
+    
+    heroBanner.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    heroBanner.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe left - next slide
+            nextSlide();
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe right - previous slide
+            prevSlide();
+        }
+    }
+    
+    // Start the slideshow
+    startSlideshow();
+});
+</script>
 
    <!-- ✅ Create Profile Selection Modal -->
 <div id="profileSelectionModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 flex justify-center items-center hidden z-50">
@@ -1228,357 +1512,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- ✅ Hero Section -->
-<div class="hero-section">
-    <div class="hero-gallery">
-        <div class="hero-gallery-inner" id="heroCarousel">
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Ambika_Arora.png" alt="Ambika Arora">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Anchal_Thakur.png" alt="Anchal Thakur">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/Niharika_shara.png" alt="Annupriya Singh">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Shereen_A_Bannsal.png" alt="Shereen A Bannsal">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Shivangi_Ghosh.png" alt="Shivangi Ghosh">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Vinuja.png" alt="Vinuja">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Madhu.png" alt="Madhu">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Nancy_Khatri.png" alt="Nancy Khatri">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Priyanka_Taras.png" alt="Priyanka Taras">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized-update/Twinkle_Sharma.png" alt="Twinkle Sharma">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized_new/Aishwarya_Sanglikar.png" alt="Aishwarya Sanglikar">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized_new/Arnav_Mathur.png" alt="Arnav Mathur">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized_new/Manav_Mongia.png" alt="Manav Mongia">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized_new/Naveena_Kapoor.png" alt="Naveena Kapoor">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized_new/Shambhavi_Sharma-2.png" alt="Shambhavi Sharma">
-            </div>
-            <div class="hero-item">
-                <img src="/images/Artist-images/iloveimg-resized_new/Shambhavi_Sharma.png" alt="Shambhavi Sharma">
-            </div>
-        </div>
-    </div>
-    
-    <!-- Navigation Dots -->
-    <div class="hero-dots" id="heroDots"></div>
-    
-    <!-- Navigation Arrows -->
-    <button class="hero-arrow hero-arrow-left" id="heroArrowLeft">
-        <i class="fas fa-chevron-left"></i>
-    </button>
-    <button class="hero-arrow hero-arrow-right" id="heroArrowRight">
-        <i class="fas fa-chevron-right"></i>
-    </button>
-</div>
 
-<style>
-/* Hero Section Styles */
-.hero-section {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    max-height: 1000px;
-    overflow: hidden;
-    background-color: #000;
-    line-height: 0;
-}
 
-.hero-gallery {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-size: 0;
-}
-
-.hero-gallery-inner {
-    display: flex;
-    height: 100%;
-    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-}
-
-.hero-item {
-    flex: 0 0 25%;
-    height: 100%;
-    padding: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.hero-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-/* Navigation Dots */
-.hero-dots {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    z-index: 10;
-    line-height: normal;
-}
-
-.hero-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.hero-dot.active {
-    background-color: #fff;
-    transform: scale(1.2);
-}
-
-/* Navigation Arrows */
-.hero-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s ease;
-    font-size: 16px;
-    line-height: 1;
-}
-
-.hero-arrow:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.hero-arrow-left {
-    left: 20px;
-}
-
-.hero-arrow-right {
-    right: 20px;
-}
-
-/* Responsive Styles */
-@media (max-width: 1200px) {
-    .hero-item {
-        flex: 0 0 33.333%;
-    }
-}
-
-@media (max-width: 992px) {
-    .hero-item {
-        flex: 0 0 50%;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-section {
-        height: 100vh;
-        max-height: 800px;
-    }
-    
-    .hero-item {
-        flex: 0 0 100%;
-    }
-    
-    .hero-arrow {
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-section {
-        max-height: 600px;
-    }
-}
-</style>
-
-<script>
-// Hero Gallery Logic
-document.addEventListener('DOMContentLoaded', function() {
-    const carousel = document.getElementById('heroCarousel');
-    const items = carousel.querySelectorAll('.hero-item');
-    const dotsContainer = document.getElementById('heroDots');
-    const leftArrow = document.getElementById('heroArrowLeft');
-    const rightArrow = document.getElementById('heroArrowRight');
-    
-    let currentIndex = 0;
-    let itemsPerView = 4;
-    let totalSlides = Math.ceil(items.length / itemsPerView);
-    let autoSlideInterval;
-    
-    // Set initial width for all items
-    function setItemWidths() {
-        if (window.innerWidth <= 768) {
-            itemsPerView = 1;
-        } else if (window.innerWidth <= 992) {
-            itemsPerView = 2;
-        } else if (window.innerWidth <= 1200) {
-            itemsPerView = 3;
-        } else {
-            itemsPerView = 4;
-        }
-        
-        const itemWidth = 100 / itemsPerView;
-        items.forEach(item => {
-            item.style.flex = `0 0 ${itemWidth}%`;
-        });
-        
-        totalSlides = Math.ceil(items.length / itemsPerView);
-        createDots();
-        goToSlide(0, false);
-    }
-    
-    // Create navigation dots
-    function createDots() {
-        dotsContainer.innerHTML = '';
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('hero-dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-    }
-    
-    // Go to specific slide
-    function goToSlide(index, animate = true) {
-        if (index < 0) {
-            index = totalSlides - 1;
-        } else if (index >= totalSlides) {
-            index = 0;
-        }
-        
-        currentIndex = index;
-        const translateValue = -(100 / itemsPerView) * currentIndex * itemsPerView;
-        
-        if (!animate) {
-            carousel.style.transition = 'none';
-        } else {
-            carousel.style.transition = 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)';
-        }
-        
-        carousel.style.transform = `translateX(${translateValue}%)`;
-        
-        // Force reflow
-        if (!animate) {
-            void carousel.offsetWidth;
-            carousel.style.transition = 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)';
-        }
-        
-        // Update active dot
-        document.querySelectorAll('.hero-dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentIndex);
-        });
-        
-        resetAutoSlide();
-    }
-    
-    // Next slide
-    function nextSlide() {
-        goToSlide(currentIndex + 1);
-    }
-    
-    // Previous slide
-    function prevSlide() {
-        goToSlide(currentIndex - 1);
-    }
-    
-    // Start auto sliding
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 5000);
-    }
-    
-    // Reset auto slide timer
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-    }
-    
-    // Event listeners
-    leftArrow.addEventListener('click', prevSlide);
-    rightArrow.addEventListener('click', nextSlide);
-    
-    // Pause auto slide on hover
-    carousel.parentElement.addEventListener('mouseenter', () => {
-        clearInterval(autoSlideInterval);
-    });
-    
-    carousel.parentElement.addEventListener('mouseleave', () => {
-        startAutoSlide();
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', setItemWidths);
-    
-    // Handle touch events for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    carousel.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-        clearInterval(autoSlideInterval);
-    }, {passive: true});
-    
-    carousel.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-        startAutoSlide();
-    }, {passive: true});
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        if (touchEndX < touchStartX - swipeThreshold) {
-            nextSlide(); // Swipe left
-        } else if (touchEndX > touchStartX + swipeThreshold) {
-            prevSlide(); // Swipe right
-        }
-    }
-    
-    // Initialize
-    setItemWidths();
-    startAutoSlide();
-});
-</script>
 
 <!-- ✅ Trusted Clients Section -->
 <section class="trusted-clients-section">
@@ -1707,7 +1642,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
         </div>
     </div>
-</div>
+    </div>
 
         <!-- Call to Action -->
         <!-- <div class="text-center mt-12">
@@ -1715,7 +1650,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 View All Partners <i class="fas fa-arrow-right ml-2"></i>
             </a>
         </div> -->
-    </div>
+</div>
 </section>
 
 
@@ -1732,8 +1667,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <!-- Clients Header -->
                 <div class="clients-header text-center mb-10">
                     <!-- This will be populated by JavaScript -->
-                </div>
-                
+    </div>
+
                 <!-- Professional Type Toggle -->
                 <div class="flex justify-center gap-4 mb-8">
                     <button id="artistFilterBtn" class="toggle-button active px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 flex items-center gap-2">
@@ -1827,7 +1762,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <option value="36-45">36-45</option>
         <option value="46+">46+</option>
     </select>
-                </div>
+        </div>
 
                 <div class="filter-group">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
@@ -1861,8 +1796,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <option value="Jaipur">Jaipur</option>
                         <option value="Lucknow">Lucknow</option>
                     </select>
-                </div>
-            </div>
+    </div>
+</div>
 
             <!-- Employee Filters -->
             <div id="employeeFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" style="display: none;">
@@ -1951,21 +1886,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
                     <select id="filterEmployeeGender" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
                         <option value="">All Genders</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
                         <option value="Other">Other</option>
-                    </select>
+    </select>
 </div>
 
                 <div class="filter-group">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Age</label>
                     <select id="filterEmployeeAge" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
                         <option value="">All Ages</option>
-                        <option value="18-25">18-25</option>
-                        <option value="26-35">26-35</option>
-                        <option value="36-45">36-45</option>
-                        <option value="46+">46+</option>
-                    </select>
+        <option value="18-25">18-25</option>
+        <option value="26-35">26-35</option>
+        <option value="36-45">36-45</option>
+        <option value="46+">46+</option>
+    </select>
                 </div>
 
                 <div class="filter-group">
@@ -3246,6 +3181,7 @@ function createClientCard(client) {
                          </a>` : ''}`
                 }
                 
+                
                 ${client.description ? `<p class="text-sm text-white/70 mb-4 text-center">${client.description}</p>` : ''}
                 
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4iUw2dXlqh8goIVK7AgQg3vPHSjmPZNotk6-CKojShrulVg/viewform" 
@@ -3331,6 +3267,7 @@ function setupClientCards() {
 // Call this function after loading new client cards
 window.initializeClientCards = setupClientCards;
 </script>
+
 
 
 </body>
