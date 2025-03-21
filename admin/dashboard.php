@@ -313,6 +313,22 @@ if ($_SESSION['role'] === 'super_admin') {
             </ul>
         </nav>
     </div>
+
+    <!-- Add a new card for Job Management -->
+    <div class="col-md-4 mb-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="icon-box bg-warning-subtle">
+                        <i class="fas fa-briefcase text-warning"></i>
+                    </div>
+                    <h5 class="card-title ms-3 mb-0">Job Management</h5>
+                </div>
+                <p class="card-text text-muted">Manage job postings, track applications, and handle employment opportunities.</p>
+                <a href="job/job-dashboard.php" class="btn btn-outline-warning mt-auto">Manage Jobs</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- ✅ Footer -->
