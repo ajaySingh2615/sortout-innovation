@@ -44,8 +44,16 @@ try {
         $age = intval($_POST['age']);
         $gender = sanitize($conn, $_POST['gender']);
         $city = sanitize($conn, $_POST['city']);
-        $language = sanitize($conn, $_POST['language']);
+        $language = isset($_POST['language']) ? $_POST['language'] : '';
         $phone = isset($_POST['phone']) ? sanitize($conn, $_POST['phone']) : $clientData['phone'];
+        $professional = isset($_POST['professional']) ? $_POST['professional'] : '';
+
+        // Get professional-specific fields
+        $followers = isset($_POST['followers']) ? $_POST['followers'] : '';
+        $category = isset($_POST['category']) ? $_POST['category'] : '';
+        $role = isset($_POST['role']) ? $_POST['role'] : '';
+        $experience = isset($_POST['experience']) ? $_POST['experience'] : '';
+        $current_salary = isset($_POST['current_salary']) ? $_POST['current_salary'] : '';
 
         // Handle image upload if a new image is provided
         $image_url = $clientData['image_url']; // Keep existing image URL by default
@@ -76,31 +84,23 @@ try {
             "city = ?",
             "language = ?",
             "phone = ?",
-            "image_url = ?"
+            "image_url = ?",
+            "current_salary = ?"
         ];
         
-        $params = [$name, $age, $gender, $city, $language, $phone, $image_url];
-        $types = "sisssss";
+        $params = [$name, $age, $gender, $city, $language, $phone, $image_url, $current_salary];
+        $types = "sissssss";
 
         if ($clientData['professional'] === 'Artist') {
             // Artist specific fields
-            $category = sanitize($conn, $_POST['category']);
-            $followers = sanitize($conn, $_POST['followers']);
-            
             $updateFields[] = "category = ?";
             $updateFields[] = "followers = ?";
-            $updateFields[] = "role = NULL";
-            $updateFields[] = "experience = NULL";
-            $updateFields[] = "resume_url = NULL";
             
             $params[] = $category;
             $params[] = $followers;
             $types .= "ss";
         } else {
             // Employee specific fields
-            $role = sanitize($conn, $_POST['role']);
-            $experience = sanitize($conn, $_POST['experience']);
-            
             // Handle resume upload if provided
             $resume_url = $clientData['resume_url']; // Keep existing resume URL by default
             if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
@@ -121,11 +121,9 @@ try {
             $updateFields[] = "role = ?";
             $updateFields[] = "experience = ?";
             $updateFields[] = "resume_url = ?";
-            $updateFields[] = "category = NULL";
-            $updateFields[] = "followers = NULL";
             
             $params[] = $role;
-            $params[] = $experience;
+            $params[] = $experience; 
             $params[] = $resume_url;
             $types .= "sss";
         }
@@ -178,6 +176,17 @@ try {
 
     if (!$client) {
             throw new Exception("Client not found");
+        }
+        
+        // Professional-specific data
+        if ($client['professional'] === 'Artist') {
+            $client['category'] = $client['category'];
+            $client['followers'] = $client['followers'];
+        } else {
+            $client['role'] = $client['role'];
+            $client['experience'] = $client['experience'];
+            $client['current_salary'] = $client['current_salary'];
+            $client['resume_url'] = $client['resume_url'];
         }
         
         echo json_encode([

@@ -213,6 +213,13 @@ if (!$client_id) {
                         </div>
                     </div>
 
+                    <!-- Current Salary (Only for Employees) -->
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="current_salary">Current Salary (₹)</label>
+                        <input type="text" id="current_salary" name="current_salary" placeholder="e.g. 50000" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        <p class="text-sm text-gray-500 mt-1">Enter monthly salary in INR</p>
+                    </div>
+
                     <!-- Resume Upload (Only for Employees) -->
                     <div class="mb-6">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="resume">Resume</label>
@@ -299,17 +306,22 @@ if (!$client_id) {
                     
                     // Show appropriate fields based on professional type
                     if (client.professional === 'Artist') {
-                        document.getElementById('artistFields').classList.remove('hidden');
-                        document.getElementById('employeeFields').classList.add('hidden');
-                        document.getElementById('category').value = client.category;
-                        document.getElementById('followers').value = client.followers;
-                    } else {
-                        document.getElementById('employeeFields').classList.remove('hidden');
-                        document.getElementById('artistFields').classList.add('hidden');
-                        document.getElementById('role').value = client.role;
-                        document.getElementById('experience').value = client.experience;
+                        document.getElementById('artistFields').style.display = 'block';
+                        document.getElementById('employeeFields').style.display = 'none';
                         
-                        // Show current resume if exists
+                        // Populate artist fields
+                        document.getElementById('category').value = client.category || '';
+                        document.getElementById('followers').value = client.followers || '';
+                    } else {
+                        document.getElementById('artistFields').style.display = 'none';
+                        document.getElementById('employeeFields').style.display = 'block';
+                        
+                        // Populate employee fields
+                        document.getElementById('role').value = client.role || '';
+                        document.getElementById('experience').value = client.experience || '';
+                        document.getElementById('current_salary').value = client.current_salary || '';
+                        
+                        // Handle resume if available
                         if (client.resume_url) {
                             const resumeLink = document.getElementById('currentResume');
                             resumeLink.classList.remove('hidden');

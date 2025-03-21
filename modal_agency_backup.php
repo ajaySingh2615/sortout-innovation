@@ -2469,7 +2469,7 @@ document.addEventListener('DOMContentLoaded', function() {
                              <p class="client-category text-xs text-gray-500"><i class="fas fa-users mr-1.5 text-red-500"></i>${client.followers || '0'} followers</p>` : 
                             `<p class="client-category text-sm text-gray-600 mb-1"><i class="fas fa-briefcase mr-1.5 text-red-500"></i>${client.role || 'N/A'}</p>
                              <p class="client-category text-xs text-gray-500"><i class="fas fa-clock mr-1.5 text-red-500"></i>${client.experience || '0'} years experience</p>
-                             </p>`
+                             <p class="client-category text-xs text-gray-500"><i class="fas fa-rupee-sign mr-1.5 text-red-500"></i>${client.current_salary ? client.current_salary + ' INR/month' : 'Salary not specified'}</p>`
                         }
                     </div>
                 </div>`;
@@ -3280,5 +3280,3 @@ window.initializeClientCards = setupClientCards;
 
 </body>
 </html>
-
-

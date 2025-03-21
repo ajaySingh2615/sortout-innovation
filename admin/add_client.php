@@ -61,6 +61,7 @@ try {
     // Get both fields regardless of professional type
     $followers = isset($_POST['followers']) ? trim($_POST['followers']) : "";
     $experience = isset($_POST['experience']) ? trim($_POST['experience']) : "";
+    $current_salary = isset($_POST['current_salary']) ? trim($_POST['current_salary']) : "";
     $category = isset($_POST['category']) ? trim($_POST['category']) : "";
     $role = isset($_POST['role']) ? trim($_POST['role']) : "";
     
@@ -80,6 +81,7 @@ try {
         // Clear Employee fields
         $role = "";
         $experience = "";
+        $current_salary = "";
         $resume_url = "";
     } else if ($professional === "Employee") {
         if (empty($role)) {
@@ -198,8 +200,8 @@ try {
     }
 
     // Prepare SQL Query
-    $query = "INSERT INTO clients (name, age, phone, gender, followers, experience, category, role, language, professional, city, image_url, resume_url, approval_status) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO clients (name, age, phone, gender, followers, experience, current_salary, category, role, language, professional, city, image_url, resume_url, approval_status) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
@@ -215,6 +217,7 @@ try {
         'gender' => $gender,
         'followers' => $followers,
         'experience' => $experience,
+        'current_salary' => $current_salary,
         'category' => $category,
         'role' => $role,
         'language' => $language,
@@ -229,13 +232,14 @@ try {
     $approval_status = 'pending';
 
     // Bind Parameters
-    if (!$stmt->bind_param("sissssssssssss", 
+    if (!$stmt->bind_param("sisssssssssssss", 
         $name,          // s - string
         $age,           // i - integer
         $phone,         // s - string
         $gender,        // s - string
         $followers,     // s - string
         $experience,    // s - string
+        $current_salary,// s - string
         $category,      // s - string
         $role,          // s - string
         $language,      // s - string
