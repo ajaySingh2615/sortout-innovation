@@ -683,7 +683,7 @@ body.modal-open {
   }
 
   /* Adjust banner position on smaller screens */
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
     .banner-image {
         object-position: 25% center;
     }
@@ -750,8 +750,8 @@ body.modal-open {
         box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 }
-
-  </style>
+    
+</style>
 
 
 </head>
@@ -1345,7 +1345,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <label for="current_salary" class="block text-sm font-medium text-gray-700">Current Salary (₹)</label>
                     <input type="text" id="current_salary" name="current_salary" placeholder="e.g. 50000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                     <p class="mt-1 text-sm text-gray-500">Enter your current monthly salary in INR</p>
-                </div>
+            </div>
 
                 <!-- Resume Upload Field -->
                 <div class="form-group">
@@ -1456,7 +1456,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (type === 'Employee') {
                 artistFields.style.display = 'none';
                 employeeFields.style.display = 'block';
-            } else {
+        } else {
                 artistFields.style.display = 'block';
                 employeeFields.style.display = 'none';
             }
@@ -1515,7 +1515,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hideClientForm();
         }
     });
-});
+    });
 </script>
 
 

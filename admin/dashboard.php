@@ -267,7 +267,7 @@ if ($_SESSION['role'] === 'super_admin') {
                     <?php foreach($categories as $category): ?>
                         <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?></option>
                     <?php endforeach; ?>
-                </select>
+        </select>
             </div>
             <div class="col-md-2 mb-3">
                 <label class="form-label">&nbsp;</label>
@@ -301,7 +301,7 @@ if ($_SESSION['role'] === 'super_admin') {
             </div>
         </div>
     </div>
-    
+
     <!-- Pagination -->
     <div class="d-flex justify-content-between align-items-center mt-4">
         <div class="pagination-info">
@@ -313,7 +313,7 @@ if ($_SESSION['role'] === 'super_admin') {
             </ul>
         </nav>
     </div>
-
+    
     <!-- Add a new card for Job Management -->
     <div class="col-md-4 mb-4">
         <div class="card border-0 shadow-sm h-100">

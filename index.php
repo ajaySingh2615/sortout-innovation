@@ -75,7 +75,7 @@
                 >Portfolio</a
               >
             </li> -->
-            <li><a href="/pages/career.html" class="nav-link">Jobs</a></li>
+            <li><a href="/employee-job/index.php" class="nav-link">Jobs</a></li>
             <li>
               <a href="/modal_agency.php" class="nav-link"
                 >Find Talent</a

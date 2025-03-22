@@ -175,11 +175,11 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                         <p class="text-2xl font-semibold text-gray-900"><?= $rejectedCount ?></p>
                     </div>
                 </div>
-            </div>
         </div>
+</div>
 
         <!-- Pending Approvals Section -->
-        <div class="table-container">
+    <div class="table-container">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-gray-900">Pending Approvals</h2>
                 <div class="flex gap-4">
@@ -208,7 +208,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             <th class="table-header px-6 py-3">Image</th>
                             <th class="table-header px-6 py-3">Resume</th>
                             <th class="table-header px-6 py-3">Actions</th>
-                        </tr>
+            </tr>
                     </thead>
                     <tbody id="pendingTableBody">
                         <?php if ($pendingResult && mysqli_num_rows($pendingResult) > 0): ?>
@@ -242,7 +242,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                         <?php else: ?>
                                             <span class="text-gray-400">No Resume</span>
                                         <?php endif; ?>
-                                    </td>
+                    </td>
                                     <td class="table-cell"><?= $row['professional'] === 'Employee' ? htmlspecialchars($row['current_salary'] ?? 'N/A') : 'N/A' ?></td>
                                     <td class="table-cell">
                                         <div class="flex space-x-2">
@@ -255,9 +255,9 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
                                 <td colspan="12" class="table-cell text-center py-8">
@@ -267,14 +267,14 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             </tr>
                         <?php endif; ?>
                     </tbody>
-                </table>
+        </table>
                 <!-- Add pagination container -->
                 <div id="pendingPagination" class="flex justify-center gap-2 mt-4"></div>
             </div>
-        </div>
+    </div>
 
         <!-- Approved Clients Section -->
-        <div class="table-container">
+    <div class="table-container">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-gray-900">Approved Clients</h2>
                 <div class="flex gap-4">
@@ -303,7 +303,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             <th class="table-header px-6 py-3">Image</th>
                             <th class="table-header px-6 py-3">Resume</th>
                             <th class="table-header px-6 py-3">Actions</th>
-                        </tr>
+            </tr>
                     </thead>
                     <tbody id="approvedTableBody">
                         <?php if ($approvedResult && mysqli_num_rows($approvedResult) > 0): ?>
@@ -338,7 +338,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                         <?php else: ?>
                                             <span class="text-gray-400">No Resume</span>
                                         <?php endif; ?>
-                                    </td>
+                    </td>
                                     <td class="table-cell">
                                         <div class="flex space-x-2">
                                             <button onclick="editClient(<?= $row['id'] ?>)" 
@@ -350,9 +350,9 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
                                 <td colspan="12" class="table-cell text-center py-8">
@@ -362,7 +362,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             </tr>
                         <?php endif; ?>
                     </tbody>
-                </table>
+        </table>
                 <!-- Add pagination container -->
                 <div id="approvedPagination" class="flex justify-center gap-2 mt-4"></div>
             </div>
