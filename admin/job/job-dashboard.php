@@ -103,12 +103,12 @@ $totalJobs = $conn->query("SELECT COUNT(*) as count FROM jobs")->fetch_assoc()['
             <a href="add-job.php" class="btn btn-success">
                 <i class="fas fa-plus"></i> Add New Job
             </a>
-            <a href="fix-category.php" class="btn btn-warning ms-2">
+            <!-- <a href="fix-category.php" class="btn btn-warning ms-2">
                 <i class="fas fa-wrench"></i> Fix Category Issues
             </a>
             <a href="fix-category-type.php" class="btn btn-danger ms-2">
                 <i class="fas fa-database"></i> Fix Category Type
-            </a>
+            </a> -->
         </div>
     </div>
 
