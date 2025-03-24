@@ -88,6 +88,7 @@ $offset = ($currentPage - 1) * $recordsPerPage;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Listings | Find Your Next Career Opportunity</title>
+    <link rel="icon" type="image/png" href="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -1266,7 +1267,7 @@ $offset = ($currentPage - 1) * $recordsPerPage;
         <!-- Navigation Links -->
         <nav class="navbar-links">
           <ul>
-            <li><a href="#" class="nav-link">Home</a></li>
+            <li><a href="/index.php" class="nav-link">Home</a></li>
             <li>
               <a href="/pages/about-page/about.html" class="nav-link">About</a>
             </li>
