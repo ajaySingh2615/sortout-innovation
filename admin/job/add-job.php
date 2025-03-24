@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Debug job_type value
     error_log("Raw job_type value: " . print_r($_POST['job_type'], true));
     
-    $jobType = $_POST['job_type'];
+    $jobType = trim($_POST['job_type']);
     
     // Ensure job_type is a string and not empty
     if (empty($jobType) || $jobType === "0") {
@@ -33,37 +33,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     error_log("Processed job_type value: " . $jobType);
     
     $experience = trim($_POST['experience']);
-    $educationLevel = isset($_POST['education_level']) ? trim($_POST['education_level']) : null;
+    $educationLevel = isset($_POST['education_level']) && $_POST['education_level'] !== '0' ? trim($_POST['education_level']) : '';
     $description = trim($_POST['description']);
-    $category = isset($_POST['category']) ? trim($_POST['category']) : null;
+    
+    // Debug the raw $_POST data to see what's being submitted
+    error_log("RAW POST DATA FOR CATEGORY: " . (isset($_POST['category']) ? "'" . $_POST['category'] . "'" : "not set"));
+    
+    // Fix for category field - direct assignment from POST without additional checks
+    $category = isset($_POST['category']) && $_POST['category'] !== '0' ? trim($_POST['category']) : '';
+    
+    // Ensure we never have null or "0" for category
+    if (empty($category)) {
+        $category = "";
+    }
+    
+    error_log("Category value being stored: '" . $category . "' (type: " . gettype($category) . ")");
+    
     $vacancies = isset($_POST['vacancies']) ? intval($_POST['vacancies']) : 1;
     $highDemand = isset($_POST['high_demand']) ? 1 : 0;
-    $contactPerson = isset($_POST['contact_person']) ? trim($_POST['contact_person']) : null;
-    $interviewAddress = isset($_POST['interview_address']) ? trim($_POST['interview_address']) : null;
-    $incentives = isset($_POST['incentives']) ? trim($_POST['incentives']) : null;
+    $contactPerson = isset($_POST['contact_person']) && $_POST['contact_person'] !== '0' ? trim($_POST['contact_person']) : '';
+    $interviewAddress = isset($_POST['interview_address']) && $_POST['interview_address'] !== '0' ? trim($_POST['interview_address']) : '';
+    $incentives = isset($_POST['incentives']) && $_POST['incentives'] !== '0' ? trim($_POST['incentives']) : '';
     $workingDays = isset($_POST['working_days']) ? intval($_POST['working_days']) : 5;
-    $workingHours = isset($_POST['working_hours']) ? trim($_POST['working_hours']) : null;
+    $workingHours = isset($_POST['working_hours']) && $_POST['working_hours'] !== '0' ? trim($_POST['working_hours']) : '';
     $isVerified = isset($_POST['is_verified']) ? 1 : 0;
     $isContract = isset($_POST['is_contract']) ? 1 : 0;
     
+    // Ensure none of the text fields are '0'
+    if ($jobType === '0') $jobType = '';
+    if ($experience === '0') $experience = '';
+    if ($description === '0') $description = '';
+    
     // Basic validation
-    if (empty($title) || empty($companyName) || empty($location) || $minSalary <= 0 || $maxSalary <= 0 || empty($jobType)) {
+    if (empty($title) || empty($companyName) || empty($location) || $minSalary <= 0 || $maxSalary <= 0) {
         $errorMsg = "Please fill in all required fields.";
     } else if ($minSalary > $maxSalary) {
         $errorMsg = "Minimum salary cannot be greater than maximum salary.";
     } else {
-        // Prepare the SQL statement
-        $stmt = $conn->prepare("INSERT INTO jobs (title, company_name, location, min_salary, max_salary, job_type, experience, education_level, description, category, vacancies, high_demand, contact_person, interview_address, incentives, working_days, working_hours, is_verified, is_contract) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        // Use a single prepared statement for all fields
+        $sql = "INSERT INTO jobs (
+            title, company_name, location, min_salary, max_salary, 
+            job_type, experience, education_level, description, category,
+            vacancies, high_demand, contact_person, interview_address,
+            incentives, working_days, working_hours, is_verified, is_contract
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
-        error_log("SQL parameters - title: $title, company: $companyName, jobType: $jobType");
+        $stmt = $conn->prepare($sql);
         
-        // Debug output the statement before binding
-        error_log("SQL statement before binding: " . $stmt->error);
-        
-        $stmt->bind_param("sssiissssiiisssiisi", 
-            $title, $companyName, $location, $minSalary, $maxSalary, $jobType, $experience, 
-            $educationLevel, $description, $category, $vacancies, $highDemand, $contactPerson, 
-            $interviewAddress, $incentives, $workingDays, $workingHours, $isVerified, $isContract
+        // Bind all parameters directly
+        $stmt->bind_param(
+            "sssiisssssiisssiiii",
+            $title, $companyName, $location, $minSalary, $maxSalary,
+            $jobType, $experience, $educationLevel, $description, $category,
+            $vacancies, $highDemand, $contactPerson, $interviewAddress,
+            $incentives, $workingDays, $workingHours, $isVerified, $isContract
         );
         
         if ($stmt->execute()) {
@@ -173,18 +196,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" class="form-control" id="location" name="location" value="<?= $_POST['location'] ?? '' ?>" required>
                         </div>
                         
+                        <!-- Job Category -->
                         <div class="col-md-6 mb-3">
-                            <label for="category" class="form-label">Category</label>
-                            <select class="form-select" id="category" name="category">
-                                <option value="">Select Category</option>
-                                <option value="IT / Hardware / Network Engineer" <?= (isset($_POST['category']) && $_POST['category'] == 'IT / Hardware / Network Engineer') ? 'selected' : '' ?>>IT / Hardware / Network Engineer</option>
-                                <option value="Software Development" <?= (isset($_POST['category']) && $_POST['category'] == 'Software Development') ? 'selected' : '' ?>>Software Development</option>
-                                <option value="Digital Marketing" <?= (isset($_POST['category']) && $_POST['category'] == 'Digital Marketing') ? 'selected' : '' ?>>Digital Marketing</option>
-                                <option value="Accounting" <?= (isset($_POST['category']) && $_POST['category'] == 'Accounting') ? 'selected' : '' ?>>Accounting</option>
-                                <option value="Customer Service" <?= (isset($_POST['category']) && $_POST['category'] == 'Customer Service') ? 'selected' : '' ?>>Customer Service</option>
-                                <option value="Sales" <?= (isset($_POST['category']) && $_POST['category'] == 'Sales') ? 'selected' : '' ?>>Sales</option>
-                                <option value="Human Resources" <?= (isset($_POST['category']) && $_POST['category'] == 'Human Resources') ? 'selected' : '' ?>>Human Resources</option>
-                                <option value="Other" <?= (isset($_POST['category']) && $_POST['category'] == 'Other') ? 'selected' : '' ?>>Other</option>
+                            <label for="category" class="form-label required">Job Category</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">Select a category</option>
+                                <option value="IT & Software Development">IT & Software Development</option>
+                                <option value="Marketing & Advertising">Marketing & Advertising</option>
+                                <option value="Sales & Business Development">Sales & Business Development</option>
+                                <option value="Human Resources & Recruitment">Human Resources & Recruitment</option>
+                                <option value="Finance & Accounting">Finance & Accounting</option>
+                                <option value="Operations & Supply Chain Management">Operations & Supply Chain Management</option>
+                                <option value="Education & Training">Education & Training</option>
+                                <option value="Healthcare & Medical">Healthcare & Medical</option>
+                                <option value="Banking & Insurance">Banking & Insurance</option>
+                                <option value="Media, Arts & Entertainment">Media, Arts & Entertainment</option>
+                                <option value="Customer Service & Support">Customer Service & Support</option>
+                                <option value="Manufacturing & Engineering">Manufacturing & Engineering</option>
+                                <option value="Hospitality & Travel">Hospitality & Travel</option>
+                                <option value="Legal & Compliance">Legal & Compliance</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
                         
@@ -297,6 +328,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!-- Bootstrap & jQuery -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+// Validation for form submission
+document.querySelector('form').addEventListener('submit', function(e) {
+    // Get the category value
+    const categoryValue = document.getElementById('category').value;
+    
+    // Log for debugging
+    console.log('Category value before submission:', categoryValue);
+    
+    // Check if category is empty or "0"
+    if (!categoryValue || categoryValue === "0") {
+        e.preventDefault(); // Prevent form submission
+        alert('Please select a valid job category');
+        return false;
+    }
+    
+    // Additional validation for other fields can be added here
+    return true;
+});
+</script>
 
 </body>
 </html> 

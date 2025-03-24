@@ -99,9 +99,17 @@ $totalJobs = $conn->query("SELECT COUNT(*) as count FROM jobs")->fetch_assoc()['
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Job Management</h1>
-        <a href="add-job.php" class="btn btn-success">
-            <i class="fas fa-plus"></i> Add New Job
-        </a>
+        <div>
+            <a href="add-job.php" class="btn btn-success">
+                <i class="fas fa-plus"></i> Add New Job
+            </a>
+            <a href="fix-category.php" class="btn btn-warning ms-2">
+                <i class="fas fa-wrench"></i> Fix Category Issues
+            </a>
+            <a href="fix-category-type.php" class="btn btn-danger ms-2">
+                <i class="fas fa-database"></i> Fix Category Type
+            </a>
+        </div>
     </div>
 
     <!-- Statistics Cards -->
@@ -242,7 +250,7 @@ $totalJobs = $conn->query("SELECT COUNT(*) as count FROM jobs")->fetch_assoc()['
             loadJobs(1, limit);
         });
         
-        // Set up filters
+        // Filter change events
         $('#jobTypeFilter, #verifiedFilter').on('change', function() {
             loadJobs(1, limit);
         });
@@ -254,196 +262,194 @@ $totalJobs = $conn->query("SELECT COUNT(*) as count FROM jobs")->fetch_assoc()['
             $('#verifiedFilter').val('');
             loadJobs(1, limit);
         });
+        
+        // Handle toggle verification
+        $(document).on('click', '.toggle-verification', function(e) {
+            e.preventDefault();
+            const jobId = $(this).data('id');
+            const button = $(this);
+            
+            $.ajax({
+                url: 'toggle-verification.php',
+                type: 'POST',
+                data: { id: jobId },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        // Update button appearance
+                        if (response.newStatus) {
+                            button.html('<i class="fas fa-check-circle text-success"></i>');
+                            button.attr('title', 'Click to unverify');
+                        } else {
+                            button.html('<i class="fas fa-times-circle text-warning"></i>');
+                            button.attr('title', 'Click to verify');
+                        }
+                        // Show success message
+                        alert(response.message);
+                        // Reload jobs to update counts
+                        loadJobs(currentPage, limit);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error occurred while toggling verification status');
+                }
+            });
+        });
+        
+        // Handle delete job
+        $(document).on('click', '.delete-job', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to delete this job?')) {
+                const jobId = $(this).data('id');
+                
+                $.ajax({
+                    url: 'delete-job.php',
+                    type: 'POST',
+                    data: { id: jobId },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            loadJobs(currentPage, limit);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred while deleting the job');
+                    }
+                });
+            }
+        });
     });
     
     // Function to load jobs
     function loadJobs(page, limit) {
-        currentPage = page;
         const search = $('#searchInput').val();
         const jobType = $('#jobTypeFilter').val();
         const verified = $('#verifiedFilter').val();
         
-        // Show loading indicator
-        $('#jobTableBody').html('<tr><td colspan="9" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
-        
-        // Fetch jobs data
         $.ajax({
             url: 'fetch-jobs.php',
             type: 'GET',
-            data: { 
-                page: page, 
+            data: {
+                page: page,
                 limit: limit,
                 search: search,
                 job_type: jobType,
                 verified: verified
             },
             dataType: 'json',
-            success: function(data) {
-                // Update statistics
-                $('#verified-jobs-count').text(data.stats?.verified || 0);
-                $('#high-demand-count').text(data.stats?.high_demand || 0);
-                
-                // Update table with job data
-                let html = '';
-                
-                if (data.jobs && data.jobs.length > 0) {
-                    data.jobs.forEach(job => {
-                        const statusBadge = job.is_verified == 1 
-                            ? '<span class="badge badge-verified">Verified</span>' 
-                            : '<span class="badge badge-pending">Pending</span>';
-                            
-                        const highDemandBadge = job.high_demand == 1 
-                            ? ' <span class="badge badge-high-demand">High Demand</span>' 
-                            : '';
-
-                        html += `
-                            <tr>
-                                <td>${job.id}</td>
-                                <td>${job.title}</td>
-                                <td>${job.company_name}</td>
-                                <td>${job.location}</td>
-                                <td>₹${job.min_salary} - ₹${job.max_salary}</td>
-                                <td>${job.job_type}</td>
-                                <td>${statusBadge}${highDemandBadge}</td>
-                                <td>${job.formatted_date || job.created_at}</td>
-                                <td>
-                                    <div class="d-flex justify-content-center">
-                                        <a href="edit-job.php?id=${job.id}" class="btn btn-sm btn-primary me-2" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-success me-2" onclick="toggleVerification(${job.id}, ${job.is_verified})" title="${job.is_verified == 1 ? 'Unverify' : 'Verify'}">
-                                            <i class="fas ${job.is_verified == 1 ? 'fa-times-circle' : 'fa-check-circle'}"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger" onclick="deleteJob(${job.id})" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                } else {
-                    html = '<tr><td colspan="9" class="text-center">No jobs found</td></tr>';
-                }
-                
-                $('#jobTableBody').html(html);
-                
-                // Update pagination
-                updatePagination(data.pagination);
-                
-                // Update pagination info
-                if (data.pagination) {
-                    const start = (data.pagination.current_page - 1) * data.pagination.limit + 1;
-                    const end = Math.min(data.pagination.current_page * data.pagination.limit, data.pagination.total_rows);
-                    $('.pagination-info').html(`Showing ${start} to ${end} of ${data.pagination.total_rows} entries`);
-                }
+            success: function(response) {
+                displayJobs(response.jobs);
+                updatePagination(response.pagination);
+                updateStats(response.stats);
             },
-            error: function(xhr, status, error) {
-                $('#jobTableBody').html('<tr><td colspan="9" class="text-center text-danger">Error loading jobs</td></tr>');
-                console.error("AJAX Error:", status, error);
+            error: function() {
+                alert('Error occurred while fetching jobs');
             }
         });
     }
     
+    // Function to display jobs
+    function displayJobs(jobs) {
+        let html = '';
+        
+        jobs.forEach(job => {
+            const verificationIcon = job.is_verified ? 
+                '<i class="fas fa-check-circle text-success"></i>' : 
+                '<i class="fas fa-times-circle text-warning"></i>';
+            
+            const verificationTitle = job.is_verified ? 
+                'Click to unverify' : 
+                'Click to verify';
+            
+            html += `
+                <tr>
+                    <td>${job.id}</td>
+                    <td>${job.title}</td>
+                    <td>${job.company_name}</td>
+                    <td>${job.location}</td>
+                    <td>₹${job.min_salary} - ₹${job.max_salary}</td>
+                    <td>${job.job_type}</td>
+                    <td>
+                        <span class="badge ${job.is_verified ? 'badge-verified' : 'badge-pending'}">
+                            ${job.is_verified ? 'Verified' : 'Pending'}
+                        </span>
+                        ${job.high_demand ? '<span class="badge badge-high-demand ms-1">High Demand</span>' : ''}
+                    </td>
+                    <td>${job.formatted_date}</td>
+                    <td class="text-center">
+                        <a href="#" class="btn btn-sm btn-link toggle-verification" data-id="${job.id}" title="${verificationTitle}">
+                            ${verificationIcon}
+                        </a>
+                        <a href="edit-job.php?id=${job.id}" class="btn btn-sm btn-link" title="Edit">
+                            <i class="fas fa-edit text-primary"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm btn-link delete-job" data-id="${job.id}" title="Delete">
+                            <i class="fas fa-trash-alt text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        $('#jobTableBody').html(html);
+    }
+    
     // Function to update pagination
     function updatePagination(pagination) {
-        if (!pagination) {
-            console.error('Pagination data is missing');
-            return;
-        }
+        totalPages = pagination.total_pages;
+        currentPage = pagination.current_page;
         
-        const totalPages = parseInt(pagination.total_pages) || 1;
-        const currentPage = parseInt(pagination.current_page) || 1;
-        
-        let paginationHtml = '';
+        let html = '';
         
         // Previous button
-        paginationHtml += `
+        html += `
             <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="javascript:void(0)" onclick="${currentPage > 1 ? 'loadJobs(' + (currentPage - 1) + ', ' + limit + ')' : ''}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
+                <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
             </li>
         `;
         
         // Page numbers
-        const maxPages = 5; // Maximum number of page links to show
-        let startPage = Math.max(1, currentPage - Math.floor(maxPages / 2));
-        let endPage = Math.min(totalPages, startPage + maxPages - 1);
-        
-        if (endPage - startPage + 1 < maxPages) {
-            startPage = Math.max(1, endPage - maxPages + 1);
-        }
-        
-        for (let i = startPage; i <= endPage; i++) {
-            paginationHtml += `
+        for (let i = 1; i <= totalPages; i++) {
+            html += `
                 <li class="page-item ${i === currentPage ? 'active' : ''}">
-                    <a class="page-link" href="javascript:void(0)" onclick="loadJobs(${i}, ${limit})">${i}</a>
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
                 </li>
             `;
         }
         
         // Next button
-        paginationHtml += `
+        html += `
             <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                <a class="page-link" href="javascript:void(0)" onclick="${currentPage < totalPages ? 'loadJobs(' + (currentPage + 1) + ', ' + limit + ')' : ''}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
+                <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
             </li>
         `;
         
-        $('#pagination').html(paginationHtml);
+        $('#pagination').html(html);
+        
+        // Update pagination info
+        const start = ((currentPage - 1) * pagination.limit) + 1;
+        const end = Math.min(start + pagination.limit - 1, pagination.total_rows);
+        $('.pagination-info').html(`Showing ${start} to ${end} of ${pagination.total_rows} entries`);
+        
+        // Add click handlers for pagination
+        $('.page-link').on('click', function(e) {
+            e.preventDefault();
+            const page = $(this).data('page');
+            if (page >= 1 && page <= totalPages) {
+                loadJobs(page, limit);
+            }
+        });
     }
     
-    // Function to toggle job verification
-    function toggleVerification(jobId, currentStatus) {
-        if (confirm(`Are you sure you want to ${currentStatus == 1 ? 'unverify' : 'verify'} this job?`)) {
-            $.ajax({
-                url: 'verify-job.php',
-                type: 'POST',
-                data: { 
-                    id: jobId,
-                    verified: currentStatus == 1 ? 0 : 1
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(`Job ${currentStatus == 1 ? 'unverified' : 'verified'} successfully!`);
-                        loadJobs(currentPage, limit);
-                    } else {
-                        alert('Failed to update job verification status: ' + (response.error || 'Unknown error'));
-                    }
-                },
-                error: function(xhr, status, error) {
-                    alert('An error occurred while updating the job verification status.');
-                    console.error("AJAX Error:", status, error);
-                }
-            });
-        }
-    }
-    
-    // Function to delete job
-    function deleteJob(jobId) {
-        if (confirm('Are you sure you want to delete this job?')) {
-            $.ajax({
-                url: 'delete-job.php',
-                type: 'POST',
-                data: { id: jobId },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert('Job deleted successfully!');
-                        loadJobs(currentPage, limit);
-                    } else {
-                        alert('Failed to delete job: ' + (response.error || 'Unknown error'));
-                    }
-                },
-                error: function(xhr, status, error) {
-                    alert('An error occurred while deleting the job.');
-                    console.error("AJAX Error:", status, error);
-                }
-            });
-        }
+    // Function to update statistics
+    function updateStats(stats) {
+        $('#verified-jobs-count').text(stats.verified);
+        $('#high-demand-count').text(stats.high_demand);
     }
 </script>
 

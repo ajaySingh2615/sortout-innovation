@@ -1396,11 +1396,21 @@ $offset = ($currentPage - 1) * $recordsPerPage;
                 <div class="col-md-3">
                     <select class="form-select filter-dropdown" name="category" id="categoryFilter">
                         <option value="">All Categories</option>
-                        <?php foreach($categories as $category): ?>
-                            <option value="<?= htmlspecialchars($category) ?>" <?= ($selectedCategory == $category) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($category) ?>
-                            </option>
-                        <?php endforeach; ?>
+                        <option value="IT & Software Development" <?= ($selectedCategory == 'IT & Software Development') ? 'selected' : '' ?>>IT & Software Development</option>
+                        <option value="Marketing & Advertising" <?= ($selectedCategory == 'Marketing & Advertising') ? 'selected' : '' ?>>Marketing & Advertising</option>
+                        <option value="Sales & Business Development" <?= ($selectedCategory == 'Sales & Business Development') ? 'selected' : '' ?>>Sales & Business Development</option>
+                        <option value="Human Resources & Recruitment" <?= ($selectedCategory == 'Human Resources & Recruitment') ? 'selected' : '' ?>>Human Resources & Recruitment</option>
+                        <option value="Finance & Accounting" <?= ($selectedCategory == 'Finance & Accounting') ? 'selected' : '' ?>>Finance & Accounting</option>
+                        <option value="Operations & Supply Chain Management" <?= ($selectedCategory == 'Operations & Supply Chain Management') ? 'selected' : '' ?>>Operations & Supply Chain Management</option>
+                        <option value="Education & Training" <?= ($selectedCategory == 'Education & Training') ? 'selected' : '' ?>>Education & Training</option>
+                        <option value="Healthcare & Medical" <?= ($selectedCategory == 'Healthcare & Medical') ? 'selected' : '' ?>>Healthcare & Medical</option>
+                        <option value="Banking & Insurance" <?= ($selectedCategory == 'Banking & Insurance') ? 'selected' : '' ?>>Banking & Insurance</option>
+                        <option value="Media, Arts & Entertainment" <?= ($selectedCategory == 'Media, Arts & Entertainment') ? 'selected' : '' ?>>Media, Arts & Entertainment</option>
+                        <option value="Customer Service & Support" <?= ($selectedCategory == 'Customer Service & Support') ? 'selected' : '' ?>>Customer Service & Support</option>
+                        <option value="Manufacturing & Engineering" <?= ($selectedCategory == 'Manufacturing & Engineering') ? 'selected' : '' ?>>Manufacturing & Engineering</option>
+                        <option value="Hospitality & Travel" <?= ($selectedCategory == 'Hospitality & Travel') ? 'selected' : '' ?>>Hospitality & Travel</option>
+                        <option value="Legal & Compliance" <?= ($selectedCategory == 'Legal & Compliance') ? 'selected' : '' ?>>Legal & Compliance</option>
+                        <option value="Other" <?= ($selectedCategory == 'Other') ? 'selected' : '' ?>>Other</option>
                     </select>
                 </div>
                 <div class="col-md-2">

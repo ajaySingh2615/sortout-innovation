@@ -37,10 +37,10 @@ $blog = null;
 if (isset($_GET['id'])) {
     $stmt = $conn->prepare("SELECT * FROM blogs WHERE id = ?");
     $stmt->bind_param("i", $_GET['id']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $blog = $result->fetch_assoc();
-    
+$stmt->execute();
+$result = $stmt->get_result();
+$blog = $result->fetch_assoc();
+
     if ($blog) {
         $blog['categories_array'] = json_decode($blog['categories'] ?? '[]', true);
     }
@@ -207,36 +207,36 @@ if (!$blog) {
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg fixed-top bg-white shadow">
-        <div class="container">
+    <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="../public/logo.png" alt="Logo" height="40">
-            </a>
+        </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="../admin/dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../blog/index.php">View Blog</a>
                     </li>
-                    <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            👤 <?= $_SESSION['username']; ?> (<?= ucfirst($_SESSION['role']); ?>)
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+                        👤 <?= $_SESSION['username']; ?> (<?= ucfirst($_SESSION['role']); ?>)
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Spacing for Fixed Navbar -->
-    <div style="height: 80px;"></div>
+<div style="height: 80px;"></div>
 
     <!-- Main Content -->
     <div class="container py-5">
@@ -252,7 +252,7 @@ if (!$blog) {
                         </div>
                     <?php endif; ?>
 
-                    <form method="POST" enctype="multipart/form-data" class="row g-3">
+        <form method="POST" enctype="multipart/form-data" class="row g-3">
                         <input type="hidden" name="id" value="<?= $blog['id']; ?>">
                         <input type="hidden" name="current_image" value="<?= $blog['image_url']; ?>">
 
@@ -295,23 +295,23 @@ if (!$blog) {
                         </div>
 
                         <!-- Focus Keyword -->
-                        <div class="col-12">
+            <div class="col-12">
                             <label class="form-label fw-semibold">Focus Keyword:</label>
                             <input type="text" name="focus_keyword" id="focusKeyword" class="form-control" value="<?= htmlspecialchars($blog['focus_keyword']); ?>">
                             <div class="seo-tip">
                                 <i class="fas fa-info-circle"></i> The main keyword you want this post to rank for.
                             </div>
-                        </div>
+            </div>
 
                         <!-- Content -->
-                        <div class="col-12">
-                            <label class="form-label fw-semibold">Content:</label>
+            <div class="col-12">
+                <label class="form-label fw-semibold">Content:</label>
                             <textarea name="content" id="content" class="form-control" rows="10" required><?= htmlspecialchars($blog['content']); ?></textarea>
                             <div id="contentAnalysis" class="mt-3"></div>
-                        </div>
+            </div>
 
                         <!-- Categories -->
-                        <div class="col-12">
+            <div class="col-12">
                             <label class="form-label fw-semibold">Categories:</label>
                             <div class="card border-0 shadow-sm">
                                 <div class="card-body">
@@ -333,22 +333,22 @@ if (!$blog) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+            </div>
 
                         <!-- Featured Image -->
-                        <div class="col-12">
+            <div class="col-12">
                             <label class="form-label fw-semibold">Current Image:</label>
                             <?php if ($blog['image_url']): ?>
                                 <img src="<?= $blog['image_url']; ?>" alt="Current Blog Image" class="img-fluid rounded mb-3" style="max-height: 200px;">
                             <?php endif; ?>
                             
-                            <label class="form-label fw-semibold">Upload New Image (optional):</label>
+                <label class="form-label fw-semibold">Upload New Image (optional):</label>
                             <input type="file" name="image" class="form-control" accept="image/*">
                             <input type="text" name="image_alt" id="imageAlt" class="form-control mt-2" placeholder="Image Alt Text" value="<?= htmlspecialchars($blog['image_alt']); ?>">
                             <div class="seo-tip">
                                 <i class="fas fa-info-circle"></i> Add descriptive alt text for better SEO and accessibility.
                             </div>
-                        </div>
+            </div>
 
                         <div class="col-12 d-flex gap-2 mt-4">
                             <button type="submit" id="submitBtn" class="btn btn-primary flex-grow-1 py-2">
@@ -358,10 +358,10 @@ if (!$blog) {
                             <a href="dashboard.php" class="btn btn-secondary py-2">
                                 ← Back to Dashboard
                             </a>
-                        </div>
-                    </form>
-                </div>
             </div>
+        </form>
+    </div>
+</div>
 
             <!-- SEO Sidebar -->
             <div class="col-lg-4">
@@ -374,10 +374,10 @@ if (!$blog) {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+<script>
         // Initialize TinyMCE
         tinymce.init({
             selector: '#content',
@@ -549,6 +549,6 @@ if (!$blog) {
             updateCharCounter('#metaDescription', '#metaDescCounter', 160);
             analyzeSEO();
         });
-    </script>
+</script>
 </body>
 </html>
