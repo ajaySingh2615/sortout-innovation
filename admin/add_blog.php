@@ -300,9 +300,9 @@ body::before {
         <!-- ✅ Navbar Links -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link text-black fw-semibold px-3" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-black fw-semibold px-3" href="../admin/dashboard.php">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link text-black fw-semibold px-3" href="../blog/index.php">Blogs</a></li>
+                <!-- <li class="nav-item"><a class="nav-link text-black fw-semibold px-3" href="#">Home</a></li> -->
+                <li class="nav-item"><a class="nav-link text-black fw-semibold px-3" href="../admin/blog_dashboard.php">Blog_dashboard</a></li>
+                <!-- <li class="nav-item"><a class="nav-link text-black fw-semibold px-3" href="../blog/index.php">Blogs</a></li> -->
                 <!-- <li class="nav-item">
                     <a class="btn btn-light text-danger fw-bold px-4 rounded-pill shadow-sm" href="logout.php">Logout</a>
                 </li> -->
@@ -433,13 +433,13 @@ body::before {
         </div>
 
         <!-- SEO Sidebar -->
-        <div class="col-lg-4">
+        <!-- <div class="col-lg-4">
             <div class="bg-white shadow-lg rounded-4 p-4 sticky-top" style="top: 100px;">
                 <h4 class="fw-bold mb-3">SEO Analysis</h4>
                 <div id="seoScore" class="seo-score"></div>
                 <div id="seoChecklist"></div>
             </div>
-        </div>
+        </div> -->
         </div>
     </div>
 
@@ -455,7 +455,7 @@ body::before {
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" id="submitAnother">➕ Submit Another Blog</button>
-                    <a href="dashboard.php" class="btn btn-success">🏠 Go to Dashboard</a>
+                    <a href="main_dashboard.php" class="btn btn-success">🏠 Go to Dashboard</a>
                 </div>
             </div>
         </div>

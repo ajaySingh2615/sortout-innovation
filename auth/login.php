@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['role'] = $role;
 
                 if ($role == 'admin' || $role == 'super_admin') {
-                    header("Location: ../admin/dashboard.php");
+                    header("Location: ../admin/main_dashboard.php");
                 } else {
                     header("Location: ../index.php");
                 }

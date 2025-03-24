@@ -188,6 +188,6 @@ if ($blogs) {
 }
 
 echo "<div style='margin-top: 20px;'>";
-echo "<a href='dashboard.php' style='padding: 10px; background: #2196F3; color: white; text-decoration: none;'>Go to Dashboard</a>";
+echo "<a href='main_dashboard.php' style='padding: 10px; background: #2196F3; color: white; text-decoration: none;'>Go to Dashboard</a>";
 echo "</div>";
 ?> 

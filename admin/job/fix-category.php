@@ -72,7 +72,7 @@ $countStmt->close();
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link fw-semibold px-3" href="job-dashboard.php">Job Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="../dashboard.php">Admin Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="../main_dashboard.php">Admin Dashboard</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle fw-semibold px-3" href="#" role="button" data-bs-toggle="dropdown">
                         👤 <?= $_SESSION['username']; ?> (<?= ucfirst($_SESSION['role']); ?>)

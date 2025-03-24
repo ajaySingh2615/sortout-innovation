@@ -144,6 +144,10 @@ $totalPages = ceil($totalDevices / $limit);
     <button class="btn btn-warning fw-bold" onclick="window.location.href='../devices.php'">
         Devices
     </button>
+
+    <a class="nav-link fw-semibold px-3" href="./main_dashboard.php"><button class="btn btn-warning fw-bold"">
+        Main Dashboard
+    </button></a>
 </div>
 
     </div>

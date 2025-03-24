@@ -112,7 +112,7 @@ function create_slug($string) {
 }
 
 if (!$blog) {
-    header("Location: dashboard.php");
+    header("Location: main_dashboard.php");
     exit();
 }
 ?>
@@ -217,7 +217,7 @@ if (!$blog) {
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin/dashboard.php">Dashboard</a>
+                        <a class="nav-link" href="../admin/blog_dashboard.php">Blog_dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../blog/index.php">View Blog</a>
@@ -355,8 +355,8 @@ if (!$blog) {
                                 <span class="spinner-border spinner-border-sm me-2" id="submitSpinner" role="status" aria-hidden="true" style="display: none;"></span>
                                 💾 Save Changes
                             </button>
-                            <a href="dashboard.php" class="btn btn-secondary py-2">
-                                ← Back to Dashboard
+                            <a href="blog_dashboard.php" class="btn btn-secondary py-2">
+                                ← Back to Blog_dashboard
                             </a>
             </div>
         </form>
@@ -364,15 +364,15 @@ if (!$blog) {
 </div>
 
             <!-- SEO Sidebar -->
-            <div class="col-lg-4">
+            <!-- <div class="col-lg-4">
                 <div class="bg-white shadow-lg rounded-4 p-4 sticky-top" style="top: 100px;">
                     <h4 class="fw-bold mb-3">SEO Analysis</h4>
                     <div id="seoScore" class="seo-score"></div>
                     <div id="seoChecklist"></div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div> -->
+        <!-- </div>
+    </div> -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

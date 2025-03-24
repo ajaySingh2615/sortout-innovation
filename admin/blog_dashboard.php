@@ -193,11 +193,11 @@ if ($_SESSION['role'] === 'super_admin') {
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="add_blog.php">Add Blog</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="../blog/index.php">Blogs</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="../pages/our-services-page/service.html">Services</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="device_dashboard.php">Manage Devices</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="model_agency_dashboard.php">Manage Talents</a></li>
+                <!-- <li class="nav-item"><a class="nav-link fw-semibold px-3" href="add_blog.php">Add Blog</a></li> -->
+                <!-- <li class="nav-item"><a class="nav-link fw-semibold px-3" href="../blog/index.php">Blogs</a></li> -->
+                <!-- <li class="nav-item"><a class="nav-link fw-semibold px-3" href="../pages/our-services-page/service.html">Services</a></li> -->
+                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="main_dashboard.php">Main_dashboard</a></li>
+                <!-- <li class="nav-item"><a class="nav-link fw-semibold px-3" href="model_agency_dashboard.php">Manage Talents</a></li> -->
                 <!-- ✅ Display Logged-in User Info -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle fw-semibold px-3" href="#" role="button" data-bs-toggle="dropdown">
@@ -313,22 +313,6 @@ if ($_SESSION['role'] === 'super_admin') {
             </ul>
         </nav>
     </div>
-    
-    <!-- Add a new card for Job Management -->
-    <div class="col-md-4 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="icon-box bg-warning-subtle">
-                        <i class="fas fa-briefcase text-warning"></i>
-                    </div>
-                    <h5 class="card-title ms-3 mb-0">Job Management</h5>
-                </div>
-                <p class="card-text text-muted">Manage job postings, track applications, and handle employment opportunities.</p>
-                <a href="job/job-dashboard.php" class="btn btn-outline-warning mt-auto">Manage Jobs</a>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- ✅ Footer -->
@@ -370,6 +354,66 @@ if ($_SESSION['role'] === 'super_admin') {
             $('#searchInput').val('');
             $('#categoryFilter').val('');
             loadBlogs(1, limit);
+        });
+
+        // Handle Admin Approval
+        $('.approve-btn').on('click', function() {
+            const adminId = $(this).data('id');
+            const row = $(`#admin-${adminId}`);
+            
+            if (confirm('Are you sure you want to approve this admin?')) {
+                $.ajax({
+                    url: 'approve_admin.php',
+                    type: 'POST',
+                    data: { id: adminId },
+                    success: function(response) {
+                        alert(response);
+                        if (response.includes('✅')) {
+                            // Remove the row on success
+                            row.fadeOut(400, function() {
+                                $(this).remove();
+                                // If no more pending admins, remove the entire section
+                                if ($('.approve-btn').length === 0) {
+                                    $('.container:has(h3:contains("Pending Admin Approvals"))').remove();
+                                }
+                            });
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred while approving admin');
+                    }
+                });
+            }
+        });
+
+        // Handle Admin Rejection
+        $('.reject-btn').on('click', function() {
+            const adminId = $(this).data('id');
+            const row = $(`#admin-${adminId}`);
+            
+            if (confirm('Are you sure you want to reject this admin?')) {
+                $.ajax({
+                    url: 'reject_admin.php',
+                    type: 'POST',
+                    data: { id: adminId },
+                    success: function(response) {
+                        alert(response);
+                        if (response.includes('❌')) {
+                            // Remove the row on success
+                            row.fadeOut(400, function() {
+                                $(this).remove();
+                                // If no more pending admins, remove the entire section
+                                if ($('.reject-btn').length === 0) {
+                                    $('.container:has(h3:contains("Pending Admin Approvals"))').remove();
+                                }
+                            });
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred while rejecting admin');
+                    }
+                });
+            }
         });
     });
     
