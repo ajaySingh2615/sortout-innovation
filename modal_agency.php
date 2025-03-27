@@ -751,6 +751,68 @@ body.modal-open {
     }
 }
     
+/* Add dropdown styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
+    color: #d10000;
+}
+
+/* Mobile Dropdown */
+@media (max-width: 991px) {
+    .dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        width: 100%;
+        display: none;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-item {
+        padding: 10px 20px;
+        text-align: center;
+        background: #f5f5f5;
+    }
+}
+
 </style>
 
 
@@ -821,7 +883,13 @@ body.modal-open {
                 <div class="hidden md:flex space-x-6">
                     <a href="index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Home</a>
                     <a href="/pages/about-page/about.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">About</a>
-                    <a href="/pages/career.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Jobs</a>
+                    <div class="dropdown">
+                        <a href="#" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Career <i class="fas fa-chevron-down ml-1"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
+                            <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
+                        </div>
+                    </div>
                     <a href="/modal_agency.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
                     <a href="/pages/our-services-page/service.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Services</a>
                     <a href="/pages/contact-page/contact-page.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Contact</a>
@@ -853,14 +921,17 @@ body.modal-open {
             <div class="px-4 py-3 space-y-3">
                 <a href="index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Home</a>
                 <a href="/pages/about-page/about.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">About</a>
-                <a href="/pages/career.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Jobs</a>
+                <div class="dropdown">
+                    <a href="#" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Career <i class="fas fa-chevron-down ml-1"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
+                        <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
+                    </div>
+                </div>
                 <a href="/modal_agency.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
                 <a href="/pages/our-services-page/service.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
                 <a href="/pages/contact-page/contact-page.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
-                <!-- Create Profile Button for Small Mobile -->
-                <button id="mobileCreateProfileBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 w-full sm:hidden mt-2 font-semibold tracking-wide">
-                    Create Profile
-                </button>
+                <a href="/blog/index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Blog</a>
             </div>
         </div>
     </nav>
@@ -3274,6 +3345,92 @@ function setupClientCards() {
 
 // Call this function after loading new client cards
 window.initializeClientCards = setupClientCards;
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    // Toggle mobile menu
+    mobileMenuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+        hamburgerIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+    });
+
+    // Handle dropdowns on mobile
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('a');
+        link.addEventListener('click', (e) => {
+            if (window.innerWidth <= 991) {
+                e.preventDefault();
+                dropdown.classList.toggle('active');
+            }
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+        }
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const closeIcon = document.getElementById('closeIcon');
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    // Toggle mobile menu
+    if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+            hamburgerIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    }
+
+    // Handle dropdowns on mobile
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('a');
+        if (link) {
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 991) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdown.classList.toggle('active');
+                }
+            });
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+        }
+    });
+
+    // Prevent mobile menu from closing when clicking inside it
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+});
 </script>
 
 

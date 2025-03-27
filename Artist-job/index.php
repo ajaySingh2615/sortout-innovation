@@ -36,7 +36,7 @@ if ($result && $result->num_rows > 0) {
         <!-- Navigation Links -->
         <nav class="navbar-links">
           <ul>
-            <li><a href="/index.php" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">Home</a></li>
             <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
             <li class="dropdown">
               <a href="#" class="nav-link">Career <i class="fas fa-chevron-down"></i></a>

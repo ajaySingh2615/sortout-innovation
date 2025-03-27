@@ -1338,7 +1338,7 @@ $offset = ($currentPage - 1) * $recordsPerPage;
 <header class="navbar">
       <div class="container">
         <!-- Logo -->
-        <a href="/index.php" class="navbar-logo">
+        <a href="/" class="navbar-logo">
           <img
             src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
             alt="SortOut Innovation"
@@ -1348,7 +1348,7 @@ $offset = ($currentPage - 1) * $recordsPerPage;
         <!-- Navigation Links -->
         <nav class="navbar-links">
           <ul>
-            <li><a href="/index.php" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">Home</a></li>
             <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
             <li class="dropdown">
               <a href="#" class="nav-link">Career <i class="fas fa-chevron-down"></i></a>
