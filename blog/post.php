@@ -265,6 +265,7 @@ if ($needs_toc) {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .navbar-logo {
@@ -275,6 +276,10 @@ if ($needs_toc) {
 
         .navbar-logo img {
             height: 40px;
+        }
+
+        .navbar-links {
+            display: flex;
         }
 
         .navbar-links ul {
@@ -308,10 +313,16 @@ if ($needs_toc) {
             font-size: 24px;
             color: var(--dark-color);
             cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
         }
 
         /* Mobile Menu */
         @media (max-width: 991px) {
+            .navbar-toggle {
+                display: block;
+            }
+
             .navbar-links {
                 position: fixed;
                 top: 70px;
@@ -319,11 +330,11 @@ if ($needs_toc) {
                 width: 100%;
                 height: calc(100vh - 70px);
                 background-color: white;
-                flex-direction: column;
-                transition: all 0.3s ease;
+                padding: 20px;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
                 overflow-y: auto;
-                z-index: 999;
+                transition: all 0.3s ease;
+                z-index: 1000;
             }
 
             .navbar-links.active {
@@ -333,23 +344,24 @@ if ($needs_toc) {
             .navbar-links ul {
                 flex-direction: column;
                 width: 100%;
-                /* padding: 20px; */
+                gap: 15px;
             }
 
             .navbar-links li {
                 margin: 0;
-                margin-bottom: 15px;
                 width: 100%;
+                text-align: center;
             }
 
             .navbar-links .nav-link {
                 display: block;
-                padding: 10px 0;
+                padding: 12px 20px;
                 font-size: 16px;
+                border-radius: 5px;
             }
 
-            .navbar-toggle {
-                display: block;
+            .navbar-links .nav-link:hover {
+                background-color: #f5f5f5;
             }
         }
         
@@ -1009,36 +1021,158 @@ if ($needs_toc) {
         .share-copy:hover {
             background-color: #4CAF50;
     }
+
+    /* Dropdown Menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    min-width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
+    color: #d10000;
+}
+
+/* Mobile Dropdown */
+@media (max-width: 991px) {
+    .dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        width: 100%;
+        display: none;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-item {
+        padding: 10px 20px;
+        text-align: center;
+        background: #f5f5f5;
+    }
+}
+
 </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="container">
-            <!-- Logo -->
-            <a href="/" class="navbar-logo">
-                <img src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" alt="SortOut Innovation" />
-            </a>
+<header class="navbar">
+      <div class="container">
+        <!-- Logo -->
+        <a href="/" class="navbar-logo">
+          <img
+            src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
+            alt="SortOut Innovation"
+          />
+        </a>
 
-            <!-- Navigation Links -->
-            <nav class="navbar-links">
-                <ul>
-                    <li><a href="/" class="nav-link">Home</a></li>
-                    <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
-                    <li><a href="/pages/career.html" class="nav-link">Jobs</a></li>
-                    <li><a href="/modal_agency.php" class="nav-link">Find Talent</a></li>
-                    <li><a href="/pages/our-services-page/service.html" class="nav-link">Service</a></li>
-                    <li><a href="/pages/contact-page/contact-page.html" class="nav-link">Contact</a></li>
-                    <li><a href="/blog/index.php" class="nav-link active">Blog</a></li>
-                </ul>
-            </nav>
+        <!-- Navigation Links -->
+        <nav class="navbar-links">
+          <ul>
+            <li><a href="/" class="nav-link">Home</a></li>
+            <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
+            <li class="dropdown">
+              <a href="#" class="nav-link">Career <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
+                <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
+              </div>
+            </li>
+            <li><a href="/modal_agency.php" class="nav-link">Find Talent</a></li>
+            <li><a href="/pages/our-services-page/service.html" class="nav-link">Service</a></li>
+            <li><a href="/pages/contact-page/contact-page.html" class="nav-link">Contact</a></li>
+            <li><a href="/blog/index.php" class="nav-link">Blog</a></li>
+          </ul>
+        </nav>
 
-            <!-- Mobile Menu Button -->
-            <button class="navbar-toggle" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
+        <!-- Mobile Menu Button -->
+        <button class="navbar-toggle" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
     </header>
+
+    <script>
+      // Mobile Menu Toggle
+      document.addEventListener('DOMContentLoaded', function() {
+          const navbarToggle = document.querySelector(".navbar-toggle");
+          const navbarLinks = document.querySelector(".navbar-links");
+          const dropdowns = document.querySelectorAll(".dropdown");
+
+          // Toggle mobile menu
+          navbarToggle.addEventListener("click", function(e) {
+              e.preventDefault();
+              navbarLinks.classList.toggle("active");
+              // Toggle icon between bars and times
+              const icon = this.querySelector("i");
+              icon.classList.toggle("fa-bars");
+              icon.classList.toggle("fa-times");
+          });
+
+          // Handle dropdowns on mobile
+          dropdowns.forEach(dropdown => {
+              const link = dropdown.querySelector("a");
+              link.addEventListener("click", (e) => {
+                  if (window.innerWidth <= 991) {
+                      e.preventDefault();
+                      dropdown.classList.toggle("active");
+                  }
+              });
+          });
+
+          // Close mobile menu when clicking outside
+          document.addEventListener("click", function(e) {
+              if (!navbarLinks.contains(e.target) && !navbarToggle.contains(e.target) && navbarLinks.classList.contains("active")) {
+                  navbarLinks.classList.remove("active");
+                  const icon = navbarToggle.querySelector("i");
+                  icon.classList.add("fa-bars");
+                  icon.classList.remove("fa-times");
+                  dropdowns.forEach(dropdown => dropdown.classList.remove("active"));
+              }
+          });
+
+          // Sticky Navbar on Scroll
+          window.addEventListener("scroll", () => {
+              const navbar = document.querySelector(".navbar");
+              if (window.scrollY > 50) {
+                  navbar.classList.add("scrolled");
+              } else {
+                  navbar.classList.remove("scrolled");
+              }
+          });
+      });
+    </script>
 
     <!-- Post Header -->
     <section class="post-header">
@@ -1276,27 +1410,13 @@ if ($needs_toc) {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Navbar Script -->
-<script>
-        // Mobile Menu Toggle
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const navbarToggle = document.querySelector(".navbar-toggle");
-            const navbarLinks = document.querySelector(".navbar-links");
-
-            navbarToggle.addEventListener("click", () => {
-                navbarLinks.classList.toggle("active");
-            });
-
-            // Sticky Navbar on Scroll
-            window.addEventListener("scroll", () => {
-                const navbar = document.querySelector(".navbar");
-                if (window.scrollY > 50) {
-                    navbar.classList.add("scrolled");
-                } else {
-                    navbar.classList.remove("scrolled");
-                }
-            });
-            
             // Back to Top Button
             const backToTopBtn = document.getElementById('backToTop');
             
