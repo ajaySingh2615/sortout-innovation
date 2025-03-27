@@ -26,7 +26,7 @@ if ($result && $result->num_rows > 0) {
     <header class="navbar">
       <div class="container">
         <!-- Logo -->
-        <a href="/index.php" class="navbar-logo">
+        <a href="/" class="navbar-logo">
           <img
             src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
             alt="SortOut Innovation"
@@ -36,37 +36,19 @@ if ($result && $result->num_rows > 0) {
         <!-- Navigation Links -->
         <nav class="navbar-links">
           <ul>
-            <li><a href="/index.php" class="nav-link">Home</a></li>
-            <li>
-              <a href="/pages/about-page/about.html" class="nav-link">About</a>
+            <li><a href="#" class="nav-link">Home</a></li>
+            <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
+            <li class="dropdown">
+              <a href="#" class="nav-link">Career <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
+                <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
+              </div>
             </li>
-            <!-- <li>
-              <a href="/pages/portfolio/portfolio.html" class="nav-link"
-                >Portfolio</a
-              >
-            </li> -->
-            <li><a href="/employee-job/index.php" class="nav-link">Jobs</a></li>
-            <li><a href="/artist-job/index.php" class="nav-link">Artist Jobs</a></li>
-            <li>
-              <a href="/modal_agency.php" class="nav-link"
-                >Find Talent</a
-              >
-            </li>
-            <li>
-              <a href="/pages/our-services-page/service.html" class="nav-link"
-                >Service</a
-              >
-            </li>
-            <li>
-              <a href="/pages/contact-page/contact-page.html" class="nav-link"
-                >Contact</a
-              >
-            </li>
-            <li>
-              <a href="/blog/index.php" class="nav-link"
-                >Blog</a
-              >
-            </li>
+            <li><a href="/modal_agency.php" class="nav-link">Find Talent</a></li>
+            <li><a href="/pages/our-services-page/service.html" class="nav-link">Service</a></li>
+            <li><a href="/pages/contact-page/contact-page.html" class="nav-link">Contact</a></li>
+            <li><a href="/blog/index.php" class="nav-link">Blog</a></li>
           </ul>
         </nav>
 
@@ -79,21 +61,44 @@ if ($result && $result->num_rows > 0) {
 
     <script>
       // Mobile Menu Toggle
-      const navbarToggle = document.querySelector(".navbar-toggle");
-      const navbarLinks = document.querySelector(".navbar-links");
+      document.addEventListener('DOMContentLoaded', function() {
+          const navbarToggle = document.querySelector(".navbar-toggle");
+          const navbarLinks = document.querySelector(".navbar-links");
+          const dropdowns = document.querySelectorAll(".dropdown");
 
-      navbarToggle.addEventListener("click", () => {
-        navbarLinks.classList.toggle("active");
-      });
+          // Toggle mobile menu
+          navbarToggle.addEventListener("click", () => {
+              navbarLinks.classList.toggle("active");
+          });
 
-      // Sticky Navbar on Scroll
-      window.addEventListener("scroll", () => {
-        const navbar = document.querySelector(".navbar");
-        if (window.scrollY > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
+          // Handle dropdowns on mobile
+          dropdowns.forEach(dropdown => {
+              const link = dropdown.querySelector("a");
+              link.addEventListener("click", (e) => {
+                  if (window.innerWidth <= 991) {
+                      e.preventDefault();
+                      dropdown.classList.toggle("active");
+                  }
+              });
+          });
+
+          // Close mobile menu when clicking outside
+          document.addEventListener("click", (e) => {
+              if (!navbarLinks.contains(e.target) && !navbarToggle.contains(e.target)) {
+                  navbarLinks.classList.remove("active");
+                  dropdowns.forEach(dropdown => dropdown.classList.remove("active"));
+              }
+          });
+
+          // Sticky Navbar on Scroll
+          window.addEventListener("scroll", () => {
+              const navbar = document.querySelector(".navbar");
+              if (window.scrollY > 50) {
+                  navbar.classList.add("scrolled");
+              } else {
+                  navbar.classList.remove("scrolled");
+              }
+          });
       });
     </script>
 
