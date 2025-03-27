@@ -1249,6 +1249,87 @@ $offset = ($currentPage - 1) * $recordsPerPage;
   }
 }
 
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    min-width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
+    color: #d10000;
+}
+
+/* Mobile Dropdown */
+@media (max-width: 991px) {
+    .navbar-links {
+        position: fixed;
+        top: 70px;
+        right: 0;
+        background: #ffffff;
+        width: 100%;
+        max-width: 300px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        display: none;
+    }
+
+    .navbar-links.active {
+        transform: translateX(0);
+        display: block;
+    }
+
+    .dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        width: 100%;
+        display: none;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-item {
+        padding: 10px 20px;
+        text-align: left;
+        background: #f5f5f5;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -1267,36 +1348,19 @@ $offset = ($currentPage - 1) * $recordsPerPage;
         <!-- Navigation Links -->
         <nav class="navbar-links">
           <ul>
-            <li><a href="/index.php" class="nav-link">Home</a></li>
-            <li>
-              <a href="/pages/about-page/about.html" class="nav-link">About</a>
+            <li><a href="#" class="nav-link">Home</a></li>
+            <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
+            <li class="dropdown">
+              <a href="#" class="nav-link">Career <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
+                <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
+              </div>
             </li>
-            <!-- <li>
-              <a href="/pages/portfolio/portfolio.html" class="nav-link"
-                >Portfolio</a
-              >
-            </li> -->
-            <li><a href="/employee-job/index.php" class="nav-link">Jobs</a></li>
-            <li>
-              <a href="/modal_agency.php" class="nav-link"
-                >Find Talent</a
-              >
-            </li>
-            <li>
-              <a href="/pages/our-services-page/service.html" class="nav-link"
-                >Service</a
-              >
-            </li>
-            <li>
-              <a href="/pages/contact-page/contact-page.html" class="nav-link"
-                >Contact</a
-              >
-            </li>
-            <li>
-              <a href="/blog/index.php" class="nav-link"
-                >Blog</a
-              >
-            </li>
+            <li><a href="/modal_agency.php" class="nav-link">Find Talent</a></li>
+            <li><a href="/pages/our-services-page/service.html" class="nav-link">Service</a></li>
+            <li><a href="/pages/contact-page/contact-page.html" class="nav-link">Contact</a></li>
+            <li><a href="/blog/index.php" class="nav-link">Blog</a></li>
           </ul>
         </nav>
 
@@ -1309,21 +1373,44 @@ $offset = ($currentPage - 1) * $recordsPerPage;
 
     <script>
       // Mobile Menu Toggle
-      const navbarToggle = document.querySelector(".navbar-toggle");
-      const navbarLinks = document.querySelector(".navbar-links");
+      document.addEventListener('DOMContentLoaded', function() {
+          const navbarToggle = document.querySelector(".navbar-toggle");
+          const navbarLinks = document.querySelector(".navbar-links");
+          const dropdowns = document.querySelectorAll(".dropdown");
 
-      navbarToggle.addEventListener("click", () => {
-        navbarLinks.classList.toggle("active");
-      });
+          // Toggle mobile menu
+          navbarToggle.addEventListener("click", () => {
+              navbarLinks.classList.toggle("active");
+          });
 
-      // Sticky Navbar on Scroll
-      window.addEventListener("scroll", () => {
-        const navbar = document.querySelector(".navbar");
-        if (window.scrollY > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
+          // Handle dropdowns on mobile
+          dropdowns.forEach(dropdown => {
+              const link = dropdown.querySelector("a");
+              link.addEventListener("click", (e) => {
+                  if (window.innerWidth <= 991) {
+                      e.preventDefault();
+                      dropdown.classList.toggle("active");
+                  }
+              });
+          });
+
+          // Close mobile menu when clicking outside
+          document.addEventListener("click", (e) => {
+              if (!navbarLinks.contains(e.target) && !navbarToggle.contains(e.target)) {
+                  navbarLinks.classList.remove("active");
+                  dropdowns.forEach(dropdown => dropdown.classList.remove("active"));
+              }
+          });
+
+          // Sticky Navbar on Scroll
+          window.addEventListener("scroll", () => {
+              const navbar = document.querySelector(".navbar");
+              if (window.scrollY > 50) {
+                  navbar.classList.add("scrolled");
+              } else {
+                  navbar.classList.remove("scrolled");
+              }
+          });
       });
     </script>
 
