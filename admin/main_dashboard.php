@@ -180,6 +180,22 @@ if ($_SESSION['role'] === 'super_admin') {
                 </div>
             </div>
         </div>
+
+        <!-- Artist Job Management Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-box bg-danger-subtle">
+                            <i class="fas fa-palette text-danger"></i>
+                        </div>
+                        <h5 class="card-title ms-3 mb-0">Artist Job Management</h5>
+                    </div>
+                    <p class="card-text text-muted">Manage artist categories, apps, and job opportunities.</p>
+                    <a href="artist-dashboard/artist_dashboard.php" class="btn btn-outline-danger mt-auto">Manage Artist Jobs</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
