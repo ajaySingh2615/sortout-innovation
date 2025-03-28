@@ -10,11 +10,22 @@
     />
     <link rel="icon" type="image/png" href="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" />
     <title>CA Services</title>
+    
     <!-- Bootstrap CSS -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+
+    <!-- Bootstrap JavaScript Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
       rel="stylesheet"
@@ -26,85 +37,296 @@
     <link rel="stylesheet" href="/CSS/floating-social-media.css" />
   </head>
   <body>
-    <header class="navbar">
+    <!-- Bootstrap Navbar with Enhanced Features -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
       <div class="container">
-        <!-- Logo -->
-        <a href="/index.php" class="navbar-logo">
-          <img
-            src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif"
-            alt="SortOut Innovation"
-          />
-        </a>
-
-        <!-- Navigation Links -->
-        <nav class="navbar-links">
-          <ul>
-            <li><a href="/index.php" class="nav-link">Home</a></li>
-            <li><a href="/pages/about-page/about.html" class="nav-link">About</a></li>
-            <li class="dropdown">
-              <a href="#" class="nav-link">Career <i class="fas fa-chevron-down"></i></a>
-              <div class="dropdown-menu">
-                <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
-                <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
+          <!-- Logo with hover effect -->
+          <a class="navbar-brand position-relative" href="/">
+              <div class="logo-container">
+                  <img src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" alt="SortOut Innovation" height="45" class="main-logo">
+                  <div class="logo-glow"></div>
               </div>
-            </li>
-            <li><a href="/modal_agency.php" class="nav-link">Find Talent</a></li>
-            <li><a href="/pages/our-services-page/service.html" class="nav-link">Service</a></li>
-            <li><a href="/pages/contact-page/contact-page.html" class="nav-link">Contact</a></li>
-            <li><a href="/blog/index.php" class="nav-link">Blog</a></li>
-          </ul>
-        </nav>
+          </a>
 
-        <!-- Mobile Menu Button -->
-        <button class="navbar-toggle" aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
-        </button>
+          <!-- Animated Mobile Toggle Button -->
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <div class="toggle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </div>
+          </button>
+
+          <!-- Enhanced Navigation Links -->
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+              <ul class="navbar-nav align-items-center">
+                  <li class="nav-item">
+                      <a class="nav-link px-3" href="/">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link px-3" href="/pages/about-page/about.html">About</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Career
+                      </a>
+                      <ul class="dropdown-menu animate slideIn">
+                          <li>
+                              <a class="dropdown-item" href="/employee-job/index.php">Employee Jobs</a>
+                          </li>
+                          <li>
+                              <a class="dropdown-item" href="/artist-job/index.php">Artist Jobs</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link px-3" href="/modal_agency.php">Find Talent</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link px-3" href="/pages/our-services-page/service.html">Services</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link px-3" href="/pages/contact-page/contact-page.html">Contact</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link px-3" href="/blog/index.php">Blog</a>
+                  </li>
+              </ul>
+          </div>
       </div>
-    </header>
+    </nav>
+
+    <!-- Spacer for fixed navbar -->
+    <div style="height: 76px;"></div>
+
+    <style>
+    /* Modern Navbar Styles with Enhanced Features */
+    .navbar {
+        padding: 0.8rem 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(10px);
+        font-family: 'Montserrat', sans-serif;
+        z-index: 1000;
+    }
+
+    /* Logo Container with Glow Effect */
+    .logo-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .logo-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(209, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .navbar-brand:hover .logo-glow {
+        opacity: 1;
+    }
+
+    /* Navigation Links */
+    .nav-link {
+        font-weight: 400;
+        color: #2c3e50 !important;
+        position: relative;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        letter-spacing: 0.3px;
+        padding: 0.5rem 1rem !important;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background: linear-gradient(90deg, #d10000, #ff4b4b);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .nav-link:hover::after {
+        width: calc(100% - 2.4rem);
+    }
+
+    .nav-link:hover {
+        color: #d10000 !important;
+    }
+
+    /* Enhanced Dropdown Styles */
+    .dropdown-menu {
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        padding: 0.8rem 0.5rem;
+        margin-top: 0.5rem;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        z-index: 1001;
+    }
+
+    .dropdown-item {
+        padding: 0.8rem 1.2rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        color: #2c3e50;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .dropdown-item:hover {
+        background: linear-gradient(45deg, rgba(209, 0, 0, 0.05), rgba(255, 75, 75, 0.05));
+        color: #d10000;
+        transform: translateX(5px);
+    }
+
+    /* Animated Mobile Toggle Button */
+    .toggle-icon {
+        width: 24px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .toggle-icon span {
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: #2c3e50;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .toggle-icon span:first-child {
+        top: 0;
+    }
+
+    .toggle-icon span:nth-child(2) {
+        top: 9px;
+    }
+
+    .toggle-icon span:last-child {
+        top: 18px;
+    }
+
+    .navbar-toggler[aria-expanded="true"] .toggle-icon span:first-child {
+        transform: rotate(45deg);
+        top: 9px;
+    }
+
+    .navbar-toggler[aria-expanded="true"] .toggle-icon span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .navbar-toggler[aria-expanded="true"] .toggle-icon span:last-child {
+        transform: rotate(-45deg);
+        top: 9px;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 991px) {
+        .navbar-collapse {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 1rem;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-link {
+            padding: 0.8rem 1.2rem !important;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(45deg, rgba(209, 0, 0, 0.05), rgba(255, 75, 75, 0.05));
+        }
+
+        .nav-link::after {
+            display: none;
+        }
+
+        .dropdown-menu {
+            box-shadow: none;
+            padding-left: 1rem;
+            background: transparent;
+        }
+
+        .dropdown-item:hover {
+            transform: none;
+        }
+    }
+    </style>
 
     <script>
-      // Mobile Menu Toggle
-      document.addEventListener('DOMContentLoaded', function() {
-          const navbarToggle = document.querySelector(".navbar-toggle");
-          const navbarLinks = document.querySelector(".navbar-links");
-          const dropdowns = document.querySelectorAll(".dropdown");
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.querySelector('.navbar');
+        let lastScroll = 0;
 
-          // Toggle mobile menu
-          navbarToggle.addEventListener("click", () => {
-              navbarLinks.classList.toggle("active");
-          });
+        // Enhanced scroll behavior
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                navbar.style.padding = "0.6rem 0";
+                navbar.style.boxShadow = "0 5px 30px rgba(0,0,0,0.08)";
+            } else {
+                navbar.style.padding = "0.8rem 0";
+                navbar.style.boxShadow = "none";
+            }
 
-          // Handle dropdowns on mobile
-          dropdowns.forEach(dropdown => {
-              const link = dropdown.querySelector("a");
-              link.addEventListener("click", (e) => {
-                  if (window.innerWidth <= 991) {
-                      e.preventDefault();
-                      dropdown.classList.toggle("active");
-                  }
-              });
-          });
+            // Smooth hide/show on scroll
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
 
-          // Close mobile menu when clicking outside
-          document.addEventListener("click", (e) => {
-              if (!navbarLinks.contains(e.target) && !navbarToggle.contains(e.target)) {
-                  navbarLinks.classList.remove("active");
-                  dropdowns.forEach(dropdown => dropdown.classList.remove("active"));
-              }
-          });
+            lastScroll = currentScroll;
+        });
 
-          // Sticky Navbar on Scroll
-          window.addEventListener("scroll", () => {
-              const navbar = document.querySelector(".navbar");
-              if (window.scrollY > 50) {
-                  navbar.classList.add("scrolled");
-              } else {
-                  navbar.classList.remove("scrolled");
-              }
-          });
-      });
+        // Handle mobile menu toggle animation
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+        navbarToggler.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
+            
+            if (!isExpanded) {
+                navbarCollapse.classList.add('show');
+            } else {
+                navbarCollapse.classList.remove('show');
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!navbar.contains(event.target) && navbarCollapse.classList.contains('show')) {
+                navbarToggler.setAttribute('aria-expanded', 'false');
+                navbarCollapse.classList.remove('show');
+            }
+        });
+    });
     </script>
-
     <!-- Hero Section -->
 
     <section class="hero-section" id="hero">
