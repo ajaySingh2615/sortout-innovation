@@ -121,8 +121,8 @@ if ($result && $result->num_rows > 0) {
         color: #2c3e50 !important;
         position: relative;
         transition: all 0.3s ease;
-        font-size: 17px !important;
-        letter-spacing: 0.3px;
+        font-size: 16px !important;
+        letter-spacing: 1px;
     }
 
     .nav-link::after {
