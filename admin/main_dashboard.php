@@ -196,6 +196,22 @@ if ($_SESSION['role'] === 'super_admin') {
                 </div>
             </div>
         </div>
+        
+        <!-- App Directory Management Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-box bg-primary-subtle">
+                            <i class="fas fa-mobile-alt text-primary"></i>
+                        </div>
+                        <h5 class="card-title ms-3 mb-0">App Directory</h5>
+                    </div>
+                    <p class="card-text text-muted">Manage app categories and applications for the app directory.</p>
+                    <a href="artist-v2/artist_dashboard.php" class="btn btn-outline-primary mt-auto">Manage App Directory</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

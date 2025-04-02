@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: text/html');
-include_once __DIR__ . '/../includes/db_connect.php';
-include_once __DIR__ . '/../includes/functions.php';
+require_once '../../../includes/db_connect.php';
+include_once '../includes/functions.php';
 
 echo "<h1>API Debugging</h1>";
 

@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
-include_once __DIR__ . '/../includes/db_connect.php';
-include_once __DIR__ . '/../includes/functions.php';
+require_once '../../../includes/db_connect.php';
+include_once '../includes/functions.php';
 
 $response = [
     'success' => false,

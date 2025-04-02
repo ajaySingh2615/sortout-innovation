@@ -1,6 +1,12 @@
 <?php
-// Include the database connection
-include_once 'db_connect.php';
+require_once '../../auth/auth.php';
+require_once '../../includes/db_connect.php';
+
+// Ensure only super admins can access
+if ($_SESSION['role'] !== 'super_admin') {
+    echo "Access Denied! Only super admins can manage apps and categories.";
+    exit();
+}
 
 // Function to create a default image
 function createDefaultImage($path, $text, $width = 512, $height = 512) {

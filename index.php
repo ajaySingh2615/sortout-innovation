@@ -93,6 +93,9 @@
                             <li>
                                 <a class="dropdown-item" href="/artist-job/index.php">Artist Jobs</a>
                             </li>
+                            <li>
+                                <a class="dropdown-item" href="/admin/artist-v2/public/index.php">App Directory</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">

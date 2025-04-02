@@ -1,6 +1,5 @@
 <?php
-// Include database connection
-require_once __DIR__ . '/../db_connect.php';
+// Database connection is already included in the files that use these functions
 
 /**
  * Function to sanitize user input

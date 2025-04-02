@@ -1,7 +1,15 @@
 <?php
 // Include necessary files
-include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
+
+require_once '../../auth/auth.php';
+require_once '../../includes/db_connect.php';
+
+// Ensure only super admins can access
+if ($_SESSION['role'] !== 'super_admin') {
+    echo "Access Denied! Only super admins can manage apps and categories.";
+    exit();
+}
 
 // Determine the current page
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
@@ -143,6 +151,16 @@ if (!array_key_exists($page, $validPages)) {
             <li class="mt-4 border-top pt-3">
                 <a href="public/" target="_blank">
                     <i class="fas fa-external-link-alt"></i> View Frontend
+                </a>
+            </li>
+            <li>
+                <a href="../main_dashboard.php">
+                    <i class="fas fa-arrow-left"></i> Back to Main Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="../../auth/logout.php">
+                    <i class="fas fa-sign-out-alt"></i> Logout (<?= $_SESSION['username']; ?>)
                 </a>
             </li>
         </ul>

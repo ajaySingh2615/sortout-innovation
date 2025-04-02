@@ -1,6 +1,6 @@
 <?php
-include_once __DIR__ . '/../includes/db_connect.php'; 
-include_once __DIR__ . '/../includes/functions.php';
+require_once '../../../includes/db_connect.php';
+include_once '../includes/functions.php';
 
 // Get all active categories
 $categories = getCategories(true);
