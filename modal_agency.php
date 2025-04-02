@@ -932,6 +932,13 @@ body.modal-open {
                 <a href="/pages/our-services-page/service.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
                 <a href="/pages/contact-page/contact-page.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
                 <a href="/blog/index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Blog</a>
+                
+                <!-- Create Profile Button for Mobile -->
+                <div class="pt-4 mt-2 border-t border-gray-200">
+                    <button id="mobileCreateProfileBtn" class="w-full bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 transition duration-300 font-semibold tracking-wide text-center">
+                        Create Profile
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -1495,8 +1502,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show profile selection modal
     function showProfileModal() {
-        profileSelectionModal.classList.add('show');
-        document.body.classList.add('modal-open');
+        console.log('Opening profile selection modal');
+        if (profileSelectionModal) {
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                document.body.style.overflow = ''; // Reset body overflow
+            }
+            
+            profileSelectionModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+            
+            // Add animation to the modal
+            setTimeout(function() {
+                const modalContent = profileSelectionModal.querySelector('.transform');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }
+            }, 10);
+        }
     }
 
     // Hide profile selection modal
@@ -2866,6 +2897,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (profileSelectionModal) {
             profileSelectionModal.style.display = 'flex';
             document.body.classList.add('modal-open');
+            
+            // Add animation to the modal
+            setTimeout(function() {
+                const modalContent = profileSelectionModal.querySelector('.transform');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }
+            }, 10);
         }
     }
 
@@ -3430,6 +3470,149 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
         });
     }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get modal elements
+    const profileSelectionModal = document.getElementById('profileSelectionModal');
+    const addClientModal = document.getElementById('addClientModal');
+    const artistButton = document.getElementById('artistButton');
+    const employeeButton = document.getElementById('employeeButton');
+    const createProfileBtn = document.getElementById('createProfileBtn');
+    const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
+    const closeSelectionBtn = document.getElementById('closeSelectionBtn');
+    const closeClientFormBtn = document.getElementById('closeClientFormBtn');
+    
+    // Function to show profile selection modal
+    function showProfileModal() {
+        console.log('Opening profile selection modal');
+        if (profileSelectionModal) {
+            profileSelectionModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+            
+            // Add animation to the modal
+            setTimeout(function() {
+                const modalContent = profileSelectionModal.querySelector('.transform');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }
+            }, 10);
+        }
+    }
+    
+    // Function to close profile selection modal
+    function closeProfileModal() {
+        console.log('Closing profile selection modal');
+        if (profileSelectionModal) {
+            const modalContent = profileSelectionModal.querySelector('.transform');
+            if (modalContent) {
+                modalContent.style.transform = 'scale(0.95)';
+                modalContent.style.opacity = '0';
+            }
+            
+            setTimeout(function() {
+                profileSelectionModal.style.display = 'none';
+                if (!addClientModal || addClientModal.style.display === 'none') {
+                    document.body.classList.remove('modal-open');
+                }
+            }, 300);
+        }
+    }
+    
+    // Function to show client form modal
+    function showClientForm(type) {
+        console.log('Opening client form for:', type);
+        closeProfileModal();
+        
+        if (addClientModal) {
+            addClientModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+            
+            // Set professional type
+            const professionalField = document.getElementById('professionalField');
+            if (professionalField) {
+                professionalField.value = type;
+                console.log('Set professional type to:', type);
+            }
+            
+            // Toggle fields visibility if artist/employee-specific fields exist
+            const artistFields = document.getElementById('artistFields');
+            const employeeFields = document.getElementById('employeeFields');
+            
+            if (artistFields && employeeFields) {
+                artistFields.style.display = type === 'Artist' ? 'block' : 'none';
+                employeeFields.style.display = type === 'Employee' ? 'block' : 'none';
+                console.log('Toggled fields for:', type);
+            }
+        }
+    }
+    
+    // Function to close client form modal
+    function closeClientForm() {
+        console.log('Closing client form');
+        if (addClientModal) {
+            addClientModal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+    }
+
+    // Check if URL has query parameter to open modal directly
+    const urlParams = new URLSearchParams(window.location.search);
+    const openModal = urlParams.get('openModal');
+    
+    if (openModal === 'true') {
+        // Open the selection modal automatically when query parameter is present
+        setTimeout(function() {
+            showProfileModal();
+        }, 500);
+    }
+    
+    // Event Listeners
+    if (createProfileBtn) {
+        createProfileBtn.addEventListener('click', showProfileModal);
+    }
+    
+    if (artistButton) {
+        artistButton.addEventListener('click', function() {
+            showClientForm('Artist');
+        });
+    }
+    
+    if (employeeButton) {
+        employeeButton.addEventListener('click', function() {
+            showClientForm('Employee');
+        });
+    }
+    
+    if (closeSelectionBtn) {
+        closeSelectionBtn.addEventListener('click', closeProfileModal);
+    }
+    
+    if (closeClientFormBtn) {
+        closeClientFormBtn.addEventListener('click', closeClientForm);
+    }
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === profileSelectionModal) {
+            closeProfileModal();
+        }
+        
+        if (event.target === addClientModal) {
+            closeClientForm();
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeProfileModal();
+            closeClientForm();
+        }
+    });
 });
 </script>
 
