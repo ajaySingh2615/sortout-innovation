@@ -1,34 +1,21 @@
 <?php
-header('Content-Type: application/json');
+// Include database connection and functions
 require_once '../../../includes/db_connect.php';
 include_once '../includes/functions.php';
 
-$response = [
-    'success' => false,
-    'message' => '',
-    'apps' => []
-];
+// Set content type to JSON
+header('Content-Type: application/json');
 
-// Get popular apps (for simplicity, we're getting the most recent 8 active apps)
-// In a real application, you might use metrics like download count, ratings, etc.
-$sql = "SELECT * FROM artist_v2_apps WHERE status = 1 ORDER BY created_at DESC LIMIT 8";
-$result = $conn->query($sql);
+// Get all active apps (for now, we'll just return all active apps as "popular")
+// In a real scenario, you might have a popularity metric to sort by
+$apps = getApps(true);
 
-if ($result) {
-    $apps = [];
-    
-    while ($row = $result->fetch_assoc()) {
-        // Make sure image URLs are absolute
-        $row['image_url'] = ensureAbsoluteUrl($row['image_url']);
-        $apps[] = $row;
-    }
-    
-    $response['success'] = true;
-    $response['apps'] = $apps;
-} else {
-    $response['message'] = 'Failed to fetch apps: ' . $conn->error;
-}
+// Limit to 8 apps for the popular section
+$popularApps = array_slice($apps, 0, 8);
 
-// Return JSON response
-echo json_encode($response);
+// Return response
+echo json_encode([
+    'success' => true,
+    'apps' => $popularApps
+]);
 ?> 
