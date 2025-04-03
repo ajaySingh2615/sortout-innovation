@@ -406,15 +406,17 @@ $categories = getCategories(true);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     
     <!-- Categories Section -->
-    <section id="categories" class="py-5 mt-4">
+    <section id="categories" class="py-5 mt-4 categories-section">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold mb-3">Browse <span class="text-primary">Categories</span></h2>
+                <span class="badge bg-danger text-white fw-bold px-3 py-2 rounded-pill mb-3">Explore</span>
+                <h2 class="display-5 fw-bold mb-3">App <span class="text-danger">Categories</span></h2>
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <p class="lead text-muted">Find the perfect app for your needs by exploring our carefully curated categories</p>
                     </div>
                 </div>
+                <div class="custom-divider mx-auto mt-3"></div>
             </div>
             
             <div class="row g-4">
@@ -427,6 +429,9 @@ $categories = getCategories(true);
                             <div class="category-image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
                                 <i class="fas fa-search-plus text-white fs-1 opacity-0 category-icon"></i>
                             </div>
+                            <div class="category-ribbon">
+                                <span>Category</span>
+                            </div>
                             <img src="<?php echo $category['image_url']; ?>" 
                                  class="card-img-top category-img" 
                                  alt="<?php echo $category['name']; ?>" 
@@ -436,7 +441,7 @@ $categories = getCategories(true);
                             <h5 class="card-title fw-bold mb-2"><?php echo $category['name']; ?></h5>
                             <p class="card-text text-muted mb-3"><?php echo substr($category['description'], 0, 80); ?><?php echo (strlen($category['description']) > 80) ? '...' : ''; ?></p>
                             <div class="d-flex align-items-center">
-                                <span class="badge bg-light text-primary rounded-pill px-3 py-2">
+                                <span class="badge bg-light text-danger rounded-pill px-3 py-2">
                                     <i class="fas fa-mobile-alt me-1"></i> Explore Apps
                                 </span>
                             </div>
@@ -457,14 +462,18 @@ $categories = getCategories(true);
     </section>
 
     <!-- Selected Category Apps -->
-    <section id="category-apps" class="py-5 bg-light d-none">
+    <section id="category-apps" class="py-5 category-apps-section d-none">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="display-5 fw-bold" id="category-title">Category Apps</h2>
-                <button class="btn btn-outline-primary rounded-pill px-4 py-2" onclick="showAllCategories()">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                <div>
+                    <span class="badge bg-danger text-white fw-bold px-3 py-2 rounded-pill mb-2">Category</span>
+                    <h2 class="display-5 fw-bold" id="category-title">Category Apps</h2>
+                </div>
+                <button class="btn btn-outline-danger rounded-pill px-4 py-2 mt-3 mt-md-0" onclick="showAllCategories()">
                     <i class="fas fa-arrow-left me-2"></i> Back to Categories
                 </button>
             </div>
+            <div class="custom-divider mb-4"></div>
             <p id="category-description" class="lead mb-4"></p>
             <div class="row g-4" id="apps-container">
                 <!-- Apps will be loaded here dynamically -->
@@ -473,21 +482,23 @@ $categories = getCategories(true);
     </section>
 
     <!-- Popular Apps Section -->
-    <section id="popular-apps" class="py-5 bg-light-gradient" style="background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);">
+    <section id="popular-apps" class="py-5 popular-apps-section">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold mb-3"><span class="text-danger">Popular</span> Apps</h2>
+                <span class="badge bg-danger text-white fw-bold px-3 py-2 rounded-pill mb-3">Trending</span>
+                <h2 class="display-5 fw-bold mb-3">Popular <span class="text-danger">Apps</span></h2>
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <p class="lead text-muted">Discover the most popular apps loved by our users</p>
                     </div>
                 </div>
+                <div class="custom-divider mx-auto mt-3"></div>
             </div>
             
             <div class="row g-4" id="popular-apps-container">
                 <!-- Popular apps will be loaded here -->
                 <div class="col-12 text-center py-5">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-danger" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
@@ -496,51 +507,76 @@ $categories = getCategories(true);
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-5 bg-gradient" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <section id="about" class="py-5 about-section">
         <div class="container py-4">
+            <div class="text-center mb-5">
+                <span class="badge bg-danger text-white fw-bold px-3 py-2 rounded-pill mb-3">About Us</span>
+                <h2 class="display-5 fw-bold mb-3">About Our <span class="text-danger">App Directory</span></h2>
+                <div class="custom-divider mx-auto mt-3"></div>
+            </div>
+            
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <h2 class="display-5 fw-bold mb-4">About Our <span class="text-primary">App Directory</span></h2>
-                    <p class="lead mb-4">Our App Directory provides a curated collection of the best apps across various categories. Whether you're looking for productivity tools, entertainment, social media, or educational apps, we've got you covered.</p>
-                    <p>We carefully review each app to ensure it meets our quality standards before adding it to our directory.</p>
+                    <div class="about-content pe-lg-4">
+                        <p class="lead mb-4">Our App Directory provides a curated collection of the best apps across various categories. Whether you're looking for productivity tools, entertainment, social media, or educational apps, we've got you covered.</p>
+                        <p class="mb-4">We carefully review each app to ensure it meets our quality standards before adding it to our directory.</p>
+                        
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="about-icon-wrapper me-3">
+                                <i class="fas fa-check text-danger"></i>
+                            </div>
+                            <p class="mb-0"><strong>Quality Assured:</strong> Every app is thoroughly tested</p>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="about-icon-wrapper me-3">
+                                <i class="fas fa-shield-alt text-danger"></i>
+                            </div>
+                            <p class="mb-0"><strong>Safety First:</strong> We prioritize user privacy and security</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="card border-0 rounded-4 shadow">
+                    <div class="card border-0 rounded-4 shadow feature-card">
                         <div class="card-body p-4 p-xl-5">
-                            <h4 class="fw-bold mb-4">Why Use Our Directory?</h4>
-                            <div class="d-flex align-items-start mb-4">
-                                <div class="feature-icon bg-primary text-white rounded-circle p-3 me-3 flex-shrink-0">
+                            <h4 class="fw-bold mb-4 text-center">Why Use Our <span class="text-danger">Directory</span>?</h4>
+                            
+                            <div class="feature-item d-flex align-items-start mb-4">
+                                <div class="feature-icon bg-danger text-white rounded-circle p-3 me-3 flex-shrink-0">
                                     <i class="fas fa-check"></i>
                                 </div>
                                 <div>
-                                    <h5 class="mb-1">Curated Selection</h5>
+                                    <h5 class="mb-1 fw-bold">Curated Selection</h5>
                                     <p class="text-muted mb-0">We hand-pick only the highest quality apps</p>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-start mb-4">
-                                <div class="feature-icon bg-success text-white rounded-circle p-3 me-3 flex-shrink-0">
+                            
+                            <div class="feature-item d-flex align-items-start mb-4">
+                                <div class="feature-icon bg-danger text-white rounded-circle p-3 me-3 flex-shrink-0">
                                     <i class="fas fa-list"></i>
                                 </div>
                                 <div>
-                                    <h5 class="mb-1">Easy Browsing</h5>
+                                    <h5 class="mb-1 fw-bold">Easy Browsing</h5>
                                     <p class="text-muted mb-0">Organized by categories for effortless discovery</p>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-start mb-4">
-                                <div class="feature-icon bg-info text-white rounded-circle p-3 me-3 flex-shrink-0">
+                            
+                            <div class="feature-item d-flex align-items-start mb-4">
+                                <div class="feature-icon bg-danger text-white rounded-circle p-3 me-3 flex-shrink-0">
                                     <i class="fas fa-link"></i>
                                 </div>
                                 <div>
-                                    <h5 class="mb-1">Direct Links</h5>
+                                    <h5 class="mb-1 fw-bold">Direct Links</h5>
                                     <p class="text-muted mb-0">Quick access to app download forms</p>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-start">
-                                <div class="feature-icon bg-warning text-white rounded-circle p-3 me-3 flex-shrink-0">
+                            
+                            <div class="feature-item d-flex align-items-start">
+                                <div class="feature-icon bg-danger text-white rounded-circle p-3 me-3 flex-shrink-0">
                                     <i class="fas fa-sync-alt"></i>
                                 </div>
                                 <div>
-                                    <h5 class="mb-1">Regular Updates</h5>
+                                    <h5 class="mb-1 fw-bold">Regular Updates</h5>
                                     <p class="text-muted mb-0">Constantly updated with the newest apps</p>
                                 </div>
                             </div>
@@ -877,6 +913,318 @@ $categories = getCategories(true);
                         '<div class="col-12"><div class="alert alert-danger rounded-4 shadow-sm"><i class="fas fa-exclamation-circle me-2"></i> Failed to load popular apps</div></div>';
                 });
         });
+
+        // Update modal apps to use red styling
+        function updateModalAppsStyle() {
+            // Create a style element
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+                .modal-content .app-card .badge.bg-light.text-primary {
+                    background-color: rgba(255, 32, 32, 0.1) !important;
+                    color: #ff2020 !important;
+                }
+                
+                .modal-content .app-card .btn-primary {
+                    background: #ff2020;
+                    border-color: #ff2020;
+                }
+                
+                .modal-content .app-card .btn-primary:hover {
+                    background: #e60000;
+                    border-color: #e60000;
+                }
+            `;
+            document.head.appendChild(styleElement);
+        }
+        
+        // Ensure this runs when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            updateModalAppsStyle();
+            
+            // Update the popular apps card rendering to use red styling
+            const originalFetch = window.fetch;
+            window.fetch = function() {
+                return originalFetch.apply(this, arguments)
+                    .then(response => {
+                        if (arguments[0].includes('get_popular_apps.php')) {
+                            // Store the original json method
+                            const originalJson = response.json;
+                            // Override the json method
+                            response.json = function() {
+                                return originalJson.call(this).then(data => {
+                                    if (data.success && data.apps.length > 0) {
+                                        setTimeout(() => {
+                                            // Update all primary buttons to danger
+                                            document.querySelectorAll('#popular-apps-container .btn-primary').forEach(btn => {
+                                                btn.classList.remove('btn-primary');
+                                                btn.classList.add('btn-danger');
+                                            });
+                                            
+                                            // Update all text-primary to text-danger
+                                            document.querySelectorAll('#popular-apps-container .text-primary').forEach(el => {
+                                                el.classList.remove('text-primary');
+                                                el.classList.add('text-danger');
+                                            });
+                                        }, 100);
+                                    }
+                                    return data;
+                                });
+                            }
+                        }
+                        return response;
+                    });
+            };
+        });
     </script>
+
+    <style>
+        /* Categories and Selected Category Apps Sections Styling */
+        .categories-section, .category-apps-section {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .categories-section h2, .category-apps-section h2 {
+            letter-spacing: -0.5px;
+        }
+        
+        .categories-section .text-danger, .category-apps-section .text-danger {
+            color: #ff2020 !important;
+        }
+        
+        .custom-divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff3e3e 0%, #c50000 100%);
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+        
+        .category-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+        }
+        
+        .category-img {
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .category-card:hover .category-img {
+            transform: scale(1.1);
+        }
+        
+        .category-image-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .category-card:hover .category-image-overlay {
+            opacity: 1;
+        }
+        
+        .category-ribbon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+            background: #ff2020;
+            color: white;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .bg-danger {
+            background-color: #ff2020 !important;
+        }
+        
+        .text-danger {
+            color: #ff2020 !important;
+        }
+        
+        .btn-outline-danger {
+            border-color: #ff2020;
+            color: #ff2020;
+        }
+        
+        .btn-outline-danger:hover {
+            background-color: #ff2020;
+            color: white;
+        }
+        
+        .badge.bg-light.text-danger {
+            background-color: rgba(255, 32, 32, 0.1) !important;
+            color: #ff2020 !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover .badge.bg-light.text-danger {
+            background-color: rgba(255, 32, 32, 0.2) !important;
+        }
+        
+        @media (max-width: 767px) {
+            .category-img {
+                height: 150px;
+            }
+        }
+
+        /* Popular Apps Section Styling */
+        .popular-apps-section {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .popular-apps-section::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            right: -150px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 32, 32, 0.03);
+            z-index: 0;
+        }
+        
+        .popular-apps-section::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 32, 32, 0.05);
+            z-index: 0;
+        }
+        
+        .popular-apps-section .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Update the modal styling for apps */
+        #categoryModal .modal-header {
+            background-color: #ff2020;
+            color: white;
+        }
+        
+        #categoryModal .modal-title {
+            color: white;
+        }
+        
+        #categoryModal .btn-close {
+            filter: brightness(0) invert(1);
+        }
+        
+        #categoryModal .modal-footer {
+            background-color: #f9f9f9;
+        }
+        
+        #categoryModal .btn-outline-secondary {
+            border-color: #ff2020;
+            color: #ff2020;
+        }
+        
+        #categoryModal .btn-outline-secondary:hover {
+            background-color: #ff2020;
+            color: white;
+        }
+        
+        /* Spinner color update */
+        .spinner-border.text-primary {
+            color: #ff2020 !important;
+        }
+
+        /* About Section Styling */
+        .about-section {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 32, 32, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: 0;
+        }
+        
+        .about-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 32, 32, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: 0;
+        }
+        
+        .about-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 32, 32, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .feature-card {
+            transform: translateY(0);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: linear-gradient(145deg, #ffffff 0%, #f9f9f9 100%);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+        }
+        
+        .feature-item {
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 0.75rem;
+        }
+        
+        .feature-item:hover {
+            background-color: rgba(255, 32, 32, 0.05);
+        }
+        
+        .feature-icon {
+            box-shadow: 0 5px 15px rgba(255, 32, 32, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover .feature-icon {
+            transform: scale(1.1);
+        }
+    </style>
 </body>
 </html> 
