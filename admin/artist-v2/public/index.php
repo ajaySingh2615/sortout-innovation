@@ -10,7 +10,7 @@ $categories = getCategories(true);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Directory</title>
+    <title>App Directory - SortOut Innovation</title>
     <meta property="og:url" content="https://example.com/artist-v2/">
     <meta property="og:image" content="https://example.com/artist-v2/images/og-image.jpg">
     
@@ -23,26 +23,30 @@ $categories = getCategories(true);
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+    
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-color: #6a11cb;
-            --secondary-color: #2575fc;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --info-color: #17a2b8;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
+            --primary-color: #d10000;
+            --primary-light: #ff4b4b;
+            --primary-dark: #c50000;
+            --text-color: #2c3e50;
+            --light-color: #f8f9f9;
             --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
             --border-radius: 1rem;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             color: #444;
             line-height: 1.6;
+            padding-top: 76px; /* Account for fixed navbar */
         }
 
         /* Custom Scrollbar */
@@ -65,56 +69,6 @@ $categories = getCategories(true);
             font-weight: 700;
         }
         
-        .text-gradient {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        /* Section styles */
-        section {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .section-title {
-            font-weight: 700;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            border-radius: 3px;
-        }
-        
-        /* Card styles */
-        .card {
-            border: none;
-            transition: var(--transition);
-            box-shadow: var(--box-shadow);
-            border-radius: var(--border-radius);
-        }
-        
-        .card-title {
-            font-weight: 600;
-        }
-        
-        .category-img, .app-img {
-            transition: transform 0.5s ease;
-        }
-        
-        .category-card:hover .category-img, 
-        .app-card:hover .app-img {
-            transform: scale(1.05);
-        }
-        
         /* Button styles */
         .btn {
             font-weight: 600;
@@ -122,23 +76,24 @@ $categories = getCategories(true);
             transition: var(--transition);
         }
         
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            border: none;
+        .btn-danger {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
         
-        .btn-primary:hover, .btn-primary:focus {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+        .btn-danger:hover, .btn-danger:focus {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
         }
         
-        .btn-outline-primary {
+        .btn-outline-danger {
             border-color: var(--primary-color);
             color: var(--primary-color);
         }
         
-        .btn-outline-primary:hover {
+        .btn-outline-danger:hover {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
             color: white;
@@ -149,71 +104,239 @@ $categories = getCategories(true);
             font-weight: 500;
             letter-spacing: 0.5px;
         }
-        
-        /* Back to top button */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            display: none;
-            width: 45px;
-            height: 45px;
-            line-height: 45px;
-            text-align: center;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
+    </style>
+    
+    <!-- Modern Navbar Styles -->
+    <style>
+        /* Modern Navbar Styles with Enhanced Features */
+        .navbar {
+            padding: 0.8rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Logo Container with Glow Effect */
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(209, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar-brand:hover .logo-glow {
+            opacity: 1;
+        }
+
+        /* Navigation Links */
+        .nav-link {
+            font-weight: 500;
+            color: #2c3e50 !important;
+            position: relative;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(90deg, #d10000, #ff4b4b);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after {
+            width: calc(100% - 1.5rem);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #d10000 !important;
+        }
+
+        /* Enhanced Dropdown Styles */
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 0.8rem 0.5rem;
+            margin-top: 0.5rem;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-item {
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(45deg, rgba(209, 0, 0, 0.05), rgba(255, 75, 75, 0.05));
+            color: #d10000;
+            transform: translateX(5px);
         }
         
-        .back-to-top:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        .dropdown-item.active {
+            background: linear-gradient(45deg, rgba(209, 0, 0, 0.1), rgba(255, 75, 75, 0.1));
+            color: #d10000;
+            font-weight: 500;
         }
-        
-        /* Media queries */
+
+        /* Animated Mobile Toggle Button */
+        .toggle-icon {
+            width: 24px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .toggle-icon span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #2c3e50;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-icon span:first-child {
+            top: 0;
+        }
+
+        .toggle-icon span:nth-child(2) {
+            top: 9px;
+        }
+
+        .toggle-icon span:last-child {
+            top: 18px;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .toggle-icon span:first-child {
+            transform: rotate(45deg);
+            top: 9px;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .toggle-icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .toggle-icon span:last-child {
+            transform: rotate(-45deg);
+            top: 9px;
+        }
+
+        /* Mobile Styles */
         @media (max-width: 991px) {
-            .display-3 {
-                font-size: 2.5rem;
+            .navbar-collapse {
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                padding: 1rem;
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                margin-top: 1rem;
             }
-            .display-4 {
-                font-size: 2rem;
+
+            .nav-link {
+                padding: 0.8rem 1.2rem !important;
+                border-radius: 8px;
             }
-            .display-5 {
-                font-size: 1.5rem;
+
+            .nav-link:hover {
+                background: linear-gradient(45deg, rgba(209, 0, 0, 0.05), rgba(255, 75, 75, 0.05));
             }
-        }
-        
-        @media (max-width: 767px) {
-            .py-5 {
-                padding-top: 3rem !important;
-                padding-bottom: 3rem !important;
+
+            .nav-link::after {
+                display: none;
+            }
+
+            .dropdown-menu {
+                box-shadow: none;
+                padding-left: 1rem;
+                background: transparent;
+            }
+
+            .dropdown-item:hover {
+                transform: none;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header/Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Bootstrap Navbar with Enhanced Features -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-mobile-alt me-2"></i> App Directory
+            <!-- Logo with hover effect -->
+            <a class="navbar-brand position-relative" href="/">
+                <div class="logo-container">
+                    <img src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" alt="SortOut Innovation" height="45" class="main-logo">
+                    <div class="logo-glow"></div>
+                </div>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+
+            <!-- Animated Mobile Toggle Button -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="toggle-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+
+            <!-- Enhanced Navigation Links -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#categories">Categories</a>
+                        <a class="nav-link px-3" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#popular-apps">Popular Apps</a>
+                        <a class="nav-link px-3" href="/pages/about-page/about.html">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-3 active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Career
+                        </a>
+                        <ul class="dropdown-menu animate slideIn">
+                            <li>
+                                <a class="dropdown-item" href="/employee-job/index.php">Employee Jobs</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/artist-job/index.php">Artist Jobs</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item active" href="/admin/artist-v2/public/index.php">App Directory</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link px-3" href="/modal_agency.php">Find Talent</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/pages/our-services-page/service.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/pages/contact-page/contact-page.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/blog/index.php">Blog</a>
                     </li>
                 </ul>
             </div>
@@ -588,62 +711,155 @@ $categories = getCategories(true);
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-5">
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-lg-4">
-                    <h4 class="mb-4 fw-bold">App Directory</h4>
-                    <p class="mb-3">Your one-stop destination for discovering amazing apps.</p>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-white social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white social-icon"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4">
-                    <h5 class="mb-4 fw-bold">Quick Links</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li class="mb-2"><a href="#categories" class="text-white-50 text-decoration-none"><i class="fas fa-chevron-right me-2 small"></i>Categories</a></li>
-                        <li class="mb-2"><a href="#popular-apps" class="text-white-50 text-decoration-none"><i class="fas fa-chevron-right me-2 small"></i>Popular Apps</a></li>
-                        <li><a href="#about" class="text-white-50 text-decoration-none"><i class="fas fa-chevron-right me-2 small"></i>About</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4">
-                    <h5 class="mb-4 fw-bold">Contact</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-3 d-flex">
-                            <i class="fas fa-envelope me-3 mt-1 text-primary"></i>
-                            <span>info@appdirectory.com</span>
-                        </li>
-                        <li class="mb-3 d-flex">
-                            <i class="fas fa-phone-alt me-3 mt-1 text-primary"></i>
-                            <span>+1 (123) 456-7890</span>
-                        </li>
-                        <li class="d-flex">
-                            <i class="fas fa-map-marker-alt me-3 mt-1 text-primary"></i>
-                            <span>123 App Street, Digital City</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4">
-                    <h5 class="mb-4 fw-bold">Newsletter</h5>
-                    <p class="mb-3">Subscribe to get updates on new apps and features.</p>
-                    <div class="input-group">
-                        <input type="email" class="form-control rounded-pill rounded-end" placeholder="Your email">
-                        <button class="btn btn-primary rounded-pill rounded-start" type="button">Subscribe</button>
-                    </div>
-                </div>
+    <footer class="footer-section">
+      <div class="container">
+        <div class="row">
+          <!-- Column 1: Company Info -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-logo">
+              <img
+                src="/images/sortoutInnovation-icon/Sortout innovation.jpg"
+                alt="SortOut Innovation"
+              />
+              <p class="text-center">
+                Empowering businesses with top-notch solutions in digital, IT,
+                and business services.
+              </p>
             </div>
-            <hr class="mt-5 mb-4">
-            <div class="text-center">
-                <p class="mb-0">&copy; <?php echo date('Y'); ?> App Directory. All rights reserved.</p>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="/">Home</a></li>
+              <li><a href="/pages/about-page/about.html">About Us</a></li>
+              <li>
+                <a href="/pages/contact-page/contact-page.html">Contact</a>
+              </li>
+              <li>
+                <a href="/pages/career.html">Careers</a>
+              </li>
+              <li>
+                <a href="/pages/our-services-page/service.html">Services</a>
+              </li>
+              <li>
+                <a href="/blog/index.php">Blogs</a>
+              </li>
+              <li>
+                <a href="/auth/register.php">Register</a>
+              </li>
+              <li>
+                <a href="/modal_agency.php">talent</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Our Services -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Our Services</h4>
+            <ul class="footer-links">
+              <li>
+                <a href="/pages/services/socialMediaInfluencers.html"
+                  >Digital Marketing</a
+                >
+              </li>
+              <li><a href="/pages/services/itServices.html">IT Support</a></li>
+              <li><a href="/pages/services/caServices.html">CA Services</a></li>
+              <li><a href="/pages/services/hrServices.html">HR Services</a></li>
+              <li>
+                <a href="/pages/services/courierServices.html"
+                  >Courier Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/shipping.html"
+                  >Shipping & Fulfillment</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/stationeryServices.html"
+                  >Stationery Services</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/propertyServices.html"
+                  >Real Estate & Property</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/event-managementServices.html"
+                  >Event Management</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Design & Creative</a
+                >
+              </li>
+              <li>
+                <a href="/pages/services/designAndCreative.html"
+                  >Web & App Development</a
+                >
+              </li>
+              <li><a href="/pages/talent.page/talent.html">Find Talent</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <h4>Contact Us</h4>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-phone"></i>
+                <a href="tel:+919818559036">+91 9818559036</a>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:info@sortoutinnovation.com"
+                  >info@sortoutinnovation.com</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-map-marker-alt"></i> Spaze i-Tech Park,
+                Gurugram, India
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 5: Social Media -->
+          <div class="col-lg-2 col-md-6">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a href="https://www.facebook.com/profile.php?id=61556452066209"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a href="https://www.linkedin.com/company/sortout-innovation/"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="https://www.instagram.com/sortoutinnovation"
+                ><i class="fab fa-instagram"></i
+              ></a>
             </div>
+          </div>
         </div>
+
+        <!-- Copyright & Legal Links -->
+        <div class="footer-bottom">
+          <p>&copy; <?php echo date('Y'); ?> SortOut Innovation. All Rights Reserved.</p>
+          <ul>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms & Conditions</a></li>
+          </ul>
+        </div>
+      </div>
     </footer>
 
     <!-- Back to Top Button -->
-    <button class="btn btn-primary rounded-circle shadow back-to-top" id="back-to-top">
+    <button class="btn btn-danger rounded-circle shadow-lg back-to-top" id="back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
@@ -651,21 +867,21 @@ $categories = getCategories(true);
     <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content rounded-4 overflow-hidden border-0 shadow-lg">
-                <div class="modal-header border-0 bg-light">
+                <div class="modal-header border-0 bg-danger text-white">
                     <h5 class="modal-title fw-bold" id="categoryModalLabel">Category Apps</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="modalAppsContainer" class="row g-4">
                         <div class="col-12 text-center py-5">
-                            <div class="spinner-border text-primary" role="status">
+                            <div class="spinner-border text-danger" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer border-0 bg-light">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-danger rounded-pill px-4" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -674,6 +890,41 @@ $categories = getCategories(true);
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Navbar animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.querySelector('.navbar');
+            let lastScroll = 0;
+
+            // Enhanced scroll behavior
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 50) {
+                    navbar.style.padding = "0.6rem 0";
+                    navbar.style.boxShadow = "0 5px 30px rgba(0,0,0,0.08)";
+                } else {
+                    navbar.style.padding = "0.8rem 0";
+                    navbar.style.boxShadow = "none";
+                }
+
+                // Smooth hide/show on scroll
+                if (currentScroll > lastScroll && currentScroll > 100) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+
+                lastScroll = currentScroll;
+            });
+
+            // Handle mobile menu toggle animation
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            navbarToggler.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+            });
+        });
+
         // Back to top button
         const backToTopButton = document.getElementById('back-to-top');
         window.addEventListener('scroll', () => {
@@ -690,7 +941,7 @@ $categories = getCategories(true);
                 behavior: 'smooth'
             });
         });
-
+        
         // Initialize the Bootstrap modal
         let categoryModal;
         document.addEventListener('DOMContentLoaded', function() {
@@ -699,6 +950,34 @@ $categories = getCategories(true);
             // Add CSS for hover effects
             const style = document.createElement('style');
             style.textContent = `
+                .back-to-top {
+                    position: fixed;
+                    bottom: 25px;
+                    right: 25px;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background-color: #ff4b4b;
+                    color: white;
+                    display: none;
+                    z-index: 1000;
+                    box-shadow: 0 4px 15px rgba(255, 75, 75, 0.3);
+                    transition: all 0.3s ease;
+                    opacity: 0.9;
+                    border: none;
+                }
+                
+                .back-to-top:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 6px 20px rgba(255, 75, 75, 0.4);
+                    opacity: 1;
+                }
+                
+                .back-to-top i {
+                    font-size: 1.2rem;
+                    line-height: 0;
+                }
+                
                 .category-card {
                     transition: transform 0.3s ease, box-shadow 0.3s ease;
                     cursor: pointer;
@@ -725,21 +1004,6 @@ $categories = getCategories(true);
                     align-items: center;
                     justify-content: center;
                 }
-                .social-icon {
-                    transition: transform 0.3s ease;
-                }
-                .social-icon:hover {
-                    transform: translateY(-3px);
-                }
-                .back-to-top {
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    width: 50px;
-                    height: 50px;
-                    display: none;
-                    z-index: 99;
-                }
                 .app-card {
                     transition: transform 0.3s ease, box-shadow 0.3s ease;
                     border-radius: 1rem;
@@ -758,6 +1022,20 @@ $categories = getCategories(true);
                 }
             `;
             document.head.appendChild(style);
+            
+            // Update the primary buttons to use danger class
+            setTimeout(() => {
+                document.querySelectorAll('.btn-primary').forEach(btn => {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-danger');
+                });
+                
+                // Update text-primary to text-danger
+                document.querySelectorAll('.text-primary').forEach(el => {
+                    el.classList.remove('text-primary');
+                    el.classList.add('text-danger');
+                });
+            }, 100);
         });
 
         // Open category modal and load apps
@@ -768,7 +1046,7 @@ $categories = getCategories(true);
             // Show loading spinner
             document.getElementById('modalAppsContainer').innerHTML = `
                 <div class="col-12 text-center py-5">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-danger" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
@@ -821,10 +1099,10 @@ $categories = getCategories(true);
                                     </div>
                                     <p class="card-text mb-4">${app.description}</p>
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
-                                        <span class="badge bg-light text-primary rounded-pill px-3 py-2 small">
+                                        <span class="badge bg-light text-danger rounded-pill px-3 py-2 small">
                                             <i class="fas fa-mobile-alt me-1"></i> App
                                         </span>
-                                        <a href="${app.form_url}" class="btn btn-primary rounded-pill px-4" target="_blank">
+                                        <a href="${app.form_url}" class="btn btn-danger rounded-pill px-4" target="_blank">
                                             <i class="fas fa-external-link-alt me-2"></i> Get App
                                         </a>
                                     </div>
@@ -898,7 +1176,7 @@ $categories = getCategories(true);
                                     <p class="card-text small mb-4">${app.description.substring(0, 100)}${app.description.length > 100 ? '...' : ''}</p>
                                 </div>
                                 <div class="card-footer bg-white border-0 p-4 pt-0">
-                                    <a href="${app.form_url}" class="btn btn-primary w-100 rounded-pill" target="_blank">
+                                    <a href="${app.form_url}" class="btn btn-danger w-100 rounded-pill" target="_blank">
                                         <i class="fas fa-external-link-alt me-2"></i> Get App
                                     </a>
                                 </div>
@@ -912,68 +1190,6 @@ $categories = getCategories(true);
                     document.getElementById('popular-apps-container').innerHTML = 
                         '<div class="col-12"><div class="alert alert-danger rounded-4 shadow-sm"><i class="fas fa-exclamation-circle me-2"></i> Failed to load popular apps</div></div>';
                 });
-        });
-
-        // Update modal apps to use red styling
-        function updateModalAppsStyle() {
-            // Create a style element
-            const styleElement = document.createElement('style');
-            styleElement.textContent = `
-                .modal-content .app-card .badge.bg-light.text-primary {
-                    background-color: rgba(255, 32, 32, 0.1) !important;
-                    color: #ff2020 !important;
-                }
-                
-                .modal-content .app-card .btn-primary {
-                    background: #ff2020;
-                    border-color: #ff2020;
-                }
-                
-                .modal-content .app-card .btn-primary:hover {
-                    background: #e60000;
-                    border-color: #e60000;
-                }
-            `;
-            document.head.appendChild(styleElement);
-        }
-        
-        // Ensure this runs when the document is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            updateModalAppsStyle();
-            
-            // Update the popular apps card rendering to use red styling
-            const originalFetch = window.fetch;
-            window.fetch = function() {
-                return originalFetch.apply(this, arguments)
-                    .then(response => {
-                        if (arguments[0].includes('get_popular_apps.php')) {
-                            // Store the original json method
-                            const originalJson = response.json;
-                            // Override the json method
-                            response.json = function() {
-                                return originalJson.call(this).then(data => {
-                                    if (data.success && data.apps.length > 0) {
-                                        setTimeout(() => {
-                                            // Update all primary buttons to danger
-                                            document.querySelectorAll('#popular-apps-container .btn-primary').forEach(btn => {
-                                                btn.classList.remove('btn-primary');
-                                                btn.classList.add('btn-danger');
-                                            });
-                                            
-                                            // Update all text-primary to text-danger
-                                            document.querySelectorAll('#popular-apps-container .text-primary').forEach(el => {
-                                                el.classList.remove('text-primary');
-                                                el.classList.add('text-danger');
-                                            });
-                                        }, 100);
-                                    }
-                                    return data;
-                                });
-                            }
-                        }
-                        return response;
-                    });
-            };
         });
     </script>
 
@@ -1224,6 +1440,123 @@ $categories = getCategories(true);
         
         .feature-item:hover .feature-icon {
             transform: scale(1.1);
+        }
+
+        /* Footer styling */
+        .footer-section {
+            background: #0a0a0a !important;
+            color: #fff !important;
+            padding: 60px 20px !important;
+            font-family: Arial, sans-serif !important;
+        }
+        
+        .footer-section h4 {
+            color: #ff4b4b !important;
+            margin-bottom: 15px !important;
+            font-size: 1.4rem !important;
+        }
+
+        /* Footer Links */
+        .footer-links {
+            list-style: none !important;
+            padding: 0 !important;
+            font-size: 1rem !important;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px !important;
+        }
+
+        .footer-links li a {
+            text-decoration: none !important;
+            color: #ddd !important;
+            transition: color 0.3s ease !important;
+        }
+
+        .footer-links li a:hover {
+            color: #ff4b4b !important;
+        }
+
+        /* Social Icons */
+        .social-icons {
+            display: flex !important;
+            gap: 10px !important;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem !important;
+            color: #fff !important;
+            transition: transform 0.3s ease, color 0.3s ease !important;
+        }
+
+        .social-icons a:hover {
+            color: #ff4b4b !important;
+            transform: scale(1.1) !important;
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            text-align: center !important;
+            margin-top: 40px !important;
+            padding-top: 20px !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem !important;
+            color: #aaa !important;
+        }
+
+        .footer-bottom ul {
+            list-style: none !important;
+            padding: 0 !important;
+            display: flex !important;
+            justify-content: center !important;
+            gap: 15px !important;
+            margin-top: 10px !important;
+        }
+
+        .footer-bottom ul li a {
+            text-decoration: none !important;
+            color: #ddd !important;
+            font-size: 0.9rem !important;
+            transition: color 0.3s ease !important;
+        }
+
+        .footer-bottom ul li a:hover {
+            color: #ff4b4b !important;
+        }
+
+        .footer-logo img {
+            padding-bottom: 15px !important;
+            width: 180px !important; /* Adjust width as needed */
+            height: auto !important; /* Maintains aspect ratio */
+            max-width: 100% !important; /* Ensures responsiveness */
+            display: block !important;
+            margin: 0 auto !important; /* Centers the logo */
+        }
+
+        @media (max-width: 768px) {
+            .footer-logo img {
+                width: 140px !important; /* Smaller size for mobile */
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            .footer-section .row {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+
+            .social-icons {
+                justify-content: center !important;
+            }
+
+            .footer-bottom ul {
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
         }
     </style>
 </body>
