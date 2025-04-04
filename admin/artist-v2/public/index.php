@@ -548,15 +548,15 @@ $categories = getCategories(true);
                     <div class="card category-card border-0 rounded-4 shadow-sm h-100 animate__animated animate__fadeIn" 
                          data-category-id="<?php echo $category['id']; ?>" 
                          onclick="openCategoryModal(<?php echo $category['id']; ?>, '<?php echo htmlspecialchars($category['name'], ENT_QUOTES); ?>')">
-                        <div class="position-relative overflow-hidden rounded-top-4">
-                            <div class="category-image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                        <div class="category-img-container">
+                            <div class="category-image-overlay d-flex align-items-center justify-content-center">
                                 <i class="fas fa-search-plus text-white fs-1 opacity-0 category-icon"></i>
                             </div>
                             <div class="category-ribbon">
                                 <span>Category</span>
                             </div>
                             <img src="<?php echo $category['image_url']; ?>" 
-                                 class="card-img-top category-img" 
+                                 class="category-img" 
                                  alt="<?php echo $category['name']; ?>" 
                                  onerror="this.src='../../assets/img/default-category.jpg';">
                         </div>
@@ -1218,6 +1218,7 @@ $categories = getCategories(true);
         .category-card {
             transition: all 0.3s ease;
             overflow: hidden;
+            height: 100%;
         }
         
         .category-card:hover {
@@ -1229,10 +1230,20 @@ $categories = getCategories(true);
             height: 180px;
             object-fit: cover;
             transition: transform 0.5s ease;
+            aspect-ratio: 16/9;
+            width: 100%;
+            object-position: center;
         }
         
-        .category-card:hover .category-img {
-            transform: scale(1.1);
+        .category-card .card-img-top {
+            border-top-left-radius: calc(1rem - 1px);
+            border-top-right-radius: calc(1rem - 1px);
+        }
+        
+        .position-relative.overflow-hidden {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .category-image-overlay {
@@ -1288,9 +1299,32 @@ $categories = getCategories(true);
             background-color: rgba(255, 32, 32, 0.2) !important;
         }
         
-        @media (max-width: 767px) {
+        .category-card:hover .category-img {
+            transform: scale(1.1);
+        }
+        
+        /* Additional responsive styles for category cards and images */
+        .category-card .position-relative.overflow-hidden {
+            max-height: 180px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 991px) {
+            .category-card .position-relative.overflow-hidden {
+                max-height: 160px;
+            }
+        }
+
+        @media (max-width: 575px) {
             .category-img {
-                height: 150px;
+                height: 180px;
+            }
+            
+            .category-card .position-relative.overflow-hidden {
+                max-height: 180px;
             }
         }
 
@@ -1557,6 +1591,40 @@ $categories = getCategories(true);
                 flex-direction: column !important;
                 gap: 10px !important;
             }
+        }
+
+        /* Responsive image handling for category cards - ensures proper display on all devices */
+        .category-img-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            width: 100%;
+            border-top-left-radius: calc(1rem - 1px);
+            border-top-right-radius: calc(1rem - 1px);
+        }
+        
+        .category-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+        }
+        
+        .category-card:hover .category-img {
+            transform: scale(1.1);
+        }
+        
+        .category-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
     </style>
 </body>
